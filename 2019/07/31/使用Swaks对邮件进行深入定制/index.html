@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="scareing的学习笔记" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Swaks简介 Swaks的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Swaks对邮件进行深入定制">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/07/31/使用Swaks对邮件进行深入定制/index.html">
+<meta property="og:site_name" content="scareing的学习笔记">
+<meta property="og:description" content="Swaks简介 Swaks的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/1.png">
+<meta property="og:updated_time" content="2019-07-31T09:29:01.198Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用Swaks对邮件进行深入定制">
+<meta name="twitter:description" content="Swaks简介 Swaks的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/07/31/使用Swaks对邮件进行深入定制/">
+
+
+
+
+
+  <title>使用Swaks对邮件进行深入定制 | scareing的学习笔记</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">scareing的学习笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">道可道，非常道, 名可名，非常名!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/07/31/使用Swaks对邮件进行深入定制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用Swaks对邮件进行深入定制</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-31T02:29:01-07:00">
+                2019-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Swaks简介"><a href="#Swaks简介" class="headerlink" title="Swaks简介"></a>Swaks简介</h1><blockquote>
+<p><strong>Swaks</strong>的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提供最大的可配置性和易用性。</p>
+</blockquote>
+<p>Swaks也被称为SMTP协议的瑞士军刀，它可以灵活的操作SMTP协议报文，它通常被用来伪造邮件，进行钓鱼、社工等操作。并且可以绕过常规的基于SPF与DKIM的垃圾邮箱检测。Kali已预装Swaks</p>
+<h2 id="基本参数说明"><a href="#基本参数说明" class="headerlink" title="基本参数说明"></a>基本参数说明</h2><blockquote>
+<p>swaks –to <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //首先测试邮箱的连通性；</p>
+<blockquote>
+<ul>
+<li>–to  <a href="mailto:test@gmail.com" target="_blank" rel="noopener">test@gmail.com</a>      //接件人邮箱；</li>
+<li>–from  <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //发件人邮箱；</li>
+<li>–ehlo  qq.com     //伪造邮件ehlo头，即是发件人邮箱的域名。提供身份认证；</li>
+<li>–server  mail.smtp2go.com     //服务邮件域</li>
+<li>–body  “test”    //引号中的内容即为邮件正文，可直接引用文件；</li>
+<li>–data  ./Desktop/email.txt    //将正常源邮件的内容保存成TXT文件，再作为正常邮件发送；</li>
+<li>–header  “Subject:标题”     //邮件标题;</li>
+<li>–header-X-Mailer  gmail.com     //X-Mailer标头表示用于起草和发送原始电子邮件的程序</li>
+<li>–h-From:  ‘boss <a href="mailto:admin@gmail.com" target="_blank" rel="noopener">admin@gmail.com</a>‘     //伪造的发件人邮箱；</li>
+<li>–attach /root/test.txt     //附件</li>
+</ul>
+</blockquote>
+</blockquote>
+<h2 id="SPF验证原理"><a href="#SPF验证原理" class="headerlink" title="SPF验证原理"></a>SPF验证原理</h2><blockquote>
+<p>SPF是为了防范垃圾邮件而提出来的一种DNS记录类型，它是一种TXT类型的记录，它用于登记某个域名拥有的用来外发邮件的所有IP地址。<br>按照SPF的格式在DNS记录中增加一条TXT类型的记录，将提高该域名的信誉度，同时可以防止垃圾邮件伪造该域的发件人发送垃圾邮件。<br>SPF是跟DNS相关的一项技术，它的内容写在DNS的txt类型的记录里面。mx记录的作用是给寄信者指明某个域名的邮件服务器有哪些。SPF的作用跟mx相反，它向收信者表明，哪些邮件服务器是经过某个域名认可会发送邮件的。<br>由定义可以看出，SPF的作用主要是反垃圾邮件，主要针对那些发信人伪造域名的垃圾邮件。</p>
+</blockquote>
+<p>如果mail.smtp2go.com是真正的邮件服务器，那么Gmail的服务器收到的源IP也肯定是mail.smtp2go.com的IP。Gmail中会校验邮件发送者的IP是否存在于smtp.from的域名SPF配置列表里,但是邮件显示的是from头中的域而不是服务邮件域，因此可以将服务邮件域设置为正常的邮件服务器地址，伪造一个Mail.From即可。</p>
+<h2 id="DKIM工作原理"><a href="#DKIM工作原理" class="headerlink" title="DKIM工作原理"></a>DKIM工作原理</h2><blockquote>
+<p>DKIM 的基本工作原理同样是基于传统的密钥认证方式，他会产生两组钥匙，公钥(public key)和私钥(private key)，公钥将会存放在 DNS 中，而私钥会存放在寄信服务器中。数字签名会自动产生，并依附在邮件头中，发送到寄信者的服务器里。公钥则放在DNS服务器上，供自动获得。收信的服务器，将会收到夹带在邮件头中的签名和在DNS上自己获取公钥，然后进行比对，比较寄信者的域名是否合法，如果不合法，则判定为垃圾邮件。</p>
+</blockquote>
+<p>但是这里由于使用了第三方邮件服务器,公钥和私钥已经提供了.</p>
+<h3 id="实际效果"><a href="#实际效果" class="headerlink" title="实际效果"></a>实际效果</h3><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/1.png" alt="avatar"></p>
+<ul>
+<li><strong>总结：SPF和DKIM已经pass了，DMARC这东西不清楚是什么，但是暂时不影响邮件的正常接收。<br>在测试过程中发现，伪造gmail域时不能发给gmail域，只能伪造为其他域的邮件发送，比如163.com,qq.com。整体来说，电脑上查看就比正常邮件多了个通过xxx代发，又因为手机上信息显示不全，手机查看几乎无破绽，所以欺骗性还是非常强的</strong></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/07/31/绕过Powershell执行策略执行ps脚本。/" rel="next" title="绕过Powershell执行策略执行ps脚本。">
+                <i class="fa fa-chevron-left"></i> 绕过Powershell执行策略执行ps脚本。
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/07/31/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Bloglogo.jpg" alt="scareing">
+            
+              <p class="site-author-name" itemprop="name">scareing</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jickhab@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Swaks简介"><span class="nav-number">1.</span> <span class="nav-text">Swaks简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本参数说明"><span class="nav-number">1.1.</span> <span class="nav-text">基本参数说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPF验证原理"><span class="nav-number">1.2.</span> <span class="nav-text">SPF验证原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DKIM工作原理"><span class="nav-number">1.3.</span> <span class="nav-text">DKIM工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实际效果"><span class="nav-number">1.3.1.</span> <span class="nav-text">实际效果</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">scareing</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+       <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+       <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+       <script type="text/javascript" src="/js/src/fireworks.js"></script>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

