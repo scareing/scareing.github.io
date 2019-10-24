@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Powershell,Windows,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -81,22 +81,19 @@
 
 
 
-<meta name="description" content="Window下使用PowerUp辅助提权*  前言 *：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活">
-<meta name="keywords" content="Powershell,Windows">
+<meta name="description" content="permalink: 1566846777title: 无文件攻击方式简介categories:  无文件攻击tags:  Windows  Powershelldate: 2019-10-24 23:15:24    无文件攻击方式简介  “无文件攻击”属于一种影响力非常大的安全威胁。攻击者在利用这种技术实施攻击时，不会在目标主机的磁盘上写入任何的恶意文件，因此而得名“无文件攻击”,部分无文件">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Window下使用PowerUp辅助提权">
-<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/index.html">
+<meta property="og:title" content="scareing的学习笔记">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/10/24/无文件攻击方式简介/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="Window下使用PowerUp辅助提权*  前言 *：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活">
+<meta property="og:description" content="permalink: 1566846777title: 无文件攻击方式简介categories:  无文件攻击tags:  Windows  Powershelldate: 2019-10-24 23:15:24    无文件攻击方式简介  “无文件攻击”属于一种影响力非常大的安全威胁。攻击者在利用这种技术实施攻击时，不会在目标主机的磁盘上写入任何的恶意文件，因此而得名“无文件攻击”,部分无文件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png">
-<meta property="og:updated_time" content="2019-10-04T08:28:29.709Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/24/%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E7%AE%80%E4%BB%8B/1.png">
+<meta property="og:updated_time" content="2019-10-24T15:23:59.310Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Window下使用PowerUp辅助提权">
-<meta name="twitter:description" content="Window下使用PowerUp辅助提权*  前言 *：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png">
+<meta name="twitter:title" content="scareing的学习笔记">
+<meta name="twitter:description" content="permalink: 1566846777title: 无文件攻击方式简介categories:  无文件攻击tags:  Windows  Powershelldate: 2019-10-24 23:15:24    无文件攻击方式简介  “无文件攻击”属于一种影响力非常大的安全威胁。攻击者在利用这种技术实施攻击时，不会在目标主机的磁盘上写入任何的恶意文件，因此而得名“无文件攻击”,部分无文件">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/24/%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E7%AE%80%E4%BB%8B/1.png">
 
 
 
@@ -126,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/10/24/无文件攻击方式简介/">
 
 
 
 
 
-  <title>Window下使用PowerUp辅助提权 | scareing的学习笔记</title>
+  <title> | scareing的学习笔记</title>
   
 
 
@@ -269,7 +266,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/24/无文件攻击方式简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="scareing">
@@ -286,7 +283,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Window下使用PowerUp辅助提权</h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -298,8 +295,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-24T23:12:10+08:00">
+                2019-10-24
               </time>
             
 
@@ -308,28 +305,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/提权/" itemprop="url" rel="index">
-                    <span itemprop="name">提权</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -358,16 +333,49 @@
       
 
       
-        <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
-<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
-<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
-<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
-<pre><code>C:\Program.exe
-C:\Program Files\ASUSTek.exe
-C:\Program Files\ASUSTek COMPUTER.exe
-C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
-<p>通过重启服务返回了SYSTEM的session</p>
-<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
+        <hr>
+<p>permalink: 1566846777<br>title: 无文件攻击方式简介<br>categories:</p>
+<ul>
+<li><p>无文件攻击<br>tags:</p>
+</li>
+<li><p>Windows</p>
+</li>
+<li><p>Powershell<br>date: 2019-10-24 23:15:24</p>
+</li>
+</ul>
+<hr>
+<h1 id="无文件攻击方式简介"><a href="#无文件攻击方式简介" class="headerlink" title="无文件攻击方式简介"></a>无文件攻击方式简介</h1><blockquote>
+<p> “无文件攻击”属于一种影响力非常大的安全威胁。攻击者在利用这种技术实施攻击时，不会在目标主机的磁盘上写入任何的恶意文件，因此而得名“无文件攻击”,部分无文件攻击甚至会删除自身以达到无法被捕获的目的，无文件攻击多使用 “白加黑”，“恶意文档”，“ 内存注入”，等方式绕过众多的反恶意技术的控制，包括应用白名单策略 ，使得难以防范。</p>
+</blockquote>
+<h2 id="0x01-恶意文档"><a href="#0x01-恶意文档" class="headerlink" title="0x01 恶意文档"></a>0x01 恶意文档</h2><h3 id="Office远程命令执行"><a href="#Office远程命令执行" class="headerlink" title="Office远程命令执行"></a>Office远程命令执行</h3><h4 id="例：CVE-2017-11882"><a href="#例：CVE-2017-11882" class="headerlink" title="例：CVE-2017-11882"></a>例：CVE-2017-11882</h4><blockquote>
+<p><a href="https://github.com/Ridter/CVE-2017-11882">https://github.com/Ridter/CVE-2017-11882</a></p>
+</blockquote>
+<h4 id="例：CVE-2018-0802"><a href="#例：CVE-2018-0802" class="headerlink" title="例：CVE-2018-0802"></a>例：CVE-2018-0802</h4><blockquote>
+<p><a href="https://github.com/rxwx/CVE-2018-0802">https://github.com/rxwx/CVE-2018-0802</a> </p>
+</blockquote>
+<h3 id="Docx远程模板注入"><a href="#Docx远程模板注入" class="headerlink" title="Docx远程模板注入"></a>Docx远程模板注入</h3><blockquote>
+<p>建立一个插入恶意宏的Docx模板,再以该恶意模板创建一个正常文档。</p>
+</blockquote>
+<h3 id="普通VBA-VBS宏注入"><a href="#普通VBA-VBS宏注入" class="headerlink" title="普通VBA,VBS宏注入"></a>普通VBA,VBS宏注入</h3><blockquote>
+<p>直接将宏代码插入到文档。</p>
+</blockquote>
+<h2 id="0x02-恶意脚本"><a href="#0x02-恶意脚本" class="headerlink" title="0x02 恶意脚本"></a>0x02 恶意脚本</h2><h3 id="PowerShell脚本"><a href="#PowerShell脚本" class="headerlink" title="PowerShell脚本"></a>PowerShell脚本</h3><blockquote>
+<p>powershell恶意代码执行，内存注入，远程脚本注入，wmic。</p>
+</blockquote>
+<p>PowerShell混淆</p>
+<blockquote>
+<p> <a href="https://github.com/danielbohannon/Invoke-Obfuscation">https://github.com/danielbohannon/Invoke-Obfuscation</a> </p>
+<p> <a href="https://github.com/trustedsec/unicorn">https://github.com/trustedsec/unicorn</a> </p>
+</blockquote>
+<h4 id="Bat脚本"><a href="#Bat脚本" class="headerlink" title="Bat脚本"></a>Bat脚本</h4><blockquote>
+<p>白加黑，wmic</p>
+</blockquote>
+<h2 id="0x03-Living-off-the-Land"><a href="#0x03-Living-off-the-Land" class="headerlink" title="0x03 Living off the Land"></a>0x03 Living off the Land</h2><blockquote>
+<p> 对 Microsoft Windows 众多内置工具的滥用。</p>
+<p> <a href="https://github.com/LOLBAS-Project/LOLBAS">https://github.com/LOLBAS-Project/LOLBAS</a> </p>
+<p> <a href="https://github.com/Micropoor/Micro8">https://github.com/Micropoor/Micro8</a> </p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/24/%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E7%AE%80%E4%BB%8B/1.png" alt="avatar"></p>
 
       
     </div>
@@ -383,14 +391,6 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Powershell/" rel="tag"># Powershell</a>
-          
-            <a href="/tags/Windows/" rel="tag"># Windows</a>
-          
-        </div>
-      
 
       
       
@@ -400,14 +400,18 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/10/15/Everything敏感信息泄露/" rel="next" title="Everything敏感信息泄露">
+                <i class="fa fa-chevron-left"></i> Everything敏感信息泄露
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/26/1566846777/" rel="prev" title="绕过Powershell执行策略执行ps脚本。">
-                绕过Powershell执行策略执行ps脚本。 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/24/1566846777/" rel="prev" title="Windows权限维持笔记.">
+                Windows权限维持笔记. <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -559,7 +563,7 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Window下使用PowerUp辅助提权"><span class="nav-number">1.</span> <span class="nav-text">Window下使用PowerUp辅助提权</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerUp"><span class="nav-number">1.1.</span> <span class="nav-text">PowerUp</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#无文件攻击方式简介"><span class="nav-number">1.</span> <span class="nav-text">无文件攻击方式简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#0x01-恶意文档"><span class="nav-number">1.1.</span> <span class="nav-text">0x01 恶意文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Office远程命令执行"><span class="nav-number">1.1.1.</span> <span class="nav-text">Office远程命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例：CVE-2017-11882"><span class="nav-number">1.1.1.1.</span> <span class="nav-text">例：CVE-2017-11882</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#例：CVE-2018-0802"><span class="nav-number">1.1.1.2.</span> <span class="nav-text">例：CVE-2018-0802</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docx远程模板注入"><span class="nav-number">1.1.2.</span> <span class="nav-text">Docx远程模板注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#普通VBA-VBS宏注入"><span class="nav-number">1.1.3.</span> <span class="nav-text">普通VBA,VBS宏注入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x02-恶意脚本"><span class="nav-number">1.2.</span> <span class="nav-text">0x02 恶意脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PowerShell脚本"><span class="nav-number">1.2.1.</span> <span class="nav-text">PowerShell脚本</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Bat脚本"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Bat脚本</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#0x03-Living-off-the-Land"><span class="nav-number">1.3.</span> <span class="nav-text">0x03 Living off the Land</span></a></li></ol></li></ol></div>
             
 
           </div>

