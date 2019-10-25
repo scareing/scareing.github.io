@@ -90,7 +90,7 @@
 <meta property="og:description" content="无文件攻击方式简介  “无文件攻击”属于一种影响力非常大的安全威胁。攻击者在利用这种技术实施攻击时，不会在目标主机的磁盘上写入任何的恶意文件，因此而得名“无文件攻击”,部分无文件攻击甚至会删除自身以达到无法被捕获的目的，无文件攻击多使用 “白加黑”，“恶意文档”，“ 内存注入”，等方式绕过众多的反恶意技术的控制，包括应用白名单策略 ，使得难以防范。  0x01 恶意文档Office远程命令执行例：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/24/%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E7%AE%80%E4%BB%8B/1.png">
-<meta property="og:updated_time" content="2019-10-25T10:00:39.155Z">
+<meta property="og:updated_time" content="2019-10-25T10:12:42.059Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="无文件攻击方式简介">
 <meta name="twitter:description" content="无文件攻击方式简介  “无文件攻击”属于一种影响力非常大的安全威胁。攻击者在利用这种技术实施攻击时，不会在目标主机的磁盘上写入任何的恶意文件，因此而得名“无文件攻击”,部分无文件攻击甚至会删除自身以达到无法被捕获的目的，无文件攻击多使用 “白加黑”，“恶意文档”，“ 内存注入”，等方式绕过众多的反恶意技术的控制，包括应用白名单策略 ，使得难以防范。  0x01 恶意文档Office远程命令执行例：">
@@ -371,7 +371,10 @@
 <h3 id="普通VBA-VBS宏注入"><a href="#普通VBA-VBS宏注入" class="headerlink" title="普通VBA,VBS宏注入"></a>普通VBA,VBS宏注入</h3><blockquote>
 <p>直接将宏代码插入到文档。</p>
 </blockquote>
-<h2 id="0x02-恶意脚本"><a href="#0x02-恶意脚本" class="headerlink" title="0x02 恶意脚本"></a>0x02 恶意脚本</h2><h3 id="PowerShell脚本"><a href="#PowerShell脚本" class="headerlink" title="PowerShell脚本"></a>PowerShell脚本</h3><blockquote>
+<h2 id="0x02-恶意脚本"><a href="#0x02-恶意脚本" class="headerlink" title="0x02 恶意脚本"></a>0x02 恶意脚本</h2><blockquote>
+<p>其实笔者还见过部分脚本，最后一句为del %0,靠删除自身来达成的无文件。所以基与此，笔者认为命令行脚本都可以在最后加上这种清除痕迹的操作。</p>
+</blockquote>
+<h3 id="PowerShell脚本"><a href="#PowerShell脚本" class="headerlink" title="PowerShell脚本"></a>PowerShell脚本</h3><blockquote>
 <p>powershell恶意代码执行，内存注入，远程脚本注入，wmic。</p>
 </blockquote>
 <p>PowerShell混淆</p>
