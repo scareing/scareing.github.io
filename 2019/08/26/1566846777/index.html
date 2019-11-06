@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Windows,命令执行,">
+  <meta name="keywords" content="Powershell,Windows,">
 
 
 
@@ -81,21 +81,22 @@
 
 
 
-<meta name="description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
-<meta name="keywords" content="Windows,命令执行">
+<meta name="description" content="Window下使用PowerUp辅助提权*  前言 *：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活">
+<meta name="keywords" content="Powershell,Windows">
 <meta property="og:type" content="article">
-<meta property="og:title" content="cmd绕过空格过滤">
+<meta property="og:title" content="Window下使用PowerUp辅助提权">
 <meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
+<meta property="og:description" content="Window下使用PowerUp辅助提权*  前言 *：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
-<meta property="og:updated_time" content="2019-10-04T08:28:29.702Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png">
+<meta property="og:updated_time" content="2019-10-04T08:28:29.709Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="cmd绕过空格过滤">
-<meta name="twitter:description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
+<meta name="twitter:title" content="Window下使用PowerUp辅助提权">
+<meta name="twitter:description" content="Window下使用PowerUp辅助提权*  前言 *：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png">
 
 
 
@@ -131,7 +132,7 @@
 
 
 
-  <title>cmd绕过空格过滤 | scareing的学习笔记</title>
+  <title>Window下使用PowerUp辅助提权 | scareing的学习笔记</title>
   
 
 
@@ -285,7 +286,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">cmd绕过空格过滤</h1>
+          <h1 class="post-title" itemprop="name headline">Window下使用PowerUp辅助提权</h1>
         
 
         <div class="post-meta">
@@ -320,8 +321,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂项/" itemprop="url" rel="index">
-                    <span itemprop="name">杂项</span>
+                  <a href="/categories/提权/" itemprop="url" rel="index">
+                    <span itemprop="name">提权</span>
                   </a>
                 </span>
 
@@ -357,37 +358,59 @@
       
 
       
-        <h1 id="cmd绕过空格过滤"><a href="#cmd绕过空格过滤" class="headerlink" title="cmd绕过空格过滤"></a>cmd绕过空格过滤</h1><p>Ps：<strong>从大佬那里学的一点小技巧</strong></p>
-<p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
-<blockquote>
-<p>set //查看环境变量</p>
-</blockquote>
-<blockquote>
-<p>net%CommonProgramFiles:~10,-18%user </p>
-<p> 意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user<br>既</p>
-</blockquote>
-<pre><code>CommonProgramFiles=C:\Program Files\Common Files
-net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br>** 经测试在win7,win10,win8,win2008,win2003,均有效</p>
+        <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
+<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
+<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
+<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
+<pre><code>C:\Program.exe
+C:\Program Files\ASUSTek.exe
+C:\Program Files\ASUSTek COMPUTER.exe
+C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
+<p>通过重启服务返回了SYSTEM的session</p>
+<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
 
       
     </div>
     
     
     
+    <div>
+          
+            
+          
+    </div>
 
     
 
     
 
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    scareing
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/" title="Window下使用PowerUp辅助提权">https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/Windows/" rel="tag"># Windows</a>
+            <a href="/tags/Powershell/" rel="tag"># Powershell</a>
           
-            <a href="/tags/命令执行/" rel="tag"># 命令执行</a>
+            <a href="/tags/Windows/" rel="tag"># Windows</a>
           
         </div>
       
@@ -559,7 +582,7 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cmd绕过空格过滤"><span class="nav-number">1.</span> <span class="nav-text">cmd绕过空格过滤</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Window下使用PowerUp辅助提权"><span class="nav-number">1.</span> <span class="nav-text">Window下使用PowerUp辅助提权</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerUp"><span class="nav-number">1.1.</span> <span class="nav-text">PowerUp</span></a></li></ol></li></ol></div>
             
 
           </div>
