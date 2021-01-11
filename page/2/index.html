@@ -261,6 +261,171 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/15/Everything敏感信息泄露/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/15/Everything敏感信息泄露/" itemprop="url">Everything敏感信息泄露</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-15T14:12:13+08:00">
+                2019-10-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/组件漏洞/" itemprop="url" rel="index">
+                    <span itemprop="name">组件漏洞</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Everything敏感信息泄露"><a href="#Everything敏感信息泄露" class="headerlink" title="Everything敏感信息泄露"></a>Everything敏感信息泄露</h1><blockquote>
+<p>Everything是voidtools开发的一款文件搜索工具，官网描述为“基于名称实时<a href="https://baike.baidu.com/item/定位文件" target="_blank" rel="noopener">定位文件</a>和目录（Locate files and folders by name instantly） </p>
+</blockquote>
+<h2 id="漏洞简介"><a href="#漏洞简介" class="headerlink" title="漏洞简介"></a>漏洞简介</h2><p>由于配置中开启了ETP/FTP服务和HTTP服务，并且默认无身份验证，导致可以直接访问，下载服务器上的文件。</p>
+<blockquote>
+<p>配置不当 &gt; 未授权访问 &gt; 敏感信息泄露</p>
+</blockquote>
+<h2 id="漏洞利用"><a href="#漏洞利用" class="headerlink" title="漏洞利用"></a>漏洞利用</h2><ul>
+<li>fofa搜索引擎搜索目标</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/1.png" alt="avatar"></p>
+<ul>
+<li>未授权访问</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/2.png" alt="avatar"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/3.png" alt="avatar"></p>
+<h2 id="修复方式"><a href="#修复方式" class="headerlink" title="修复方式"></a>修复方式</h2><ul>
+<li><p>关闭ETP/FTP服务和HTTP服务或者设置账户密码</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/15/Everything%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2/1.jpg" alt="avatar"></p>
+</li>
+</ul>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/15/多级内网穿透/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2806,160 +2971,6 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/Window下使用PowerUp辅助提权/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/Window下使用PowerUp辅助提权/" itemprop="url">Window下使用PowerUp辅助提权</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/提权/" itemprop="url" rel="index">
-                    <span itemprop="name">提权</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Window下使用PowerUp辅助提权"><a href="#Window下使用PowerUp辅助提权" class="headerlink" title="Window下使用PowerUp辅助提权"></a>Window下使用PowerUp辅助提权</h1><p><strong>*  前言 *</strong>：每当获得shell的时候，提权总是一件很重要的事情，虽然在很多时候提权没那么必要，但是能灵活的提权才是在系统中常驻的基石。在现如今主流渗透框架的自动提权模块被各大AV厂商和补丁围杀渡劫下，在严格一点的环境，基本上没有任何用处，加上内核提权可能出现的崩溃蓝屏，反而容易打草惊蛇，得不偿失。PowerUp是在我尝试过各种提权手段后，个人觉得最为灵活，好用的提权辅助。</p>
-<h2 id="PowerUp"><a href="#PowerUp" class="headerlink" title="PowerUp"></a>PowerUp</h2><p>PowerUp是PowerSploit中的提权辅助脚本，整合所有因为配置错误而导致的Windows本地权限提权向量。，例如：** 不带引号的服务路径，不安全的服务权限，不安全的文件系统权限，AlwaysInstallElevated，注册表……. **这些都是属于杀软与补丁难以管辖的无主之地，而我们所需要做的只是发现并稍加利用， 一切就尽在掌控之中了。              </p>
-<pre><code>https://github.com/PowerShellMafia/PowerSploit     //PowerSploit的GitHub地址</code></pre><p>在本机杀软和补丁齐全的情况下，依旧检测出了多处可用于提权的配置缺陷。<br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/1.png" alt="avatar"><br> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/3.png" alt="avatar"><br>这里我选择了最方便的服务路径提权，首先上传ASUS.exe到C:\Program Files\ASUSTek COMPUTER INC\目录下。</p>
-<p>原因：Windows命令解释程序可能会遇到名称中的空格，并且希望通过将字符串包装在引号中来对它们进行转义。在这个示例中，如果系统运行该服务，它将尝试运行以下可执行文件：</p>
-<pre><code>C:\Program.exe
-C:\Program Files\ASUSTek.exe
-C:\Program Files\ASUSTek COMPUTER.exe
-C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找就会找到并运行上传的的ASUS.exe,然后就不会继续向下寻找了，此时ASUS.exe就是系统会启动的服务程序。</p>
-<p>通过重启服务返回了SYSTEM的session</p>
-<pre><code>sc restart ASUSGamingControlService     //重启服务</code></pre><p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/07/30/Window%E4%B8%8B%E4%BD%BF%E7%94%A8PowerUp%E8%BE%85%E5%8A%A9%E6%8F%90%E6%9D%83/4.png" alt="avatar"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3012,7 +3023,7 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-count">23</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -3023,7 +3034,7 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -3095,7 +3106,7 @@ C:\Program Files\ASUSTek COMPUTER INC\ASUS.exe</code></pre><p>这样层层寻找
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

