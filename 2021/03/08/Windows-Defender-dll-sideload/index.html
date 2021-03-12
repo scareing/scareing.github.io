@@ -89,18 +89,18 @@
 <meta property="og:site_name" content="scareing的学习笔记">
 <meta property="og:description" content="Windows Defender dll sideload 不说废话，直接开始，老版本defender存在一个dll sideload问题，我们可以通过替换正常的mpsvc.dll，从而实现白利用， 虽然私底下和一些朋友有过相关的交流，但是由于部分朋友在利用过程中存在一些问题，所以记录其中的步骤。   主程序：MsMpEng.exe 加载dll：mpsvc.dll 导出函数：ServiceCrtM">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313005837712.png">
-<meta property="og:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313010427517.png">
-<meta property="og:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313010622077.png">
-<meta property="og:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313010639468.png">
-<meta property="og:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313010739243.png">
-<meta property="og:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313011057729.png">
-<meta property="og:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313011317875.png">
-<meta property="og:updated_time" content="2021-03-12T17:15:29.131Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/3.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/4.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/5.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/6.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/7.png">
+<meta property="og:updated_time" content="2021-03-12T17:22:07.801Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Windows Defender dll sideload">
 <meta name="twitter:description" content="Windows Defender dll sideload 不说废话，直接开始，老版本defender存在一个dll sideload问题，我们可以通过替换正常的mpsvc.dll，从而实现白利用， 虽然私底下和一些朋友有过相关的交流，但是由于部分朋友在利用过程中存在一些问题，所以记录其中的步骤。   主程序：MsMpEng.exe 加载dll：mpsvc.dll 导出函数：ServiceCrtM">
-<meta name="twitter:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313005837712.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/1.png">
 
 
 
@@ -374,7 +374,7 @@
 <blockquote>
 <p>你没有看错就是defender主程序。</p>
 </blockquote>
-<p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313005837712.png" alt="image-20210313005837712"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/1.png" alt="avatar"></p>
 <h2 id="dll-sideload"><a href="#dll-sideload" class="headerlink" title="dll sideload"></a>dll sideload</h2><blockquote>
 <p>攻击者可以通过劫持用于加载DLL的库清单来执行自己的恶意负载。攻击者可以通过将合法的库替换为恶意的库，来利用程序的库清单中模糊的引用，从而导致操作系统在受害程序调用时加载其恶意库。</p>
 </blockquote>
@@ -390,27 +390,27 @@
 <li>CFF explorer要能看到编译后dll的导出函数表，且表中有ServiceCrtMain函数。</li>
 </ol>
 </blockquote>
-<p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313010427517.png" alt="image-20210313010427517"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/2.png" alt="avatar"></p>
 <blockquote>
 <ol start="3">
 <li>导出函数表需要定义在def文件中，并导入到源文件，这里位dllmain.del</li>
 </ol>
 </blockquote>
-<p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313010622077.png" alt="image-20210313010622077"></p>
-<p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313010639468.png" alt="image-20210313010639468"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/3.png" alt="avatar"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/4.png" alt="avatar"></p>
 <blockquote>
 <ol start="4">
 <li>通过链接器设定模块定义文件。</li>
 </ol>
 </blockquote>
-<p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313010739243.png" alt="image-20210313010739243"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/5.png" alt="avatar"></p>
 <blockquote>
 <ol start="5">
 <li>编译dll，并运行MsMpEng.exe进行复现，上线进程MsMpEng。</li>
 </ol>
 </blockquote>
-<p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313011057729.png" alt="image-20210313011057729"></p>
-<p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210313011317875.png" alt="image-20210313011317875"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/6.png" alt="avatar"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2021/03/08/Windows-Defender-dll-sideload/7.png" alt="avatar"></p>
 
       
     </div>
