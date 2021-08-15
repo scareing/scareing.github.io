@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="后渗透工具,">
+  <meta name="keywords" content="红队,">
 
 
 
@@ -81,18 +81,20 @@
 
 
 
-<meta name="description" content="Powerful inject 暂不公开，可劫持国内任意杀软启动。   your browser does not support the video tag">
-<meta name="keywords" content="后渗透工具">
+<meta name="description" content="C2的HTTPS证书配置为什么要配置HTTPS证书? 去流量特征，默认C2会使用自己的证书。 可信，配置了有效证书网站在浏览器的右上角会显示一把小锁，访问不会有危险提示。  配置C2证书的方式很多，这里是一种我经常用的，优点如下  可全匿名，匿名域名，匿名dns，匿名VPS 不需要域名备案  绕过国内lets-encrypt申请免费证书需要绑定手机号，验证域名需要备案的两个问题。 配置条件 VPS">
+<meta name="keywords" content="红队">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Powerful inject">
-<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2021/01/07/Powerful inject/index.html">
+<meta property="og:title" content="C2的HTTPS证书配置">
+<meta property="og:url" content="https://github.com/scareing/scareing.github.io/2021/06/26/C2的HTTPS证书配置/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="Powerful inject 暂不公开，可劫持国内任意杀软启动。   your browser does not support the video tag">
+<meta property="og:description" content="C2的HTTPS证书配置为什么要配置HTTPS证书? 去流量特征，默认C2会使用自己的证书。 可信，配置了有效证书网站在浏览器的右上角会显示一把小锁，访问不会有危险提示。  配置C2证书的方式很多，这里是一种我经常用的，优点如下  可全匿名，匿名域名，匿名dns，匿名VPS 不需要域名备案  绕过国内lets-encrypt申请免费证书需要绑定手机号，验证域名需要备案的两个问题。 配置条件 VPS">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-01-20T12:43:44.038Z">
+<meta property="og:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210815184859386.png">
+<meta property="og:updated_time" content="2021-08-15T10:51:06.484Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Powerful inject">
-<meta name="twitter:description" content="Powerful inject 暂不公开，可劫持国内任意杀软启动。   your browser does not support the video tag">
+<meta name="twitter:title" content="C2的HTTPS证书配置">
+<meta name="twitter:description" content="C2的HTTPS证书配置为什么要配置HTTPS证书? 去流量特征，默认C2会使用自己的证书。 可信，配置了有效证书网站在浏览器的右上角会显示一把小锁，访问不会有危险提示。  配置C2证书的方式很多，这里是一种我经常用的，优点如下  可全匿名，匿名域名，匿名dns，匿名VPS 不需要域名备案  绕过国内lets-encrypt申请免费证书需要绑定手机号，验证域名需要备案的两个问题。 配置条件 VPS">
+<meta name="twitter:image" content="c:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210815184859386.png">
 
 
 
@@ -122,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2021/01/07/Powerful inject/">
+  <link rel="canonical" href="https://github.com/scareing/scareing.github.io/2021/06/26/C2的HTTPS证书配置/">
 
 
 
 
 
-  <title>Powerful inject | scareing的学习笔记</title>
+  <title>C2的HTTPS证书配置 | scareing的学习笔记</title>
   
 
 
@@ -265,7 +267,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2021/01/07/Powerful inject/">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2021/06/26/C2的HTTPS证书配置/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="scareing">
@@ -282,7 +284,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Powerful inject</h1>
+          <h1 class="post-title" itemprop="name headline">C2的HTTPS证书配置</h1>
         
 
         <div class="post-meta">
@@ -294,8 +296,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-01-07T12:12:23+08:00">
-                2021-01-07
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-06-26T12:12:57+08:00">
+                2021-06-26
               </time>
             
 
@@ -317,8 +319,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Windows/" itemprop="url" rel="index">
-                    <span itemprop="name">Windows</span>
+                  <a href="/categories/红队/" itemprop="url" rel="index">
+                    <span itemprop="name">红队</span>
                   </a>
                 </span>
 
@@ -354,10 +356,26 @@
       
 
       
-        <h1 id="Powerful-inject"><a href="#Powerful-inject" class="headerlink" title="Powerful inject"></a>Powerful inject</h1><blockquote>
-<p>暂不公开，可劫持国内任意杀软启动。</p>
-</blockquote>
-<p><video src="https://microsofts.oss-cn-hongkong.aliyuncs.com/Picture/360.mp4" controls="controls" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
+        <h1 id="C2的HTTPS证书配置"><a href="#C2的HTTPS证书配置" class="headerlink" title="C2的HTTPS证书配置"></a>C2的HTTPS证书配置</h1><h2 id="为什么要配置HTTPS证书"><a href="#为什么要配置HTTPS证书" class="headerlink" title="为什么要配置HTTPS证书?"></a>为什么要配置HTTPS证书?</h2><ol>
+<li>去流量特征，默认C2会使用自己的证书。</li>
+<li>可信，配置了有效证书网站在浏览器的右上角会显示一把小锁，访问不会有危险提示。</li>
+</ol>
+<p>配置C2证书的方式很多，这里是一种我经常用的，优点如下</p>
+<ol>
+<li>可全匿名，匿名域名，匿名dns，匿名VPS</li>
+<li>不需要域名备案</li>
+</ol>
+<p>绕过国内lets-encrypt申请免费证书需要绑定手机号，验证域名需要备案的两个问题。</p>
+<h2 id="配置条件"><a href="#配置条件" class="headerlink" title="配置条件"></a>配置条件</h2><ol>
+<li>VPS一台</li>
+<li>Freenom域名</li>
+<li>cloud flare的dns配置</li>
+</ol>
+<h2 id="命令（仅限lets-encrypt）"><a href="#命令（仅限lets-encrypt）" class="headerlink" title="命令（仅限lets-encrypt）"></a>命令（仅限lets-encrypt）</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装配置工具</span></span><br><span class="line">sudo snap <span class="keyword">install</span> core; sudo snap refresh core</span><br><span class="line">sudo snap <span class="keyword">install</span> <span class="comment">--classic certbot</span></span><br><span class="line">sudo <span class="keyword">ln</span> -s /snap/<span class="keyword">bin</span>/certbot /usr/<span class="keyword">bin</span>/certbot</span><br><span class="line"></span><br><span class="line"><span class="comment">#申请证书</span></span><br><span class="line"><span class="comment">##如果未开启web服务</span></span><br><span class="line">sudo certbot certonly <span class="comment">--standalone</span></span><br><span class="line"><span class="comment">##如果已开启web服务</span></span><br><span class="line">sudo certbot certonly <span class="comment">--webroot</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#测试自动续期</span></span><br><span class="line">sudo certbot renew <span class="comment">--dry-run</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="CS通过profile生成带签名的exe"><a href="#CS通过profile生成带签名的exe" class="headerlink" title="CS通过profile生成带签名的exe"></a>CS通过profile生成带签名的exe</h2><figure class="highlight gams"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#证书转store</span><br><span class="line">openssl pkcs12 -export -in fullchain.pem -inkey privkey.pem -out spoofdomain.p12 -name spoofdomain.com -passout pass:mypass</span><br><span class="line"></span><br><span class="line">keytool -importkeystore -deststorepass mypass -destkeypass mypass -destkeystore spoofdomain.store -srckeystore spoofdomain.p12 -srcstoretype PKCS12 -srcstorepass mypass -<span class="keyword">alias</span> spoofdomain.com</span><br><span class="line"></span><br><span class="line">#profile需要添加的配置</span><br><span class="line"><span class="comment">//增加自动生成的代码签名</span></span><br><span class="line">code-signer&#123;</span><br><span class="line">    <span class="keyword">set</span> keystore <span class="comment">"xxx.store"</span>;</span><br><span class="line">    <span class="keyword">set</span> password <span class="comment">"mypass"</span>;</span><br><span class="line">    <span class="keyword">set</span> alias <span class="comment">"xxx.xxx"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:%5CUsers%5Cwin10%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20210815184859386.png" alt="image-20210815184859386"></p>
 
       
     </div>
@@ -383,7 +401,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://github.com/scareing/scareing.github.io/2021/01/07/Powerful inject/" title="Powerful inject">https://github.com/scareing/scareing.github.io/2021/01/07/Powerful inject/</a>
+    <a href="https://github.com/scareing/scareing.github.io/2021/06/26/C2的HTTPS证书配置/" title="C2的HTTPS证书配置">https://github.com/scareing/scareing.github.io/2021/06/26/C2的HTTPS证书配置/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -398,7 +416,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/后渗透工具/" rel="tag"># 后渗透工具</a>
+            <a href="/tags/红队/" rel="tag"># 红队</a>
           
         </div>
       
@@ -411,8 +429,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/01/04/关于杀软对抗的议题拓展/" rel="next" title="关于CIS" 杀软对抗"的议题拓展">
-                <i class="fa fa-chevron-left"></i> 关于CIS"杀软对抗"的议题拓展
+              <a href="/2021/03/08/Windows-Defender-dll-sideload/" rel="next" title="Windows Defender dll sideload">
+                <i class="fa fa-chevron-left"></i> Windows Defender dll sideload
               </a>
             
           </div>
@@ -420,10 +438,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/03/08/Windows-Defender-dll-sideload/" rel="prev" title="Windows Defender dll sideload">
-                Windows Defender dll sideload <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -580,7 +594,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Powerful-inject"><span class="nav-number">1.</span> <span class="nav-text">Powerful inject</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#C2的HTTPS证书配置"><span class="nav-number">1.</span> <span class="nav-text">C2的HTTPS证书配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要配置HTTPS证书"><span class="nav-number">1.1.</span> <span class="nav-text">为什么要配置HTTPS证书?</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置条件"><span class="nav-number">1.2.</span> <span class="nav-text">配置条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令（仅限lets-encrypt）"><span class="nav-number">1.3.</span> <span class="nav-text">命令（仅限lets-encrypt）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CS通过profile生成带签名的exe"><span class="nav-number">1.4.</span> <span class="nav-text">CS通过profile生成带签名的exe</span></a></li></ol></li></ol></div>
             
 
           </div>
